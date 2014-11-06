@@ -9,7 +9,7 @@ var cancelEvent = function (e) {
 
 var Dropper = new Vue({
   el: '#dropper',
-  template: require('../templates/dropper.html'),
+  template: require('../templates/Dropper.html'),
   data: {
     over: false
   },
