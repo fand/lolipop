@@ -1,0 +1,7 @@
+{
+  "name": "loliplayer",
+  "main": "index.html",
+  "window": {
+    "toolbar": false
+  }
+}
