@@ -2,15 +2,29 @@
 
 var Vue = require('vue');
 
+var cancelEvent = function (e) {
+  e.preventDefault();
+  e.stopPropagation();
+};
+
 var Dropper = new Vue({
   el: '#dropper',
   template: require('../templates/dropper.html'),
+  data: {
+    over: false
+  },
   methods: {
-    onDrop: function () {
-      console.log('yo');
+    onDragOver: function (e) {
+      cancelEvent(e);
+      this.$data.over = true;
     },
-    onClick: function () {
-      console.log('clicked!!!');
+    onDragLeave: function (e) {
+      cancelEvent(e);
+      this.$data.over = false;
+    },
+    onDrop: function (e) {
+      cancelEvent(e);
+      this.$data.over = false;
     }
   }
 });
