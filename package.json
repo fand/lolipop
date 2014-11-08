@@ -1,6 +1,6 @@
 {
-  "name": "loliplayer",
-  "main": "index.html",
+  "name": "lolipop",
+  "main": "main.js",
   "window": {
     "toolbar": false
   },

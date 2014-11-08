@@ -1,14 +1,18 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>LOLIPLAYER</title>
-  </head>
-  <body id="app">
-    <div id="dropper">
-      <div id="header">yooooooooop</div>
-      <div id="player">heeeeeeeeeeee</div>
-      <div id="playlist">saaaaaaaaaaaaay</div>
-    </div>
-    <script src="scripts/app.js"></script>
-  </body>
-</html>
+<head>
+  <meta charset="utf-8">
+  <title>L O L I P O P</title>
+  <link rel="stylesheet" href="main.css">
+</head>
+
+<body id="app">
+  <div id="sidebar">
+  </div>
+
+  <div id="player" class="main" v-droppable="onDrop" v-class="over: over">
+    <div id="player-control">heeeeee</div>
+    <div id="player-playlist">saaaaaaaaaaaaay</div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
