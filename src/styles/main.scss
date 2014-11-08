@@ -4,23 +4,6 @@
   width: 100%; height: 100%;
 }
 
-.dropper {
-  @extend .full;
-  background-color: #0df;
-}
-.dropper-mask {
-  @extend .full;
-  pointer-events: none;
-  z-index: 10;
-  background-color: rgba(255, 150, 150, 0.3);
-  display: none;
-
-  &.over {
-    display: block;
-  }
-}
-
-
 #player {
   position: fixed;
   top: 0; left: 160px;

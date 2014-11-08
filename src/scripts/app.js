@@ -2,7 +2,7 @@
 
 var Vue = require('vue');
 
-var Dropper = require('./Dropper');
+var Droppable = require('./Droppable');
 var Player = require('./Player');
 
 var main = new Vue({
