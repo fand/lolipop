@@ -10,8 +10,8 @@ gulp.task('scripts', function () {
     entries: config.entries,
     extensions: ['.coffee'],
     debug: true,
-    insertGlobals: true,
-    ignoreMissing: true
+    detectGlobals: false,
+    builtins: []
   });
 
   bundler.transform('partialify');
