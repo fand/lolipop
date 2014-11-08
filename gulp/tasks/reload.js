@@ -2,18 +2,37 @@
 
 var gulp = require('gulp');
 var config = require('../config').reload;
-var spawn = require('child_process').spawn;
 
 var atom;
+var inspector;
 
-gulp.task('reload', function (cb) {
-  if (atom) {
-    atom.kill();
-  }
-  atom = spawn(config.command, [config.module], {
+var spawn = function (command, args) {
+  var baby = require('child_process').spawn(command, args, {
     detached: true,
     stdio: [0, 1, 2]
-  });
-  atom.unref();
+  })
+  baby.unref();
+  return baby;
+};
+
+var kill = function (victim) {
+  if (victim) {
+    victim.kill('SIGKILL');
+  }
+}
+
+gulp.task('reload', function (cb) {
+  kill(atom);
+  kill(inspector);
+
+  var dbg = '--debug=' + config.port;
+  atom = spawn(config.command, [dbg, config.module]);
+  inspector = spawn('node-inspector');
+
   cb();
+});
+
+process.on('exit', function(code) {
+  kill(atom);
+  kill(inspector);
 });

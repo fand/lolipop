@@ -41,6 +41,7 @@ module.exports = {
   },
   reload: {
     command: BASE('../atom-shell/Atom.app/Contents/MacOS/Atom'),
-    module: BASE('.').toString()
+    module: BASE('.').toString(),
+    port: 5858
   }
 };
