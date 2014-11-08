@@ -39,7 +39,8 @@ module.exports = {
     },
     dst: DST_DIR
   },
-  webserver: {
-    root: DST_DIR
+  reload: {
+    command: BASE('../atom-shell/Atom.app/Contents/MacOS/Atom'),
+    module: BASE('.').toString()
   }
 };

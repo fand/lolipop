@@ -6,7 +6,7 @@ var Dropper = require('./Dropper');
 // var Header = require('./Header');
 // var DB = require('./DB');
 
-var app = new Vue({
+var main = new Vue({
   el: '#app',
   data: {
 
@@ -15,5 +15,3 @@ var app = new Vue({
 
   }
 });
-
-module.exports = app;
