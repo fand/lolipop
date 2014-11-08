@@ -17,7 +17,7 @@ module.exports = {
     dst: DST_DIR
   },
   clean: {
-    src: [BASE('public/styles'), BASE('public/scripts')]
+    src: DST_DIR
   },
   html: {
     src: HTML,
@@ -25,11 +25,11 @@ module.exports = {
   },
   scripts: {
     entries: [BASE('src/scripts/app.js')],
-    dst: BASE('public/scripts')
+    dst: DST_DIR
   },
   styles: {
     src: BASE('src/styles/main.scss'),
-    dst: BASE('public/styles')
+    dst: DST_DIR
   },
   watch: {
     src: {
@@ -37,7 +37,6 @@ module.exports = {
       styles: STYLES,
       scripts: SCRIPTS
     },
-    // dst: BASE('public/**/*');
     dst: DST_DIR
   },
   webserver: {
