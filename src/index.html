@@ -6,10 +6,13 @@
 </head>
 
 <body id="app">
-  <div id="dropper">
-    <div id="header">yooooooooop</div>
-    <div id="player">heeeeeeeeeeee</div>
-    <div id="playlist">saaaaaaaaaaaaay</div>
+  <div id="sidebar">
   </div>
-  <script src="app.js">
+
+  <div id="player" class="main" v-droppable="onDrop" v-class="over: over">
+    <div id="player-control">heeeeee</div>
+    <div id="player-playlist">saaaaaaaaaaaaay</div>
+  </div>
+
+  <script src="app.js"></script>
 </body>

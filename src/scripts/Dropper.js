@@ -1,4 +1,4 @@
-'use strict;'
+'use strict';
 
 var Vue = require('vue');
 
@@ -7,26 +7,23 @@ var cancelEvent = function (e) {
   e.stopPropagation();
 };
 
-var Dropper = new Vue({
-  el: '#dropper',
-  template: require('../templates/Dropper.html'),
-  data: {
-    over: false
-  },
-  methods: {
-    onDragOver: function (e) {
-      cancelEvent(e);
-      this.$data.over = true;
-    },
-    onDragLeave: function (e) {
-      cancelEvent(e);
-      this.$data.over = false;
-    },
-    onDrop: function (e) {
-      cancelEvent(e);
-      this.$data.over = false;
+var Droppable = Vue.directive('droppable', function (callback) {
+  var self = this;
+  this.el.addEventListener('dragover', function (e) {
+    cancelEvent(e);
+    self.vm.$data.over = true;
+  });
+  this.el.addEventListener('dragleave', function (e) {
+    cancelEvent(e);
+    self.vm.$data.over = false;
+  });
+  this.el.addEventListener('drop', function (e) {
+    cancelEvent(e);
+    self.vm.$data.over = false;
+    if (callback) {
+      callback(e.dataTransfer.files);
     }
-  }
+  });
 });
 
-module.exports = Dropper;
+module.exports = Droppable;
