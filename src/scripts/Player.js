@@ -26,8 +26,17 @@ var Player = new Vue({
   data: {
     songs: [],
     currentTrack: 0,
+    rate: 100,
     overControl: false,
     overList: false
+  },
+  created: function () {
+    this.$watch('rate', function () {
+      if (! this.songs[this.currentTrack]) { return; }
+      var rate = this.rate / 100.0;
+      this.songs[this.currentTrack].element.playbackRate = rate;
+      this.songs[this.currentTrack].rate = rate;
+    });
   },
   methods: {
     play: function () {

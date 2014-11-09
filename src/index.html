@@ -12,6 +12,7 @@
   <div id="player" class="main">
     <div id="player-control">
       <div v-on="click: play"><img src="images/play-icon-256.png" width="32px"/></div>
+      <input type="range" v-model="rate" min="100" max="250" />
     </div>
     <div id="player-playlist" v-droppable="callback: onDropList, over: 'overList'" v-class="over: overList">
       <div v-component="loli-playlist" v-with="songs:songs"></div>
