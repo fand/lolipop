@@ -126,6 +126,17 @@ var Player = new Vue({
         }.bind(this));
       }
     },
+    forward: function () {
+      if (this.currentTrack >= this.songs.length) { return; }
+      this.currentTrack++;
+      this.playAt(0);
+    },
+    backward: function () {
+      if (this.time < 10 && this.currentTrack !== 0) {
+          this.currentTrack--;
+      }
+      this.playAt(0);
+    },
     onDropList: function (files) {
       var self = this;
       for (var i = 0; i < files.length; i++) {
