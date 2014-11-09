@@ -1,0 +1,17 @@
+@font-face {
+  font-family: 'entypo';
+  src: url('fonts/entypo.woff') format('woff'),
+       url('fonts/entypo.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-e-"]:before, [class*=" icon-e-"]:before {
+  font-family: "entypo";
+}
+
+.icon-e-loop:before { content: '\e804'; } /* '' */
+.icon-e-play:before { content: '\e805'; } /* '' */
+.icon-e-pause:before { content: '\e806'; } /* '' */
+.icon-e-forward:before { content: '\e807'; } /* '' */
+.icon-e-backward:before { content: '\e808'; } /* '' */
