@@ -138,15 +138,20 @@ var Player = new Vue({
       }
     },
     forward: function () {
-      if (this.currentTrack >= this.songs.length) { return; }
+      if (this.currentTrack >= this.songs.length - 1) { return; }
+      this.pause();
       this.currentTrack++;
-      this.playAt(0);
+      this.rateRaw = this.songs[this.currentTrack].rate * 100;
+      this.time = this.timeRaw = 0;
+      this.playAt(this.time);
     },
     backward: function () {
-      if (this.time < 10 && this.currentTrack !== 0) {
-          this.currentTrack--;
+      if (this.time < 3 && this.currentTrack !== 0) {
+        this.currentTrack--;
+        this.rateRaw = this.songs[this.currentTrack].rate * 100;
       }
-      this.playAt(0);
+      this.time = this.timeRaw = 0;
+      this.playAt(this.time);
     },
     onDropList: function (files) {
       var self = this;
