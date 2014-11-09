@@ -8,7 +8,7 @@ var checker = document.createElement('audio');
 var isLoadable = function (path) {
   if (fs.existsSync(path)) {
     var type = mime.lookup(path);
-    return !!(checker.canPlayType.replace('no', ''));
+    return !!(checker.canPlayType(type).replace('no', ''));
   }
   return false;
 };
