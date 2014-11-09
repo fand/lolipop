@@ -67,35 +67,61 @@ var Player = new Vue({
       this.source.playbackRate.value = rate;
       this.songs[this.currentTrack].rate = rate;
     });
+
+    this.$watch('timeRaw', function () {
+      var newTime = (this.timeRaw / 10000.0) * this.duration;
+      if (Math.abs(this.time - newTime) < (this.rateRaw / 100.0) * 2) { return; }
+      this.time = newTime;
+      this.playAt(this.time);
+    });
   },
   methods: {
-    play: function () {
-      if (this.songs[this.currentTrack]) {
-        var song = this.songs[this.currentTrack];
+    play: function (e) {
+      this.playAt(0);
+    },
+    playAt: function (at) {
+      if (!this.songs[this.currentTrack]) { return; }
 
-        // Load if unloaded
-        if (! song.buffer) {
-          var buf = fs.readFileSync(song.path);
-          var abuf = toArrayBuffer(buf);
-          this.ctx.decodeAudioData(abuf, function (buf) {
-            song.buffer = buf;
-            song.duration = buf.length / SAMPLE_RATE;
+      at = at || 0;
+      if (this.source) {
+        this.source.stop(0);
+        this.source = null;
+        clearInterval(this.timer);
+      }
+      var song = this.songs[this.currentTrack];
 
-            // play
-            this.source = this.ctx.createBufferSource();
-            this.source.buffer = buf;
-            this.source.playbackRate.value = this.rateRaw / 100.0;
-            this.source.connect(this.gainNode);
-            this.source.start(0);
+      // Load if unloaded
+      this.loadBuffer(function () {
+          // play
+          this.source = this.ctx.createBufferSource();
+          this.source.buffer = song.buffer;
+          this.source.playbackRate.value = this.rateRaw / 100.0;
+          this.source.connect(this.gainNode);
+          this.source.start(0, at);
 
-            // set values
-            this.duration = song.duration;
-            this.timer = setInterval(function () {
-              this.time = this.time + this.rateRaw / 100.0;
-              this.timeRaw = (this.time / this.duration) * 10000.0;
-            }.bind(this), 1000);
-          }.bind(this));
-        }
+          // set values
+          this.duration = song.duration;
+          this.time = at;
+          this.timer = setInterval(function () {
+            if (this.time > this.duration) { return; }
+            this.time = this.time + this.rateRaw / 100.0;
+            this.timeRaw = (this.time / this.duration) * 10000.0;
+          }.bind(this), 999);
+      }.bind(this));
+    },
+    loadBuffer: function (callback) {
+      var song = this.songs[this.currentTrack];
+      if (song.buffer) {
+        callback();
+      }
+      else {
+        var buf = fs.readFileSync(song.path);
+        var abuf = toArrayBuffer(buf);
+        this.ctx.decodeAudioData(abuf, function (buf) {
+          song.buffer = buf;
+          song.duration = buf.length / SAMPLE_RATE;
+          callback();
+        }.bind(this));
       }
     },
     onDropList: function (files) {
