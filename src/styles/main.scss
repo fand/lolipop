@@ -1,3 +1,8 @@
+* {
+  font-family: sans-serif;
+  font-size: 16px;
+}
+
 .full {
   position: absolute;
   top: 0; left: 0;
@@ -15,13 +20,18 @@
     background: #FFDDFF;
   }
 }
-#player-control {
+.player-control {
   position: absolute;
   top: 0; left: 0;
   width: 100%;
   height: 200px;
+
+  input {
+    width: 560px;
+    height: 30px;
+  }
 }
-#player-playlist {
+.player-playlist {
   position: absolute;
   top: 200px; left: 0;
   width: 100%;

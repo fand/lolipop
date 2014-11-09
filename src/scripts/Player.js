@@ -41,24 +41,34 @@ Vue.filter('rate', function (value) {
   return s;
 });
 
+Vue.filter('time', function (value) {
+  var min = ('00' + ((value / 60) | 0)).slice(-2);
+  var sec = ('00' + ((value % 60) | 0)).slice(-2);
+  return min + ':' + sec;
+});
+
 var Player = new Vue({
   el: '#player',
   data: {
     songs: [],
     currentTrack: 0,
-    rate: 100,
+    rateRaw: 100,
+    gainRaw: 100,
+    timeRaw: 0,
+    time: 0,
+    duration: 0,
     overControl: false,
     overList: false
   },
   created: function () {
     this.ctx = new webkitAudioContext();
-    this.gain = this.ctx.createGain();
-    this.gain.value = 1.0;
-    this.gain.connect(this.ctx.destination);
+    this.gainNode = this.ctx.createGain();
+    this.gainNode.value = 1.0;
+    this.gainNode.connect(this.ctx.destination);
 
-    this.$watch('rate', function () {
-      if (! this.songs[this.currentTrack]) { return; }
-      var rate = this.rate / 100.0;
+    this.$watch('rateRaw', function () {
+      if (! this.songs[this.currentTrack]) { return; }console.log(this.rateRow);
+      var rate = this.rateRaw / 100.0;
       this.source.playbackRate.value = rate;
       this.songs[this.currentTrack].rate = rate;
     });
@@ -79,9 +89,16 @@ var Player = new Vue({
             // play
             this.source = this.ctx.createBufferSource();
             this.source.buffer = buf;
-            this.source.playbackRate.value = this.rate / 100.0;
-            this.source.connect(this.gain);
+            this.source.playbackRate.value = this.rateRaw / 100.0;
+            this.source.connect(this.gainNode);
             this.source.start(0);
+
+            // set values
+            this.duration = song.duration;
+            this.timer = setInterval(function () {
+              this.time = this.time + this.rateRaw / 100.0;
+              this.timeRaw = (this.time / this.duration) * 10000.0;
+            }.bind(this), 1000);
           }.bind(this));
         }
       }

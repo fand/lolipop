@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <head>
   <meta charset="utf-8">
-  <title>L O L I P O P</title>
+  <title>💖💕💗L  O  L  I  P  O  P💖💕💗</title>
   <link rel="stylesheet" href="main.css">
 </head>
 
@@ -10,11 +10,13 @@
   </div>
 
   <div id="player" class="main">
-    <div id="player-control">
+    <div class="player-control">
       <div v-on="click: play"><img src="images/play-icon-256.png" width="32px"/></div>
-      <input type="range" v-model="rate" min="100" max="250" />
+      <legend>time: {{time | time}} / {{duration | time}}</legend><input class="time" type="range" v-model="timeRaw" min="0" max="10000" />
+      <legend>gain: {{gainRaw / 100.0 | rate}}</legend><input class="gain" type="range" v-model="gainRaw" min="0" max="100" />
+      <legend>rate: {{rateRaw / 100.0 | rate}}</legend><input class="rate" type="range" v-model="rateRaw" min="100" max="250" />
     </div>
-    <div id="player-playlist" v-droppable="callback: onDropList, over: 'overList'" v-class="over: overList">
+    <div class="player-playlist" v-droppable="callback: onDropList, over: 'overList'" v-class="over: overList">
       <div v-component="loli-playlist" v-with="songs:songs"></div>
     </div>
   </div>
