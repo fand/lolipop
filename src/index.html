@@ -9,12 +9,12 @@
   <div id="sidebar">
   </div>
 
-  <div id="player" class="main" v-on="click: onClick">
+  <div id="player" class="main">
     <div id="player-control">
-      heeeeee
+      <div v-on="click: play"><img src="images/play-icon-256.png" width="32px"/></div>
     </div>
-    <div id="player-playlist" v-droppable="onDrop" v-class="over: over">
-      <div v-component="loli-playlist" v-ref="playlist"></div>
+    <div id="player-playlist" v-droppable="callback: onDropList, over: 'overList'" v-class="over: overList">
+      <div v-component="loli-playlist" v-with="songs:songs"></div>
     </div>
   </div>
 
