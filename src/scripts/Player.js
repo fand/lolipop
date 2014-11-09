@@ -21,6 +21,17 @@ var loadFile = function (file) {
   return true;
 };
 
+var SAMPLE_RATE = 48000;
+
+function toArrayBuffer(buffer) {
+  var ab = new ArrayBuffer(buffer.length);
+  var view = new Uint8Array(ab);
+  for (var i = 0; i < buffer.length; ++i) {
+    view[i] = buffer[i];
+  }
+  return ab;
+}
+
 var Player = new Vue({
   el: '#player',
   data: {
@@ -31,10 +42,15 @@ var Player = new Vue({
     overList: false
   },
   created: function () {
+    this.ctx = new webkitAudioContext();
+    this.gain = this.ctx.createGain();
+    this.gain.value = 1.0;
+    this.gain.connect(this.ctx.destination);
+
     this.$watch('rate', function () {
       if (! this.songs[this.currentTrack]) { return; }
       var rate = this.rate / 100.0;
-      this.songs[this.currentTrack].element.playbackRate = rate;
+      this.source.playbackRate.value = rate;
       this.songs[this.currentTrack].rate = rate;
     });
   },
@@ -42,15 +58,23 @@ var Player = new Vue({
     play: function () {
       if (this.songs[this.currentTrack]) {
         var song = this.songs[this.currentTrack];
-        if (! song.element) {
-          song.element = document.createElement('audio');
-          song.element.src = 'file:///' + song.path;
-          song.element.load();
+
+        // Load if unloaded
+        if (! song.buffer) {
+          var buf = fs.readFileSync(song.path);
+          var abuf = toArrayBuffer(buf);
+          this.ctx.decodeAudioData(abuf, function (buf) {
+            song.buffer = buf;
+            song.duration = buf.length / SAMPLE_RATE;
+
+            // play
+            this.source = this.ctx.createBufferSource();
+            this.source.buffer = buf;
+            this.source.playbackRate.value = this.rate / 100.0;
+            this.source.connect(this.gain);
+            this.source.start(0);
+          }.bind(this));
         }
-        song.element.oncanplay = function () {
-          song.element.currentTime = 0;
-          song.element.play();
-        };
       }
     },
     onDropList: function (files) {
