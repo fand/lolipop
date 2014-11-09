@@ -30,6 +30,12 @@
     width: 560px;
     height: 30px;
   }
+  .button {
+    display: inline-block;
+    width: 42px; height: 32px;
+    font-size: 32px;
+    text-align: center;
+  }
 }
 .player-playlist {
   position: absolute;

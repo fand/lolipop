@@ -47,6 +47,7 @@ var Player = new Vue({
   data: {
     songs: [],
     currentTrack: 0,
+    isPlaying: false,
     rateRaw: 100,
     gainRaw: 100,
     timeRaw: 0,
@@ -88,6 +89,7 @@ var Player = new Vue({
         this.source = null;
         clearInterval(this.timer);
       }
+      this.isPlaying = true;
       var song = this.songs[this.currentTrack];
 
       // Load if unloaded
