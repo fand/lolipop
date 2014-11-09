@@ -16,11 +16,6 @@ var isLoadable = function (path) {
   return false;
 };
 
-var loadFile = function (file) {
-  console.log(isLoadable(file.path));
-  return true;
-};
-
 var SAMPLE_RATE = 48000;
 
 function toArrayBuffer(buffer) {
@@ -67,7 +62,7 @@ var Player = new Vue({
     this.gainNode.connect(this.ctx.destination);
 
     this.$watch('rateRaw', function () {
-      if (! this.songs[this.currentTrack]) { return; }console.log(this.rateRow);
+      if (! this.songs[this.currentTrack]) { return; }
       var rate = this.rateRaw / 100.0;
       this.source.playbackRate.value = rate;
       this.songs[this.currentTrack].rate = rate;
@@ -113,7 +108,6 @@ var Player = new Vue({
             rate: 1.0
           };
           self.songs.push(song);
-          console.log(self.songs);
         }
       }
     }
