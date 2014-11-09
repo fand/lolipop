@@ -65,7 +65,9 @@ var Player = new Vue({
     this.$watch('rateRaw', function () {
       if (! this.songs[this.currentTrack]) { return; }
       var rate = this.rateRaw / 100.0;
-      this.source.playbackRate.value = rate;
+      if (this.source) {
+        this.source.playbackRate.value = rate;
+      }
       this.songs[this.currentTrack].rate = rate;
     });
 
@@ -101,7 +103,14 @@ var Player = new Vue({
         this.source.playbackRate.value = this.rateRaw / 100.0;
         this.source.connect(this.gainNode);
         this.source.start(0, at);
-        this.source.onended = this.forward;
+        this.source.onended = function () {
+          if (this.currentTrack < this.songs.length - 1) {
+            this.forward();
+          }
+          else {
+            this.stop();
+          }
+        }.bind(this);
 
         // set values
         this.duration = song.duration;
@@ -122,6 +131,12 @@ var Player = new Vue({
       }
       this.isPlaying = false;
     },
+    stop: function () {
+      this.pause();
+      this.currentTrack = 0;
+      this.rateRaw = this.songs[this.currentTrack].rate * 100;
+      this.time = this.timeRaw = 0;
+    },
     loadBuffer: function (callback) {
       var song = this.songs[this.currentTrack];
       if (song.buffer) {
@@ -132,7 +147,7 @@ var Player = new Vue({
         var abuf = toArrayBuffer(buf);
         this.ctx.decodeAudioData(abuf, function (buf) {
           song.buffer = buf;
-          song.duration = buf.length / SAMPLE_RATE;
+          song.duration = buf.length / buf.sampleRate;
           callback();
         }.bind(this));
       }
