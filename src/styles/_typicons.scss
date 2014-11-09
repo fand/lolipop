@@ -1,0 +1,17 @@
+@font-face {
+  font-family: 'typicons';
+  src: url('fonts/typicons.woff') format('woff'),
+       url('fonts/typicons.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-t-"]:before, [class*=" icon-t-"]:before {
+  font-family: "typicons";
+}
+
+.icon-t-play:before { content: '\e800'; } /* '' */
+.icon-t-pause:before { content: '\e801'; } /* '' */
+.icon-t-forward:before { content: '\e802'; } /* '' */
+.icon-t-backward:before { content: '\e803'; } /* '' */
+.icon-t-loop:before { content: '\e809'; } /* '' */
