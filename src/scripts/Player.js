@@ -32,6 +32,15 @@ function toArrayBuffer(buffer) {
   return ab;
 }
 
+Vue.filter('rate', function (value) {
+  var s = value + '';
+  if (s.length === 1) {
+    s += '.00';
+  }
+  s = (s + '000').slice(0, 4);
+  return s;
+});
+
 var Player = new Vue({
   el: '#player',
   data: {
