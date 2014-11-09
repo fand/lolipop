@@ -25,12 +25,25 @@ var Player = new Vue({
   el: '#player',
   data: {
     songs: [],
+    currentTrack: 0,
     overControl: false,
     overList: false
   },
   methods: {
     play: function () {
-      console.log('yo');
+      if (this.songs[this.currentTrack]) {
+        var song = this.songs[this.currentTrack];
+        if (! song.element) {
+          song.element = document.createElement('audio');
+          song.element.src = 'file:///' + song.path;
+          song.element.autoplay = true;
+          song.element.load();
+        }
+        if (song.element.duration) {
+          song.element.currentTime = 0;
+          song.element.play();
+        }
+      }
     },
     onDropList: function (files) {
       var self = this;
