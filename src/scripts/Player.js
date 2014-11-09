@@ -48,6 +48,7 @@ var Player = new Vue({
     songs: [],
     currentTrack: 0,
     isPlaying: false,
+    isLoop: false,
     rateRaw: 100,
     gainRaw: 100,
     timeRaw: 0,
@@ -104,7 +105,7 @@ var Player = new Vue({
         this.source.connect(this.gainNode);
         this.source.start(0, at);
         this.source.onended = function () {
-          if (this.currentTrack < this.songs.length - 1) {
+          if (this.currentTrack < this.songs.length - 1 || this.isLoop) {
             this.forward();
           }
           else {
@@ -153,9 +154,9 @@ var Player = new Vue({
       }
     },
     forward: function () {
-      if (this.currentTrack >= this.songs.length - 1) { return; }
+      if (this.currentTrack >= this.songs.length - 1 && !this.isLoop) { return; }
       this.pause();
-      this.currentTrack++;
+      this.currentTrack = (this.currentTrack + 1) % this.songs.length;
       this.rateRaw = this.songs[this.currentTrack].rate * 100;
       this.time = this.timeRaw = 0;
       this.playAt(this.time);
@@ -167,6 +168,9 @@ var Player = new Vue({
       }
       this.time = this.timeRaw = 0;
       this.playAt(this.time);
+    },
+    toggleLoop: function () {
+      this.isLoop = !this.isLoop;
     },
     onDropList: function (files) {
       var self = this;
