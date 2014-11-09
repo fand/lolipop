@@ -78,18 +78,15 @@ var Player = new Vue({
   },
   methods: {
     play: function (e) {
-      this.playAt(0);
+      this.playAt(this.time);
     },
     playAt: function (at) {
       if (!this.songs[this.currentTrack]) { return; }
 
       at = at || 0;
-      if (this.source) {
-        this.source.stop(0);
-        this.source = null;
-        clearInterval(this.timer);
-      }
+      this.pause();
       this.isPlaying = true;
+
       var song = this.songs[this.currentTrack];
 
       // Load if unloaded
@@ -110,6 +107,14 @@ var Player = new Vue({
             this.timeRaw = (this.time / this.duration) * 10000.0;
           }.bind(this), 999);
       }.bind(this));
+    },
+    pause: function () {
+      if (this.source) {
+        this.source.stop(0);
+        this.source = null;
+        clearInterval(this.timer);
+      }
+      this.isPlaying = false;
     },
     loadBuffer: function (callback) {
       var song = this.songs[this.currentTrack];
