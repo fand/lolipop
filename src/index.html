@@ -9,9 +9,13 @@
   <div id="sidebar">
   </div>
 
-  <div id="player" class="main" v-droppable="onDrop" v-class="over: over">
-    <div id="player-control">heeeeee</div>
-    <div id="player-playlist">saaaaaaaaaaaaay</div>
+  <div id="player" class="main" v-on="click: onClick">
+    <div id="player-control">
+      heeeeee
+    </div>
+    <div id="player-playlist" v-droppable="onDrop" v-class="over: over">
+      <div v-component="loli-playlist" v-ref="playlist"></div>
+    </div>
   </div>
 
   <script src="app.js"></script>

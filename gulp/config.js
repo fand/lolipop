@@ -13,7 +13,7 @@ var STYLES = BASE('src/styles/**/*');
 
 module.exports = {
   bundle: {
-    src: HTML,
+    src: BASE('src/assets/**/*'),
     dst: DST_DIR
   },
   clean: {
