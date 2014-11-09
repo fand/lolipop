@@ -59,7 +59,7 @@ var Player = new Vue({
   created: function () {
     this.ctx = new webkitAudioContext();
     this.gainNode = this.ctx.createGain();
-    this.gainNode.value = 1.0;
+    this.gainNode.gain.value = 1.0;
     this.gainNode.connect(this.ctx.destination);
 
     this.$watch('rateRaw', function () {
@@ -74,6 +74,10 @@ var Player = new Vue({
       if (Math.abs(this.time - newTime) < (this.rateRaw / 100.0) * 2) { return; }
       this.time = newTime;
       this.playAt(this.time);
+    });
+
+    this.$watch('gainRaw', function () {
+      this.gainNode.gain.value = this.gainRaw / 100.0;
     });
   },
   methods: {
