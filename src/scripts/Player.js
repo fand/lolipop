@@ -95,25 +95,27 @@ var Player = new Vue({
 
       // Load if unloaded
       this.loadBuffer(function () {
-          // play
-          this.source = this.ctx.createBufferSource();
-          this.source.buffer = song.buffer;
-          this.source.playbackRate.value = this.rateRaw / 100.0;
-          this.source.connect(this.gainNode);
-          this.source.start(0, at);
+        // play
+        this.source = this.ctx.createBufferSource();
+        this.source.buffer = song.buffer;
+        this.source.playbackRate.value = this.rateRaw / 100.0;
+        this.source.connect(this.gainNode);
+        this.source.start(0, at);
+        this.source.onended = this.forward;
 
-          // set values
-          this.duration = song.duration;
-          this.time = at;
-          this.timer = setInterval(function () {
-            if (this.time > this.duration) { return; }
-            this.time = this.time + this.rateRaw / 100.0;
-            this.timeRaw = (this.time / this.duration) * 10000.0;
-          }.bind(this), 999);
+        // set values
+        this.duration = song.duration;
+        this.time = at;
+        this.timer = setInterval(function () {
+          if (this.time > this.duration) { return; }
+          this.time = this.time + this.rateRaw / 100.0;
+          this.timeRaw = (this.time / this.duration) * 10000.0;
+        }.bind(this), 999);
       }.bind(this));
     },
     pause: function () {
       if (this.source) {
+        this.source.onended = null;
         this.source.stop(0);
         this.source = null;
         clearInterval(this.timer);
