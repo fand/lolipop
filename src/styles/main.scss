@@ -44,10 +44,11 @@
       height: 20px;
       background: #FFFFFF;
       cursor: col-resize;
+      opacity: 0.8;
     }
     &::-webkit-slider-runnable-track {
       -webkit-appearance: none;
-      background: #D89;
+      background: #EB7D9C;
     }
   }
 
