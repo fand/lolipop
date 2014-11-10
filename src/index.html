@@ -17,7 +17,7 @@
       <div class="button" v-on="click: forward"><i class="icon-e-forward"></i></div>
       <div class="button" v-on="click: toggleLoop" v-class="disabled: !isLoop"><i class="icon-e-loop"></i></div>
       <legend>time: {{time | time}} / {{duration | time}}</legend><input class="time" type="range" v-model="timeRaw" min="0" max="10000" />
-      <legend>gain: {{gainRaw / 100.0 | rate}}</legend><input class="gain" type="range" v-model="gainRaw" min="0" max="100" />
+      <legend>gain: {{gainRaw / 100.0 | rate}}</legend><input class="gain" type="range" v-model="gainRaw" min="0" max="200" />
       <legend>rate: {{rateRaw / 100.0 | rate}}</legend><input class="rate" type="range" v-model="rateRaw" min="100" max="250" />
     </div>
     <div class="player-playlist" v-droppable="callback: onDropList, over: 'overList'" v-class="over: overList">
