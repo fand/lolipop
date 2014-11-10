@@ -1,5 +1,18 @@
-<select class="LoliPlaylist" multiple>
-  <option v-repeat="song:songs" v-on="click: select($index), dblclick: play($index)" value="$index">
-    {{song.name}}
-  </option>
-</select>
+<div>
+  <select class="LoliPlaylist real" v-model="selected" multiple>
+    <option class="option" v-repeat="song:songs" v-on="dblclick: play($index)" value="{{$index}}">
+    </option>
+  </select>
+  <div class="LoliPlaylist overlay">
+    <div class="option" v-repeat="s:isSelected" v-class="selected: s"></div>
+  </div>
+  <div class="LoliPlaylist fake">
+    <div class="option fake-option" v-repeat="song:songs">
+      <div v-class="selected: song.selected">
+        <div class="title">{{song.name}}</div>
+        <div class="duration">{{song.duration}}</div>
+        <div class="rate">{{song.rate}}</div>
+      </div>
+    </div>
+  </div>
+</div>
