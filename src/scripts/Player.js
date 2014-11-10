@@ -82,6 +82,12 @@ var Player = new Vue({
     this.$watch('gainRaw', function () {
       this.gainNode.gain.value = this.gainRaw / 100.0;
     });
+
+    this.$on('doubleClick', function (index) {
+      this.pause();
+      this.currentTrack = index;
+      this.playAt(0);
+    });
   },
   methods: {
     play: function (e) {

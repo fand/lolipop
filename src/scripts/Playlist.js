@@ -5,8 +5,11 @@ var Vue = require('vue');
 var LoliPlaylist = Vue.extend({
   template: require('../templates/LoliPlaylist.html'),
   methods: {
-    select: function () {
+    select: function (index) {
 
+    },
+    play: function (index) {
+      this.$dispatch('doubleClick', index);
     }
   }
 });

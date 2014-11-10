@@ -1,5 +1,5 @@
 <select class="LoliPlaylist" multiple>
-  <option v-repeat="song:songs" v-on="click: select($index)" value="$index">
+  <option v-repeat="song:songs" v-on="click: select($index), dblclick: play($index)" value="$index">
     {{song.name}}
   </option>
 </select>
