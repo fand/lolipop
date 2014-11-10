@@ -6,6 +6,7 @@
   color: #fff;
   background: #FF88AA;
   user-select: none;
+  margin: 0; padding: 0;
 }
 
 .full {
@@ -14,10 +15,54 @@
   width: 100%; height: 100%;
 }
 
-#player {
+.clearfix {
+  &:after {
+    content: '';
+    clear: both;
+    display: block;
+  }
+}
+
+#app {
   position: fixed;
-  top: 0; left: 160px;
-  width: 640px;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+}
+
+#header {
+  position: fixed;
+  top: 0px; left: 0px;
+  width: 100%; height: 20px;
+  vertical-align: center;
+  -webkit-app-region: drag;
+
+  #logo {
+    position: absolute;
+    top: 0; left:50%;
+    width: 300px; height: 20px;
+    margin-left: -150px;
+    background: #FF0000;
+    opacity: 0.2;
+  }
+
+  z-index: 10;
+}
+#container {
+  position: absolute;
+  top: 0; left: 0px;
+  width: 100%; height: 100%;
+}
+
+#sidebar {
+  float: left;
+  width: 120px;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+#player {
+  position: relative;
+  margin-left: 120px;
   height: 100%;
   padding: 0px;
 
@@ -27,12 +72,13 @@
 }
 .player-control {
   position: absolute;
-  top: 0; left: 0;
-  width: 100%;
+  top: 10px; left: 0;
+  width: 94%;
   height: 200px;
+  padding: 3%;
 
   input {
-    width: 560px;
+    width: 100%;
     height: 30px;
     -webkit-appearance: none;
     &:focus {
@@ -40,8 +86,8 @@
     }
     &::-webkit-slider-thumb {
       -webkit-appearance: none;
-      width: 12px;
-      height: 20px;
+      width: 8px;
+      height: 16px;
       background: #FFFFFF;
       cursor: col-resize;
       opacity: 0.8;
@@ -54,7 +100,7 @@
 
   .button, .button i {
     display: inline-block;
-    width: 42px; height: 32px;
+    width: 48px; height: 42px;
     font-size: 32px;
     text-align: center;
     cursor: pointer;
@@ -70,6 +116,26 @@
     &:active {
       opacity: 0.7;
     }
+  }
+
+  .control-main {
+    @extend .clearfix;
+    width: 100%;
+    margin: 12px 0;
+    .buttons {
+      float: left;
+      width: 240px;
+    }
+    .gain {
+      margin-left: 240px;
+    }
+  }
+  .time {
+    width: 100%;
+  }
+  .rate {
+
+    width: 100%;
   }
 }
 .player-playlist {
