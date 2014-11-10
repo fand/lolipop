@@ -11,6 +11,7 @@ gulp.task('scripts', function () {
     extensions: ['.coffee'],
     debug: true,
     detectGlobals: false,
+    ignoreMissing: true,
     builtins: []
   });
 

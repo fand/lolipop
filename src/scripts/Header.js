@@ -1,17 +1,17 @@
 'use strict';
 
 var Vue = require('vue');
-// var remote = require('remote');
-// var BrowserWindow = remote.require('browser-window');
+var remote = require('remote');
 
 var Header = new Vue({
   el: '#header',
   methods: {
     close: function () {
-      //BrowserWindow.close();
+      var app = remote.require('app');
+      app.quit();
     },
     hide: function () {
-      //BrowserWindow.hide();
+      remote.getCurrentWindow().minimize();
     }
   }
 });
