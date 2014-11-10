@@ -5,6 +5,9 @@ var Vue = require('vue');
 var LoliPlaylist = Vue.extend({
   template: require('../templates/LoliPlaylist.html'),
   methods: {
+    select: function () {
+
+    }
   }
 });
 

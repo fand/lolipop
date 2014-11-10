@@ -46,7 +46,7 @@
       </div>
 
       <div class="player-playlist" v-droppable="callback: onDropList, over: 'overList'" v-class="over: overList">
-        <div v-component="loli-playlist" v-with="songs:songs"></div>
+        <loli-playlist v-with="songs:songs" v-ref="playlist"></loli-playlist>
       </div>
 
     </div>
