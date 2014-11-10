@@ -23,6 +23,24 @@
   }
 }
 
+
+.button, .button i {
+  text-align: center;
+  cursor: pointer;
+  opacity: 0.9;
+
+  &.disabled {
+    opacity: 0.4;
+  }
+  &:hover {
+    opacity: 1.0;
+    text-shadow: 0 0 2px #FFFFFF;
+  }
+  &:active {
+    opacity: 0.7;
+  }
+}
+
 #app {
   position: fixed;
   top: 0; left: 0;
@@ -52,6 +70,11 @@
       display: inline-block;
       transform: translateY(-6px);
     }
+  }
+
+  .button {
+    -webkit-app-region: no-drag;
+    cursor: pointer;
   }
 
   z-index: 10;
@@ -111,20 +134,6 @@
     display: inline-block;
     width: 48px; height: 42px;
     font-size: 32px;
-    text-align: center;
-    cursor: pointer;
-    opacity: 0.9;
-
-    &.disabled {
-      opacity: 0.4;
-    }
-    &:hover {
-      opacity: 1.0;
-      text-shadow: 0 0 2px #FFFFFF;
-    }
-    &:active {
-      opacity: 0.7;
-    }
   }
 
   .control-main {

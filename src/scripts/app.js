@@ -3,6 +3,7 @@
 var Vue = require('vue');
 
 var Droppable = require('./Droppable');
+var Header = require('./Header');
 var Player = require('./Player');
 
 // Set window title
