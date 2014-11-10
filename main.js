@@ -10,7 +10,11 @@ app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') app.quit();
 });
 app.on('ready', function () {
-  mainWindow = new BrowserWindow({ width: 560, height: 480, frame: false });
+  mainWindow = new BrowserWindow({
+    width: 480, height: 360,
+    "min-width": 480, "min-height": 190,
+    frame: false
+  });
   mainWindow.loadUrl('file://' + __dirname + '/public/index.html');
   mainWindow.on('closed', function () {
     mainWindow = null;
