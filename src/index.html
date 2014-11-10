@@ -6,24 +6,49 @@
 </head>
 
 <body id="app">
-  <div id="sidebar">
-  </div>
-
-  <div id="player" class="main">
-    <div class="player-control">
-      <div class="button" v-on="click: backward"><i class="icon-e-backward"></i></div>
-      <div class="button" v-on="click: play" v-show="!isPlaying"><i class="icon-e-play"></i></div>
-      <div class="button" v-on="click: pause" v-show="isPlaying"><i class="icon-e-pause"></i></div>
-      <div class="button" v-on="click: forward"><i class="icon-e-forward"></i></div>
-      <div class="button" v-on="click: toggleLoop" v-class="disabled: !isLoop"><i class="icon-e-loop"></i></div>
-      <legend>time: {{time | time}} / {{duration | time}}</legend><input class="time" type="range" v-model="timeRaw" min="0" max="10000" />
-      <legend>gain: {{gainRaw / 100.0 | rate}}</legend><input class="gain" type="range" v-model="gainRaw" min="0" max="200" />
-      <legend>rate: {{rateRaw / 100.0 | rate}}</legend><input class="rate" type="range" v-model="rateRaw" min="100" max="250" />
-    </div>
-    <div class="player-playlist" v-droppable="callback: onDropList, over: 'overList'" v-class="over: overList">
-      <div v-component="loli-playlist" v-with="songs:songs"></div>
+  <div id="header">
+    <div id="logo">&#128150;&#128149;&#128151; L  O  L  I  P  O  P &#128150;&#128149;&#128151;</div>
+    <div class="buttons">
+      <span class="button" v-on="click: hide"><i class="icon-t-minus"></i></span>
+      <span class="button" v-on="click: close"><i class="icon-t-cancel"></i></span>
     </div>
   </div>
 
+  <div id="container">
+    <div id="sidebar">
+    </div>
+
+    <div id="player" class="main">
+      <div class="player-control">
+        <div class="control-main">
+          <div class="buttons">
+            <div class="button" v-on="click: backward"><i class="icon-e-backward"></i></div>
+            <div class="button" v-on="click: play" v-show="!isPlaying"><i class="icon-e-play"></i></div>
+            <div class="button" v-on="click: pause" v-show="isPlaying"><i class="icon-e-pause"></i></div>
+            <div class="button" v-on="click: forward"><i class="icon-e-forward"></i></div>
+            <div class="button" v-on="click: toggleLoop" v-class="disabled: !isLoop"><i class="icon-e-loop"></i></div>
+          </div>
+          <div class="gain">
+            <legend>gain: {{gainRaw / 100.0 | rate}}</legend>
+            <input class="input-gain" type="range" v-model="gainRaw" min="0" max="200" />
+          </div>
+        </div>
+
+        <div class="time">
+          <legend>time: {{time | time}} / {{duration | time}}</legend>
+          <input class="input-time" type="range" v-model="timeRaw" min="0" max="10000" />
+        </div>
+
+        <div class="rate">
+          <legend>rate: {{rateRaw / 100.0 | rate}}</legend>
+          <input class="input-rate" type="range" v-model="rateRaw" min="100" max="250" />
+        </div>
+      </div>
+      <div class="player-playlist" v-droppable="callback: onDropList, over: 'overList'" v-class="over: overList">
+        <div v-component="loli-playlist" v-with="songs:songs"></div>
+      </div>
+    </div>
+  </div>
+  <script src="http://twemoji.maxcdn.com/twemoji.min.js"></script>
   <script src="app.js"></script>
 </body>

@@ -2,7 +2,10 @@
   "name": "lolipop",
   "main": "main.js",
   "window": {
-    "toolbar": false
+    "frame": false,
+    "toolbar": false,
+    "width": 640,
+    "height": 480
   },
   "dependencies": {
     "mime": "^1.2.11",
