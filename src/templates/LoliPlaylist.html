@@ -8,10 +8,11 @@
   </div>
   <div class="LoliPlaylist fake">
     <div class="option fake-option" v-repeat="song:songs">
-      <div v-class="selected: song.selected">
+      <div v-class="selected: isSelected[$index]">
         <div class="rate">x {{song.rate | rate}}</div>
         <div class="duration">{{song.duration | time}}</div>
         <div class="title">{{song.name}}</div>
+        <div class="index">{{$index}}.</div>
       </div>
     </div>
   </div>
