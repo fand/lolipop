@@ -80,18 +80,32 @@
   }
 }
 
+.LoliPlaylist-wrapper {
+  position: absolute;
+  top: 0; left: 0;
+  margin: 10px 10px 14px;
+  border: 1px solid #FFAABB;
+  width: calc(100% - 22px);
+  height: calc(100% - 26px);
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+/* .LoliPlaylist-inner { */
+/*   position: absolute; */
+/*   top: 0; left: 0; */
+
+/*   width: 100%; */
+/* } */
 .LoliPlaylist {
   -webkit-appearance: none;
   outline: none;
-  margin: 10px 10px 14px;
-  width: calc(100% - 20px);
-  height: calc(100% - 24px);
   position: absolute;
   top: 0; left: 0;
+  width: 100%;
 
   &.fake {
     z-index: 1;
-    border: 1px solid #FFAABB;
+    min-height: 100%;
   }
   &.real {
     z-index: 10;
@@ -101,6 +115,7 @@
   &.overlay {
     z-index: 2;
     background: none;
+    min-height: 100%;
   }
   .option {
     width: 100%;
