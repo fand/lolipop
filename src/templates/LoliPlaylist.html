@@ -1,4 +1,4 @@
-<div>
+<div class="LoliPlaylist-wrapper">
   <select class="LoliPlaylist real" v-model="selected" multiple>
     <option class="option" v-repeat="song:songs" v-on="dblclick: play($index)" value="{{$index}}">
     </option>
@@ -9,8 +9,8 @@
   <div class="LoliPlaylist fake">
     <div class="option fake-option" v-repeat="song:songs">
       <div v-class="selected: song.selected">
-        <div class="rate">{{song.rate}}</div>
-        <div class="duration">{{song.duration}}</div>
+        <div class="rate">x {{song.rate | rate}}</div>
+        <div class="duration">{{song.duration | time}}</div>
         <div class="title">{{song.name}}</div>
       </div>
     </div>
