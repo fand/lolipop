@@ -28,8 +28,8 @@ var Player = Vue.extend({
   template: require('../templates/Player.html'),
   data: function () {
     return {
-      song: null,
       songs: [],
+      song: null,
       currentTrack: 0,
       isPlaying: false,
       isLoop: false,

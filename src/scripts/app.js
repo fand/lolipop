@@ -5,19 +5,24 @@ var Vue = require('vue');
 var Droppable = require('./Droppable');
 var Header = require('./Header');
 var Player = require('./Player');
+var remote = require('remote');
+var app = remote.require('app');
 
-// Set window title
-var logo = twemoji.parse('\uD83D\uDC96\uD83D\uDC95\uD83D\uDC97');
-logo = logo + '<div>L  O  L  I  P  O  P</div>' + logo;
-document.getElementById('logo').innerHTML = logo;
-
-
-var app = new Vue({
+var main = new Vue({
   el: '#app',
   data: {
     currentView: 'player'
   },
+  created: function () {
+    this.$on('close', this.close);
+    this.$on('hide', this.hide);
+  },
   methods: {
-
+    close: function () {
+      app.quit();
+    },
+    hide: function () {
+      remote.getCurrentWindow().minimize();
+    }
   }
 });
