@@ -2,7 +2,7 @@
 
 var Vue = require('vue');
 var Droppable = require('./Droppable');
-var LoliPlaylist = require('./Playlist');
+var LoliPlaylist = require('./LoliPlaylist');
 
 var fs = require('fs');
 var mime = require('mime');
