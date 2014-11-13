@@ -3,29 +3,7 @@
 var Vue = require('vue');
 var Droppable = require('./Droppable');
 var LoliPlaylist = require('./LoliPlaylist');
-
-var fs = require('fs');
-var mime = require('mime');
-
-var checker = document.createElement('audio');
-var isLoadable = function (path) {
-  if (fs.existsSync(path)) {
-    var type = mime.lookup(path);
-    return !!(checker.canPlayType(type).replace('no', ''));
-  }
-  return false;
-};
-
-var SAMPLE_RATE = 48000;
-
-function toArrayBuffer(buffer) {
-  var ab = new ArrayBuffer(buffer.length);
-  var view = new Uint8Array(ab);
-  for (var i = 0; i < buffer.length; ++i) {
-    view[i] = buffer[i];
-  }
-  return ab;
-}
+var Song = require('./Song');
 
 Vue.filter('rate', function (value) {
   var s = value + '';
@@ -103,7 +81,7 @@ var Player = new Vue({
       var song = this.songs[this.currentTrack];
 
       // Load if unloaded
-      this.loadBuffer(function () {
+      song.loadBuffer(this.ctx, function () {
         // play
         this.source = this.ctx.createBufferSource();
         this.source.buffer = song.buffer;
@@ -144,21 +122,6 @@ var Player = new Vue({
       this.rateRaw = this.songs[this.currentTrack].rate * 100;
       this.time = this.timeRaw = 0;
     },
-    loadBuffer: function (callback) {
-      var song = this.songs[this.currentTrack];
-      if (song.buffer) {
-        callback();
-      }
-      else {
-        var buf = fs.readFileSync(song.path);
-        var abuf = toArrayBuffer(buf);
-        this.ctx.decodeAudioData(abuf, function (buf) {
-          song.buffer = buf;
-          song.duration = buf.length / buf.sampleRate;
-          callback();
-        }.bind(this));
-      }
-    },
     forward: function () {
       if (this.currentTrack >= this.songs.length - 1 && !this.isLoop) { return; }
       this.pause();
@@ -181,14 +144,8 @@ var Player = new Vue({
     onDropList: function (files) {
       var self = this;
       for (var i = 0; i < files.length; i++) {
-        if (isLoadable(files[i].path)) {
-          var song = {
-            name: files[i].name,
-            path: files[i].path,
-            rate: 1.0
-          };
-          self.songs.push(song);
-        }
+        var song = Song.create(files[i]);
+        if (song) { self.songs.push(song); }
       }
     }
   }
