@@ -110,14 +110,16 @@ var Player = new Vue({
       this.rateRaw = this.song.rate * 100;
       this.time = this.timeRaw = 0;
     },
-    forward: function () {console.log('forward');
+    forward: function () {
       if (this.currentTrack >= this.songs.length - 1 && !this.isLoop) { return; }
       this.pause();
       this.currentTrack = (this.currentTrack + 1) % this.songs.length;
       this.song = this.songs[this.currentTrack];
       this.rateRaw = this.song.rate * 100;
       this.time = this.timeRaw = 0;
-      this.playAt(this.time);
+      if (this.isPlaying) {
+        this.playAt(this.time);
+      }
     },
     backward: function () {
       if (this.time < 3 && this.currentTrack !== 0) {
@@ -126,7 +128,9 @@ var Player = new Vue({
         this.rateRaw = this.songs[this.currentTrack].rate * 100;
       }
       this.time = this.timeRaw = 0;
-      this.playAt(this.time);
+      if (this.isPlaying) {
+        this.playAt(this.time);
+      }
     },
     toggleLoop: function () {
       this.isLoop = !this.isLoop;
