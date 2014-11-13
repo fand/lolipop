@@ -2,6 +2,15 @@
 
 var fs = require('fs');
 
+function toArrayBuffer(buffer) {
+  var ab = new ArrayBuffer(buffer.length);
+  var view = new Uint8Array(ab);
+  for (var i = 0; i < buffer.length; ++i) {
+    view[i] = buffer[i];
+  }
+  return ab;
+}
+
 var Audio = function () {
   this.ctx = new webkitAudioContext();
   this.gainNode = this.ctx.createGain();
@@ -18,7 +27,21 @@ Audio.prototype.setRate = function (val) {
     this.source.playbackRate.value = val;
   }
 };
-Audio.prototype.playBuffer = function (buffer, rate, at, callback) {console.log(buffer);
+Audio.prototype.play = function (song, time, callback) {
+  if (this.sourcePath === song.path) {
+    this.playBuffer(this.buffer, song.rate, time, callback);
+    return;
+  }
+  var abuf = toArrayBuffer(fs.readFileSync(song.path));
+  this.ctx.decodeAudioData(abuf, function (buf) {
+    this.buffer = buf;
+    this.sourcePath = song.path;
+    song.duration = buf.length / buf.sampleRate;
+    this.playBuffer(this.buffer, song.rate, time, callback);
+  }.bind(this));
+
+};
+Audio.prototype.playBuffer = function (buffer, rate, at, callback) {
   this.source = this.ctx.createBufferSource();
   this.source.buffer = buffer;
   this.source.playbackRate.value = rate;
@@ -27,7 +50,7 @@ Audio.prototype.playBuffer = function (buffer, rate, at, callback) {console.log(
   this.source.onended = this.callbackOnEnded;
   callback();
 };
-Audio.prototype.pause = function () {console.log('pause?');
+Audio.prototype.pause = function () {
   if (this.source) {
     this.source.onended = null;
     this.source.stop(0);

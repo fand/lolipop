@@ -80,16 +80,13 @@ var Player = new Vue({
 
       // Load if unloaded
       var self = this;
-      this.song.loadBuffer(Audio.ctx, function (buf, rate) {
-        Audio.playBuffer(buf, rate, at, function () {
-          // set values
-          self.time = at;
-          self.timer = setInterval(function () {
-            if (self.time > self.song.duration) { return; }
-            self.time = self.time + self.rateRaw / 100.0;
-            self.timeRaw = (self.time / self.song.duration) * 10000.0;
-          }, 999);
-       });
+      Audio.play(this.song, at, function () {
+        self.time = at;
+        self.timer = setInterval(function () {
+          if (self.time > self.song.duration) { return; }
+          self.time = self.time + self.rateRaw / 100.0;
+          self.timeRaw = (self.time / self.song.duration) * 10000.0;
+        }, 999);
       });
     },
     playNext: function () {
