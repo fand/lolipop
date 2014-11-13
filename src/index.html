@@ -30,7 +30,7 @@
           </div>
           <div class="gain">
             <legend>gain: {{gainRaw / 100.0 | rate}}</legend>
-            <input class="input-gain" type="range" v-model="gainRaw" min="0" max="200" />
+            <input class="input-gain" type="range" v-model="gainRaw" min="0" max="100" />
           </div>
         </div>
 
@@ -44,9 +44,11 @@
           <input class="input-rate" type="range" v-model="rateRaw" min="100" max="250" />
         </div>
       </div>
+
       <div class="player-playlist" v-droppable="callback: onDropList, over: 'overList'" v-class="over: overList">
-        <div v-component="loli-playlist" v-with="songs:songs"></div>
+        <loli-playlist v-with="songs:songs" v-ref="playlist"></loli-playlist>
       </div>
+
     </div>
   </div>
   <script src="http://twemoji.maxcdn.com/twemoji.min.js"></script>
