@@ -25,18 +25,19 @@ var Song = function (opts) {
   this.name = opts.name;
   this.path = opts.path;
   this.rate = opts.rate;
+  this.duration = opts.duration;
 };
 Song.prototype.loadBuffer = function (ctx, callback) {
   if (this.buffer) {
-    callback();
+    callback(this.buffer, this.rate);
     return;
   }
   var buf = fs.readFileSync(this.path);
   var abuf = toArrayBuffer(buf);
-  this.ctx.decodeAudioData(abuf, function (buf) {
+  ctx.decodeAudioData(abuf, function (buf) {
     this.buffer = buf;
     this.duration = buf.length / buf.sampleRate;
-    callback();
+    callback(this.buffer, this.rate);
   }.bind(this));
 };
 
@@ -48,7 +49,8 @@ Song.create = function (file) {
     song = new Song({
       name: file.name,
       path: file.path,
-      rate: 1.0
+      rate: 1.0,
+      duration: 0
     });
   }
   return song;
