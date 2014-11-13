@@ -3,9 +3,7 @@
 @import "playlist";
 
 #player {
-  position: relative;
-  margin-left: 120px;
-  height: 100%;
+  @extend .full;
 
   &.over {
     background: #FFDDFF;

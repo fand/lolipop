@@ -24,20 +24,22 @@ Vue.filter('time', function (value) {
   return ' - ';
 });
 
-var Player = new Vue({
-  el: '#player',
-  data: {
-    song: null,
-    songs: [],
-    currentTrack: 0,
-    isPlaying: false,
-    isLoop: false,
-    rateRaw: 100,
-    gainRaw: 100,
-    timeRaw: 0,
-    time: 0,
-    overControl: false,
-    overList: false
+var Player = Vue.extend({
+  template: require('../templates/Player.html'),
+  data: function () {
+    return {
+      song: null,
+      songs: [],
+      currentTrack: 0,
+      isPlaying: false,
+      isLoop: false,
+      rateRaw: 100,
+      gainRaw: 100,
+      timeRaw: 0,
+      time: 0,
+      overControl: false,
+      overList: false
+    };
   },
   created: function () {
     this.$watch('rateRaw', function () {
@@ -112,7 +114,6 @@ var Player = new Vue({
     },
     forward: function () {
       if (this.currentTrack >= this.songs.length - 1 && !this.isLoop) { return; }
-      this.pause();
       this.currentTrack = (this.currentTrack + 1) % this.songs.length;
       this.song = this.songs[this.currentTrack];
       this.rateRaw = this.song.rate * 100;
@@ -144,5 +145,7 @@ var Player = new Vue({
     }
   }
 });
+
+Vue.component('player', Player);
 
 module.exports = Player;

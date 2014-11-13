@@ -12,10 +12,10 @@ logo = logo + '<div>L  O  L  I  P  O  P</div>' + logo;
 document.getElementById('logo').innerHTML = logo;
 
 
-var main = new Vue({
+var app = new Vue({
   el: '#app',
   data: {
-
+    currentView: 'player'
   },
   methods: {
 
