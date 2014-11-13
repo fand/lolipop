@@ -50,7 +50,7 @@ Song.create = function (file) {
       name: file.name,
       path: file.path,
       rate: 1.0,
-      duration: 0
+      duration: null
     });
   }
   return song;

@@ -16,9 +16,12 @@ Vue.filter('rate', function (value) {
 });
 
 Vue.filter('time', function (value) {
-  var min = ('00' + ((value / 60) | 0)).slice(-2);
-  var sec = ('00' + ((value % 60) | 0)).slice(-2);
-  return min + ':' + sec;
+  if (value !== null) {
+    var min = ('00' + ((value / 60) | 0)).slice(-2);
+    var sec = ('00' + ((value % 60) | 0)).slice(-2);
+    return min + ':' + sec;
+  }
+  return ' - ';
 });
 
 var Player = new Vue({
@@ -33,7 +36,6 @@ var Player = new Vue({
     gainRaw: 100,
     timeRaw: 0,
     time: 0,
-    duration: 0,
     overControl: false,
     overList: false
   },
@@ -81,12 +83,11 @@ var Player = new Vue({
       this.song.loadBuffer(Audio.ctx, function (buf, rate) {
         Audio.playBuffer(buf, rate, at, function () {
           // set values
-          self.duration = self.song.duration;
           self.time = at;
           self.timer = setInterval(function () {
-            if (self.time > self.duration) { return; }
+            if (self.time > self.song.duration) { return; }
             self.time = self.time + self.rateRaw / 100.0;
-            self.timeRaw = (self.time / self.duration) * 10000.0;
+            self.timeRaw = (self.time / self.song.duration) * 10000.0;
           }, 999);
        });
       });

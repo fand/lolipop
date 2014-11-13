@@ -35,7 +35,7 @@
         </div>
 
         <div class="time">
-          <legend>time: {{time | time}} / {{duration | time}}</legend>
+          <legend>time: {{time | time}} / {{song.duration | time}}</legend>
           <input class="input-time" type="range" v-model="timeRaw" min="0" max="10000" />
         </div>
 
