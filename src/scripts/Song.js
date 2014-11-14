@@ -2,6 +2,7 @@
 
 var fs = require('fs');
 var mime = require('mime');
+var songDB = PouchDB('song');
 
 var checker = document.createElement('audio');
 var isLoadable = function (path) {
@@ -17,6 +18,21 @@ var Song = function (opts) {
   this.path = opts.path;
   this.rate = opts.rate;
   this.duration = opts.duration;
+  this._id = opts._id;
+  this._rev = opts._rev;
+};
+Song.prototype.save = function () {
+  var obj = {
+    _id: this.path,
+    name: this.name,
+    path: this.path,
+    rate: this.rate,
+    duration: this.duration
+  };
+  if (this._rev) {
+    obj._rev = this._rev;
+  }
+  return songDB.put(obj);
 };
 
 // Factory

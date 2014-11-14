@@ -11,9 +11,10 @@
   <div id="sidebar"></div>
 
   <div id="content">
-    <div id="player" v-component="player"></div>
+    <div id="player" v-component="player" v-ref="player"></div>
   </div>
 
   <script src="http://twemoji.maxcdn.com/twemoji.min.js"></script>
+  <script src="../node_modules/pouchdb/dist/pouchdb.min.js"></script>
   <script src="app.js"></script>
 </body>
