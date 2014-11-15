@@ -22,16 +22,19 @@ var main = new Vue({
 
     var self = this;
     playlistDB.get('playlist')
-      .then(function (playlist) {
-        return Promise.all(playlist.songIDs.map(function (id) {
-          return songDB.get(id);
+      .then(function (doc) {
+        return Promise.all(doc.tracks.map(function (track) {
+          return songDB.get(track.songID)
+            .then(function (doc) {
+              return {
+                song: new Song(doc),
+                rate: track.rate
+              };
+            });
         }));
       })
-      .then(function (docs) {
-        var songs = docs.map(function (song) {
-          return new Song(song);
-        });
-        self.$.player.songs = songs;
+      .then(function (tracks) {
+        self.$.player.tracks = tracks;
       })
       .catch(function (err) {
         if (err.status !== 404) { throw err; }
@@ -39,34 +42,32 @@ var main = new Vue({
   },
   methods: {
     close: function () {
-      Promise.resolve(this.$.player.songs)
-        .then(function (songs) {
+      var self = this;
+      Promise.resolve(this.$.player.tracks)
+        .then(function (tracks) {
           // Save songs
-          return Promise
-            .all(songs.map(function (song) {
-              return song.save();
-            }))
-            .catch(function (err) {
-              console.error(err);
-            });
+          return Promise.all(tracks.map(function (track) {
+            return track.song.save();
+          }));
         })
-        .then(function (songs) {
-          return songs.map(function (song) {
-            return song.id;
-          });
-        })
-        .then(function (songIDs) {
+        .then(function () {
           // Save playlist
           var rev;
           return playlistDB.get('playlist')
             .then(function (doc) { rev = doc._rev; })
             .catch(function (err) {
-              if (err.status !== 400) { throw err; }
+              if (err.status !== 404) { throw err; }
             })
             .then(function () {
+              var tracks = self.$.player.tracks.map(function (track) {
+                return {
+                  songID: track.song._id,
+                  rate: track.rate
+                };
+              });
               var obj = {
                 _id: 'playlist',
-                songIDs: songIDs
+                tracks: tracks
               };
               if (rev) { obj._rev = rev; }
               return playlistDB.put(obj);

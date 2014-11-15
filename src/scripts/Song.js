@@ -18,21 +18,27 @@ var Song = function (opts) {
   this.path = opts.path;
   this.rate = opts.rate;
   this.duration = opts.duration;
-  this._id = opts._id;
-  this._rev = opts._rev;
+  this._id = this.path;
+  if (opts._rev) { this._rev = opts._rev; }
 };
 Song.prototype.save = function () {
   var obj = {
-    _id: this.path,
+    _id: this._id,
     name: this.name,
     path: this.path,
     rate: this.rate,
     duration: this.duration
   };
-  if (this._rev) {
-    obj._rev = this._rev;
-  }
-  return songDB.put(obj);
+  var p = (this._rev) ?
+        Promise.resolve({_rev: this._rev}) :
+        songDB.get(obj._id);
+  return p.then(function (doc) {
+    obj._rev = doc._rev;
+    return songDB.put(obj);
+  }).catch(function (err) {
+    console.error('song save error');
+    console.error(err);
+  });
 };
 
 // Factory
