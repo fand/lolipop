@@ -5,6 +5,7 @@ var Droppable = require('./Droppable');
 var LoliPlaylist = require('./LoliPlaylist');
 var Song = require('./Song');
 var Audio = require('./Audio');
+var Playlist = require('./Playlist');
 
 Vue.filter('rate', function (value) {
   var s = value + '';
@@ -27,8 +28,16 @@ Vue.filter('time', function (value) {
 var Player = Vue.extend({
   template: require('../templates/Player.html'),
   data: function () {
+
+    // Load last playlist.
+    var self = this;
+    Playlist.load('playlist')
+      .then(function (p) {
+        return self.playlist = p;
+      });
+
     return {
-      tracks: [],
+      playlist: null,
       track: null,
       currentTrack: 0,
       isPlaying: false,
@@ -63,7 +72,7 @@ var Player = Vue.extend({
     this.$on('doubleClick', function (index) {
       this.pause();
       this.currentTrack = index;
-      this.track = this.tracks[index];
+      this.track = this.playlist.at(index);
       this.playAt(0);
     });
 
@@ -92,7 +101,7 @@ var Player = Vue.extend({
       });
     },
     playNext: function () {
-      if (this.currentTrack < this.tracks.length - 1 || this.isLoop) {
+      if (this.currentTrack < this.playlist.size() - 1 || this.isLoop) {
         this.forward();
       }
       else {
@@ -108,14 +117,14 @@ var Player = Vue.extend({
       this.pause();
       this.track.song.buffer = null;
       this.currentTrack = 0;
-      this.track = this.tracks[0];
+      this.track = this.playlist.at(0);
       this.rateRaw = this.track.rate * 100;
       this.time = this.timeRaw = 0;
     },
     forward: function () {
-      if (this.currentTrack >= this.tracks.length - 1 && !this.isLoop) { return; }
-      this.currentTrack = (this.currentTrack + 1) % this.tracks.length;
-      this.track = this.tracks[this.currentTrack];
+      if (this.currentTrack >= this.playlist.size() - 1 && !this.isLoop) { return; }
+      this.currentTrack = (this.currentTrack + 1) % this.playlist.size();
+      this.track = this.playlist.at(this.currentTrack);
       this.rateRaw = this.track.rate * 100;
       this.time = this.timeRaw = 0;
       if (this.isPlaying) {
@@ -125,7 +134,7 @@ var Player = Vue.extend({
     backward: function () {
       if (this.time < 3 && this.currentTrack !== 0) {
         this.currentTrack--;
-        this.track = this.tracks[this.currentTrack];
+        this.track = this.playlist.at(this.currentTrack);
         this.rateRaw = this.track.rate * 100;
       }
       this.time = this.timeRaw = 0;
@@ -140,12 +149,22 @@ var Player = Vue.extend({
       for (var i = 0; i < files.length; i++) {
         var song = Song.create(files[i]);
         if (song) {
-          this.tracks.push({
+          this.playlist.push({
             song: song,
             rate: 1.0
           });
         }
       }
+    },
+    close: function () {
+      var self = this;
+      return this.playlist.save()
+        .then(function () {
+          return Promise.all(self.playlist.tracks.map(function (track) {
+            console.log(track);
+            return track.song.save();
+          }));
+        });
     }
   }
 });

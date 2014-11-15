@@ -10,10 +10,19 @@ var LoliPlaylist = Vue.extend({
       isSelected: []
     };
   },
+  computed: {
+    size: function () {
+      return this.playlist.size();
+    },
+    tracks: function () {
+      return this.playlist.tracks;
+    }
+  },
   created: function () {
     this.$watch('selected', function () {
-      this.isSelected = new Array(this.tracks.length);
-      for (var i = 0; i < this.tracks.length; i++) {
+      if (! this.playlist) { return; }
+      this.isSelected = new Array(this.playlist.size());
+      for (var i = 0; i < this.playlist.size(); i++) {
         this.isSelected.$set(i, (this.selected.indexOf(i + "") !== -1));
       }
     }.bind(this));

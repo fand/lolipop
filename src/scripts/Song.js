@@ -54,5 +54,10 @@ Song.create = function (file) {
   }
   return song;
 };
-
+Song.load = function (id) {
+  return songDB.get(id)
+    .then(function (opts) {
+      return new Song(opts);
+    });
+};
 module.exports = Song;
