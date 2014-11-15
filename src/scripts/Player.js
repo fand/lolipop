@@ -28,8 +28,8 @@ var Player = Vue.extend({
   template: require('../templates/Player.html'),
   data: function () {
     return {
-      songs: [],
-      song: null,
+      tracks: [],
+      track: null,
       currentTrack: 0,
       isPlaying: false,
       isLoop: false,
@@ -43,14 +43,14 @@ var Player = Vue.extend({
   },
   created: function () {
     this.$watch('rateRaw', function () {
-      if (! this.song) { return; }
+      if (! this.track) { return; }
       var rate = this.rateRaw / 100.0;
-      this.song.rate = rate;
+      this.track.rate = rate;
       Audio.setRate(rate);
     });
 
     this.$watch('timeRaw', function () {
-      var newTime = (this.timeRaw / 10000.0) * this.song.duration;
+      var newTime = (this.timeRaw / 10000.0) * this.track.song.duration;
       if (Math.abs(this.time - newTime) < (this.rateRaw / 100.0) * 2) { return; }
       this.time = newTime;
       this.playAt(this.time);
@@ -63,7 +63,7 @@ var Player = Vue.extend({
     this.$on('doubleClick', function (index) {
       this.pause();
       this.currentTrack = index;
-      this.song = this.songs[index];
+      this.track = this.tracks[index];
       this.playAt(0);
     });
 
@@ -74,7 +74,7 @@ var Player = Vue.extend({
       this.playAt(this.time);
     },
     playAt: function (at) {
-      if (!this.song) { return; }
+      if (!this.track) { return; }
 
       at = at || 0;
       this.pause();
@@ -82,17 +82,17 @@ var Player = Vue.extend({
 
       // Load if unloaded
       var self = this;
-      Audio.play(this.song, at, function () {
+      Audio.play(this.track.song, at, function () {
         self.time = at;
         self.timer = setInterval(function () {
-          if (self.time > self.song.duration) { return; }
+          if (self.time > self.track.song.duration) { return; }
           self.time = self.time + self.rateRaw / 100.0;
-          self.timeRaw = (self.time / self.song.duration) * 10000.0;
+          self.timeRaw = (self.time / self.track.song.duration) * 10000.0;
         }, 999);
       });
     },
     playNext: function () {
-      if (this.currentTrack < this.songs.length - 1 || this.isLoop) {
+      if (this.currentTrack < this.tracks.length - 1 || this.isLoop) {
         this.forward();
       }
       else {
@@ -106,17 +106,17 @@ var Player = Vue.extend({
     },
     stop: function () {
       this.pause();
-      this.song.buffer = null;
+      this.track.song.buffer = null;
       this.currentTrack = 0;
-      this.song = this.songs[0];
-      this.rateRaw = this.song.rate * 100;
+      this.track = this.tracks[0];
+      this.rateRaw = this.track.rate * 100;
       this.time = this.timeRaw = 0;
     },
     forward: function () {
-      if (this.currentTrack >= this.songs.length - 1 && !this.isLoop) { return; }
-      this.currentTrack = (this.currentTrack + 1) % this.songs.length;
-      this.song = this.songs[this.currentTrack];
-      this.rateRaw = this.song.rate * 100;
+      if (this.currentTrack >= this.tracks.length - 1 && !this.isLoop) { return; }
+      this.currentTrack = (this.currentTrack + 1) % this.tracks.length;
+      this.track = this.tracks[this.currentTrack];
+      this.rateRaw = this.track.rate * 100;
       this.time = this.timeRaw = 0;
       if (this.isPlaying) {
         this.playAt(this.time);
@@ -125,8 +125,8 @@ var Player = Vue.extend({
     backward: function () {
       if (this.time < 3 && this.currentTrack !== 0) {
         this.currentTrack--;
-        this.song = this.songs[this.currentTrack];
-        this.rateRaw = this.songs[this.currentTrack].rate * 100;
+        this.track = this.tracks[this.currentTrack];
+        this.rateRaw = this.track.rate * 100;
       }
       this.time = this.timeRaw = 0;
       if (this.isPlaying) {
@@ -137,10 +137,14 @@ var Player = Vue.extend({
       this.isLoop = !this.isLoop;
     },
     onDropList: function (files) {
-      var self = this;
       for (var i = 0; i < files.length; i++) {
         var song = Song.create(files[i]);
-        if (song) { self.songs.push(song); }
+        if (song) {
+          this.tracks.push({
+            song: song,
+            rate: 1.0
+          });
+        }
       }
     }
   }

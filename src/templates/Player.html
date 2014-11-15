@@ -15,7 +15,7 @@
     </div>
 
     <div class="time">
-      <legend>time: {{time | time}} / {{song.duration | time}}</legend>
+      <legend>time: {{time | time}} / {{track.song.duration | time}}</legend>
       <input class="input-time" type="range" v-model="timeRaw" min="0" max="10000" />
     </div>
 
@@ -26,6 +26,6 @@
   </div>
 
   <div class="player-playlist" v-droppable="callback: onDropList, over: 'overList'" v-class="over: overList">
-    <loli-playlist v-with="songs:songs" v-ref="playlist"></loli-playlist>
+    <loli-playlist v-with="tracks:tracks" v-ref="playlist"></loli-playlist>
   </div>
 </div>

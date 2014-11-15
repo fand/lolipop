@@ -12,8 +12,8 @@ var LoliPlaylist = Vue.extend({
   },
   created: function () {
     this.$watch('selected', function () {
-      this.isSelected = new Array(this.songs.length);
-      for (var i = 0; i < this.songs.length; i++) {
+      this.isSelected = new Array(this.tracks.length);
+      for (var i = 0; i < this.tracks.length; i++) {
         this.isSelected.$set(i, (this.selected.indexOf(i + "") !== -1));
       }
     }.bind(this));
