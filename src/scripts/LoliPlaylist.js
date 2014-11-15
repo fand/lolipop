@@ -19,17 +19,23 @@ var LoliPlaylist = Vue.extend({
     }
   },
   created: function () {
+    var self = this;
     this.$watch('selected', function () {
-      if (! this.playlist) { return; }
-      this.isSelected = new Array(this.playlist.size());
+      if (! self.playlist) { return; }
+      self.isSelected = new Array(self.playlist.size());
       for (var i = 0; i < this.playlist.size(); i++) {
-        this.isSelected.$set(i, (this.selected.indexOf(i + "") !== -1));
+        self.isSelected.$set(i, (self.selected.indexOf(i + "") !== -1));
       }
-    }.bind(this));
+    });
   },
   methods: {
     play: function (index) {
       this.$dispatch('doubleClick', index);
+    },
+    delete: function (e) {
+      if (e.keyCode !== 8 && e.keyCode !== 46) { return; }
+      this.playlist.removeAll(this.selected);
+      this.selected = [];
     }
   }
 });

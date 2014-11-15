@@ -1,5 +1,5 @@
 <div class="LoliPlaylist-wrapper">
-  <select class="LoliPlaylist real" v-model="selected" multiple v-attr="size:size">
+  <select class="LoliPlaylist real" v-model="selected" multiple v-attr="size:size"  v-on="keydown:delete">
     <option class="option" v-repeat="track:tracks" v-on="dblclick: play($index)" value="{{$index}}">
     </option>
   </select>

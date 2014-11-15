@@ -38,7 +38,14 @@ Playlist.prototype.push = function (track) {
 Playlist.prototype.size = function () {
   return this.tracks.length;
 };
-
+Playlist.prototype.removeAll = function (indexes) {
+  indexes = indexes.map(function (s) {
+    return +s;
+  });
+  this.tracks = this.tracks.filter(function (x, i) {
+    return indexes.indexOf(+i) === -1;
+  });
+};
 
 // factory
 Playlist.load = function (id) {
