@@ -3,9 +3,9 @@
 var Vue = require('vue');
 var Droppable = require('./Droppable');
 var LoliPlaylist = require('./LoliPlaylist');
-var Song = require('./Song');
-var Audio = require('./Audio');
-var Playlist = require('./Playlist');
+var Song = require('../models/Song');
+var Playlist = require('../models/Playlist');
+var Audio = require('../utils/Audio');
 
 Vue.filter('rate', function (value) {
   var s = value + '';
@@ -26,7 +26,7 @@ Vue.filter('time', function (value) {
 });
 
 var Player = Vue.extend({
-  template: require('../templates/Player.html'),
+  template: require('./templates/Player.html'),
   data: function () {
 
     // Load last playlist.

@@ -3,7 +3,7 @@
 var Vue = require('vue');
 
 var Header = Vue.extend({
-  template: require('../templates/Header.html'),
+  template: require('./templates/Header.html'),
   attached: function () {
     // Set window title
     var logo = twemoji.parse('\uD83D\uDC96\uD83D\uDC95\uD83D\uDC97');

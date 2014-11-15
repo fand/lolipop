@@ -3,7 +3,7 @@
 var Vue = require('vue');
 
 var LoliPlaylist = Vue.extend({
-  template: require('../templates/LoliPlaylist.html'),
+  template: require('./templates/LoliPlaylist.html'),
   data: function () {
     return {
       selected: [],

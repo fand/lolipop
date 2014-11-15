@@ -2,14 +2,16 @@
 
 var Vue = require('vue');
 
-var Droppable = require('./Droppable');
-var Header = require('./Header');
-var Player = require('./Player');
+var Droppable = require('./VM/Droppable');
+var Header = require('./VM/Header');
+var Player = require('./VM/Player');
+var Song = require('./models/Song');
+
 var remote = require('remote');
 var app = remote.require('app');
 var songDB = PouchDB('song');
 var playlistDB = PouchDB('playlist');
-var Song = require('./Song');
+
 
 var main = new Vue({
   el: '#app',
