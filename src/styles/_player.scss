@@ -11,7 +11,7 @@
 }
 .player-control {
   position: absolute;
-  top: 24px; left: 0;
+  top: 0; left: 0;
   width: calc(100% - 20px);
   height: 160px;
   padding: 0px 10px;
@@ -70,7 +70,7 @@
 }
 .player-playlist {
   position: absolute;
-  top: 192px; left: 0;
+  top: 168px; left: 0;
   width: 100%;
   height: calc(100% - 192px);
   &.over {
