@@ -10,8 +10,6 @@ var Song = require('./models/Song');
 
 var remote = require('remote');
 var app = remote.require('app');
-var songDB = PouchDB('song');
-var playlistDB = PouchDB('playlist');
 
 
 var main = new Vue({

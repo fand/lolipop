@@ -76,4 +76,7 @@ Playlist.load = function (id) {
       });
     });
 };
+Playlist.getRecent = function () {
+  return playlistDB.allDocs({ include_docs: true });
+};
 module.exports = Playlist;
