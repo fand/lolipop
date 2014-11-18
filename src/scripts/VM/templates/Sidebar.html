@@ -1,4 +1,7 @@
 <div>
+  <div class="sidebar-buttons">
+    <button v-on="click: addPlaylist">　+　</button>
+  </div>
   <div v-repeat="playlist:playlists">
     <div class="sidebar-playlist">{{playlist._id}}</div>
   </div>

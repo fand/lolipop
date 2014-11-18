@@ -6,7 +6,17 @@ var Song = require('./Song');
 var Playlist = function (opts) {
   this._id = opts._id;
   this.tracks = opts.tracks || [];
+  this.created_at = opts.created_at;
+  this.updated_at = opts.updated_at;
+  this.changed = opts.changed;
   if (opts._rev) { this._rev = opts._rev; }
+};
+Playlist.prototype.saveIfChanged = function () {
+  if (this.changed) {
+    this.changed = false;
+    return this.save();
+  }
+  return Promise.resolve(this);
 };
 Playlist.prototype.save = function () {
   var tracks = this.tracks.map(function (track) {
@@ -17,14 +27,32 @@ Playlist.prototype.save = function () {
   });
   var opts = {
     _id: this._id,
-    tracks: tracks
+    tracks: tracks,
+    created_at: this.created_at,
+    updated_at: this.updated_at
   };
-  if (this._rev) { opts._rev = this._rev; }
+  if (this._rev)  {
+    opts._rev = this._rev;
+  }
+  var saved;
   return playlistDB.put(opts)
+    .then(function (doc) {
+      saved = doc;
+    })
     .catch(function (err) {
       console.error('playlist save error');
       console.error(err);
+    }).then(function () {
+      return saved;
     });
+};
+Playlist.prototype.saveAll = function () {
+  var self = this;
+  return Promise.all(self.tracks.map(function (track) {
+    return track.song.save();
+  })).then(function () {
+    return self.save();
+  });
 };
 Playlist.prototype.at = function (i) {
   return this.tracks[i];
@@ -52,12 +80,17 @@ Playlist.load = function (id) {
   return playlistDB.get(id)
     .catch(function (err) {
       if (err.status === 404) { throw err;}
-      return { _id: id };
+      return {
+        _id: id,
+        tracks: [],
+        created_at: new Date().toString(),
+        updated_at: new Date().toString()
+      };
     })
-    .then(function (opts) {
+    .then(function (doc) {
       var d;
-      if (opts.tracks) {
-        d = Promise.all(opts.tracks.map(function (track) {
+      if (doc.tracks.length > 0) {
+        d = Promise.all(doc.tracks.map(function (track) {
           return Song.load(track.songID)
             .then(function (song) {
               return {
@@ -71,12 +104,20 @@ Playlist.load = function (id) {
         d = Promise.resolve([]);
       }
       return d.then(function (tracks) {
-        opts.tracks = tracks;
-        return new Playlist(opts);
+        doc.tracks = tracks;
+        return new Playlist(doc);
       });
     });
 };
 Playlist.getRecent = function () {
-  return playlistDB.allDocs({ include_docs: true });
+  return playlistDB.allDocs()
+    .then(function (docs) {
+      return Promise.all(docs.rows.map(function (row) {
+        return Playlist.load(row.id);
+      }));
+    })
+    .catch(function (err) {
+      console.log(err);
+    });
 };
 module.exports = Playlist;
