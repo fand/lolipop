@@ -9,7 +9,10 @@ var LoliPlaylist = Vue.extend({
     return {
       selected: [],
       isSelected: [],
-      lastClick: new Date().getTime(),
+      lastClick: {
+        time: new Date().getTime(),
+        index: 0
+      },
       isDragging: false,
       isPlaceholder: [],
       dragOpts: {
@@ -51,13 +54,15 @@ var LoliPlaylist = Vue.extend({
     deselectOthers: function (index) {
       this.selected = [index + ""];
     },
-    click: function (e, index, isDragger) {
-      var lastClick = this.lastClick;
-      this.lastClick = new Date().getTime();
-      if (this.lastClick - lastClick < 1000) {
+    click: function (e, index, isDraggableElement) {
+      var now = new Date().getTime();
+      if (now - this.lastClick.time < 1000 && this.lastClick.index === index) {
         this.play(index);
       }
-      if (isDragger) {
+      this.lastClick.time = now;
+      this.lastClick.index = index;
+
+      if (isDraggableElement) {
         this.deselectOthers(index);
       }
     },
