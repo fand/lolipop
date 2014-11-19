@@ -68,18 +68,24 @@ var LoliPlaylist = Vue.extend({
       this.dragOpts.e = e;
       this.dragOpts.timer = setInterval(this.moveTracks.bind(this), 20);
     },
-    onDragOver: function (e) {
-      var items = e.dataTransfer.getData('draggingTracksNumber');
-      this.dragOpts.e = e;
-      this.dragOpts.items = items;
-    },
-    onDrop: function (e) {
+    onDragEnd: function (e) {
       this.isDragging = false;
       this.dragOpts.insertPos = null;
       clearInterval(this.dragOpts.timer);
       this.dragOpts.elementsAfterInsert.forEach(function (e) {
         e.style.marginTop = '0px';
       });
+    },
+    onDragOver: function (e) {
+      var items = e.dataTransfer.getData('draggingTracksNumber');
+      this.dragOpts.e = e;
+      this.dragOpts.items = items;
+    },
+    onDrop: function (e) {
+      var rect = this.$$.real.getBoundingClientRect();
+      var newPos = ((e.clientY - rect.top) / this.dragOpts.optionHeight) | 0;
+      this.playlist.moveTracks(this.selected, newPos);
+      this.selected = [];
     },
     moveTracks: function () {
       if (!this.dragOpts.e || !this.dragOpts.items) { return; }

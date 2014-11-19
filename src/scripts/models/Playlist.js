@@ -77,6 +77,17 @@ Playlist.prototype.removeAll = function (indexes) {
     return indexes.indexOf(+i) === -1;
   });
 };
+Playlist.prototype.moveTracks = function (operands, pos) {
+  var self = this;
+  var tmp = [];
+  operands.forEach(function (i) {
+    tmp.push(self.tracks[i]);
+  });
+  this.removeAll(operands);
+  var head = this.tracks.slice(0, pos);
+  var tail = this.tracks.slice(pos);
+  this.tracks = head.concat(tmp, tail);
+};
 
 // factory
 Playlist.load = function (id) {

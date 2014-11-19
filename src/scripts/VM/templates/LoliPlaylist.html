@@ -11,7 +11,7 @@
       <div class="index">{{$index}}.</div>
     </div>
   </div>
-  <div class="LoliPlaylist drag" draggable="true" v-class="dragging:isDragging" v-on="dragstart:onDragStart">
+  <div class="LoliPlaylist drag" draggable="true" v-class="dragging:isDragging" v-on="dragstart:onDragStart, dragend:onDragEnd">
     <div class="option fake-option" v-repeat="track:tracks" v-class="selected: isSelected[$index], placeholder:isPlaceholder[$index]" v-on="click:click(e, $index, true)">
       <div class="rate">x {{track.rate | rate}}</div>
       <div class="duration">{{track.song.duration | time}}</div>
