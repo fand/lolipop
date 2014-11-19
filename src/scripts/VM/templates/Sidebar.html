@@ -7,6 +7,6 @@
   <hr>
   SAVED::<br>
   <div v-repeat="playlist:playlists" v-on="click:playPlaylist($index)">
-    <div class="sidebar-playlist">{{playlist._id}}</div>
+    <div class="sidebar-playlist" draggable="true">{{playlist._id}}</div>
   </div>
 </div>
