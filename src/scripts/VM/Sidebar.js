@@ -5,8 +5,11 @@ var Vue = require('vue');
 var Sidebar = Vue.extend({
   template: require('./templates/Sidebar.html'),
   methods: {
-    saveCurrent: function () {
-      this.$dispatch('saveCurrent');
+    addPlaylist: function () {
+      this.$dispatch('addPlaylist');
+    },
+    playPlaylist: function (index) {
+      this.$dispatch('playPlaylist', index);
     }
   }
 });

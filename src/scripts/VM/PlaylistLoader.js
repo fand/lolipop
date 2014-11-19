@@ -14,26 +14,34 @@ var PlaylistLoader = {
   created: function () {
     var self = this;
     Playlist.getRecent().then(function (docs) {
-      self.playlists = docs;
+      if (docs && docs.length > 0) {
+        self.playlists = docs;
+        return self.playlists;
+      }
+      else {
+        return self.addPlaylist();
+      }
+    })
+    .then(function () {
       self.currentPlaylist = 0;
     });
 
-    this.$on('newList', this.newList);
+    this.$on('addPlaylist', this.addPlaylist);
+    this.$on('playPlaylist', this.playPlaylist);
   },
   methods: {
     addPlaylist: function () {
       var self = this;
-      var newlist = new Playlist({
-        _id: new Date().toString(),
-        tracks: this.templist.tracks,
-        created_at: new Date().toString(),
-        updated_at: new Date().toString(),
-        changed: true
-      });
-      newlist.save().then(function (doc) {
-        newlist._rev = doc._rev;
+      var newlist = new Playlist();
+      return newlist.save().then(function (doc) {
         self.playlists.push(newlist);
-        self.templist.tracks = [];
+        return newlist;
+      });
+    },
+    playPlaylist: function (index) {
+      var self = this;
+      this.playlists[this.currentPlaylist].save().then(function (saved) {
+        self.currentPlaylist = index;
       });
     },
     close: function () {

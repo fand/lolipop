@@ -3,13 +3,15 @@
 var playlistDB = PouchDB('playlist');
 var Song = require('./Song');
 
+//playlistDB.destroy();
 var Playlist = function (opts) {
-  this._id = opts._id;
+  var now = new Date().getTime().toString();
+  opts = opts || {};
+  this._id = opts._id || now;
   this.tracks = opts.tracks || [];
-  this.created_at = opts.created_at;
-  this.updated_at = opts.updated_at;
-  this.changed = opts.changed;
-  if (opts._rev) { this._rev = opts._rev; }
+  this.created_at = opts.created_at || now;
+  this.updated_at = opts.updated_at || now;
+  this._rev = opts._rev || null;
 };
 Playlist.prototype.saveIfChanged = function () {
   if (this.changed) {
@@ -31,19 +33,20 @@ Playlist.prototype.save = function () {
     created_at: this.created_at,
     updated_at: this.updated_at
   };
-  if (this._rev)  {
+  if (this._rev != null)  {
     opts._rev = this._rev;
   }
-  var saved;
+
+  var self = this;
   return playlistDB.put(opts)
     .then(function (doc) {
-      saved = doc;
+      self._rev = doc.rev;
     })
     .catch(function (err) {
       console.error('playlist save error');
       console.error(err);
     }).then(function () {
-      return saved;
+      return self;
     });
 };
 Playlist.prototype.saveAll = function () {
@@ -80,14 +83,24 @@ Playlist.load = function (id) {
   return playlistDB.get(id)
     .catch(function (err) {
       if (err.status === 404) { throw err;}
-      return {
-        _id: id,
-        tracks: [],
-        created_at: new Date().toString(),
-        updated_at: new Date().toString()
-      };
+      return new Playlist();
     })
     .then(function (doc) {
+      // return Promise.all(doc.tracks.map(function (track) {
+      //   return Song.load(track.songID)
+      //     .then(function (song) {
+      //       return {
+      //         song: song,
+      //         rate: track.rate
+      //       };
+      //     });
+      // }))
+      // .then(function (tracks) {
+      //   doc.tracks =  (tracks.length > 0) ? tracks : [];
+      //   return new Playlist(doc);
+      // });
+
+      // Load all tracks
       var d;
       if (doc.tracks.length > 0) {
         d = Promise.all(doc.tracks.map(function (track) {
