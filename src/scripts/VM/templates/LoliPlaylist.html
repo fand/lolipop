@@ -1,18 +1,18 @@
 <div class="LoliPlaylist-wrapper">
-  <select class="LoliPlaylist real" v-model="selected" multiple v-attr="size:size"  v-on="keydown:delete">
-    <option class="option" v-repeat="track:tracks" v-on="dblclick:play($index)" value="{{$index}}" v-attr="selected:$index==0">
+  <select class="LoliPlaylist real" v-model="selected" multiple v-attr="size:size"  v-on="keydown:delete, dragover:onDragOver">
+    <option class="option" v-repeat="track:tracks" v-on="click:click(e, $index)" value="{{$index}}" v-attr="selected:$index==0">
     </option>
   </select>
   <div class="LoliPlaylist fake">
-    <div class="option fake-option" v-repeat="track:tracks" v-class="selected: isSelected[$index]">
+    <div class="option fake-option" v-repeat="track:tracks" v-class="selected: isSelected[$index]" v-on="dragover:onDragOver">
       <div class="rate">x {{track.rate | rate}}</div>
       <div class="duration">{{track.song.duration | time}}</div>
       <div class="title">{{track.song.name}}</div>
       <div class="index">{{$index}}.</div>
     </div>
   </div>
-  <div class="LoliPlaylist drag" draggable="true">
-    <div class="option fake-option" v-repeat="track:tracks" v-class="selected: isSelected[$index]" v-on="click:deselectOthers($index)">
+  <div class="LoliPlaylist drag" draggable="true" v-on="dragstart:onDragStart">
+    <div class="option fake-option" v-repeat="track:tracks" v-class="selected: isSelected[$index]" v-on="click:click(e, $index, true)">
       <div class="rate">x {{track.rate | rate}}</div>
       <div class="duration">{{track.song.duration | time}}</div>
       <div class="title">{{track.song.name}}</div>

@@ -1,13 +1,15 @@
 'use strict';
 
 var Vue = require('vue');
+var _ = require('lodash');
 
 var LoliPlaylist = Vue.extend({
   template: require('./templates/LoliPlaylist.html'),
   data: function () {
     return {
       selected: [],
-      isSelected: []
+      isSelected: [],
+      lastClick: new Date().getTime()
     };
   },
   computed: {
@@ -43,6 +45,25 @@ var LoliPlaylist = Vue.extend({
     },
     deselectOthers: function (index) {
       this.selected = [index + ""];
+    },
+    click: function (e, index, isDragger) {
+      var lastClick = this.lastClick;
+      this.lastClick = new Date().getTime();
+      if (this.lastClick - lastClick < 1000) {
+        this.play(index);
+      }
+      if (isDragger) {
+        this.deselectOthers(index);
+      }
+    },
+    onDragStart: function (e) {
+      e.dataTransfer.setData('draggingTracksNumber', this.selected.length);
+    },
+    onDragOver: function (e) {
+      console.log(e.dataTransfer.getData('draggingTracksNumber'));
+    },
+    onDrop: function (e) {
+
     }
   }
 });
