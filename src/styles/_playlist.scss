@@ -44,12 +44,20 @@ $option-font-size: 10.5px;
       pointer-events: auto;
     }
   }
+  &.dragging {
+    .option.selected {
+      height: 0px;
+    }
+  }
 
   .option {
     width: 100%;
     height: $option-height;
     font-size: $option-font-size;
     overflow: hidden;
+
+    transition-property: height, margin-top;
+    transition-duration: 0.1s, 0.1s;
   }
 
   // visible option fake
@@ -86,10 +94,6 @@ $option-font-size: 10.5px;
       float: right;
       width: 40px;
       text-align: right;
-    }
-
-    .title.selected {
-
     }
   }
 }

@@ -9,7 +9,13 @@ var LoliPlaylist = Vue.extend({
     return {
       selected: [],
       isSelected: [],
-      lastClick: new Date().getTime()
+      lastClick: new Date().getTime(),
+      isDragging: false,
+      isPlaceholder: [],
+      dragOpts: {
+        insertPos: null,
+        elementsAfterInsert: []
+      }
     };
   },
   computed: {
@@ -32,7 +38,6 @@ var LoliPlaylist = Vue.extend({
     this.$watch('playlist', function () {
       this.selected = [];
     });
-    console.log(this.isSelected);
   },
   methods: {
     play: function (index) {
@@ -56,14 +61,47 @@ var LoliPlaylist = Vue.extend({
         this.deselectOthers(index);
       }
     },
-    onDragStart: function (e) {
+    onDragStart:function (e) {
       e.dataTransfer.setData('draggingTracksNumber', this.selected.length);
+      this.dragOpts.optionHeight = this.$el.querySelector('option.option').getBoundingClientRect().height;
+      this.isDragging = true;
+      this.dragOpts.e = e;
+      this.dragOpts.timer = setInterval(this.moveTracks.bind(this), 20);
     },
     onDragOver: function (e) {
-      console.log(e.dataTransfer.getData('draggingTracksNumber'));
+      var items = e.dataTransfer.getData('draggingTracksNumber');
+      this.dragOpts.e = e;
+      this.dragOpts.items = items;
     },
     onDrop: function (e) {
+      this.isDragging = false;
+      this.dragOpts.insertPos = null;
+      clearInterval(this.dragOpts.timer);
+      this.dragOpts.elementsAfterInsert.forEach(function (e) {
+        e.style.marginTop = '0px';
+      });
+    },
+    moveTracks: function () {
+      if (!this.dragOpts.e || !this.dragOpts.items) { return; }
+      var opts = this.dragOpts;
+      var rect = this.$$.real.getBoundingClientRect();
+      var newPos = ((opts.e.clientY - rect.top) / opts.optionHeight) | 0;
+      if (opts.insertPos === newPos) { return; }
+      opts.insertPos = newPos;
+      opts.elementsAfterInsert.forEach(function (e) {
+        e.style.marginTop = '0px';
+      });
 
+      if (newPos < this.playlist.size()) {
+        var newElements = [];
+        var playlistElements = this.$el.querySelectorAll('.LoliPlaylist');
+        [].forEach.call(playlistElements, function (e) {
+          var newE = e.querySelectorAll('.option')[opts.insertPos];
+          newE.style.marginTop = (opts.optionHeight * opts.items) + 'px';
+          newElements.push(newE);
+        });
+        opts.elementsAfterInsert = newElements;
+      }
     }
   }
 });
