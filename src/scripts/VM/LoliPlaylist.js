@@ -30,6 +30,7 @@ var LoliPlaylist = Vue.extend({
     this.$watch('playlist', function () {
       this.selected = [];
     });
+    console.log(this.isSelected);
   },
   methods: {
     play: function (index) {
@@ -39,6 +40,9 @@ var LoliPlaylist = Vue.extend({
       if (e.keyCode !== 8 && e.keyCode !== 46) { return; }
       this.playlist.removeAll(this.selected);
       this.selected = [];
+    },
+    deselectOthers: function (index) {
+      this.selected = [index + ""];
     }
   }
 });
