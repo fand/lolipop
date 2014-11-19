@@ -20,23 +20,44 @@ $option-font-size: 10.5px;
   background: none;
   min-height: 100%;
 
-  &.real    { z-index: 10; opacity: 0; }  // Mouse click this
-  &.overlay { z-index: 2; }  // for highlight
-  &.fake    { z-index: 1; }  // to show title/duration/rate
+  // Show title/duration/rate
+  &.fake    {
+    z-index: 1;
+  }
+
+  // Select this
+  &.real    {
+    z-index: 2; opacity: 0;
+  }
+
+  // Drag this
+  &.drag {
+    z-index: 3;
+    pointer-events: none;
+    .option {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .option.selected {
+      opacity: 0.8;
+      background: #FFF;
+      pointer-events: auto;
+    }
+  }
+  &.dragging {
+    .option.selected {
+      height: 0px;
+    }
+  }
 
   .option {
     width: 100%;
     height: $option-height;
     font-size: $option-font-size;
     overflow: hidden;
-  }
-  &.real .option,
-  &.overlay .option {
-    opacity: 0;
-    &.selected {
-      background: #FFFFFF;
-      opacity: 0.3;
-    }
+
+    transition-property: height, margin-top;
+    transition-duration: 0.1s, 0.1s;
   }
 
   // visible option fake
@@ -73,10 +94,6 @@ $option-font-size: 10.5px;
       float: right;
       width: 40px;
       text-align: right;
-    }
-
-    .title.selected {
-
     }
   }
 }

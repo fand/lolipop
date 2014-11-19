@@ -8,6 +8,7 @@
     "height": 480
   },
   "dependencies": {
+    "lodash": "^2.4.1",
     "mime": "^1.2.11",
     "moment": "^2.8.4",
     "mousetrap": "^1.4.6",

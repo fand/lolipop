@@ -1,19 +1,22 @@
 <div class="LoliPlaylist-wrapper">
-  <select class="LoliPlaylist real" v-model="selected" multiple v-attr="size:size"  v-on="keydown:delete">
-    <option class="option" v-repeat="track:tracks" v-on="dblclick: play($index)" value="{{$index}}">
+  <select class="LoliPlaylist real" v-el="real" v-model="selected" multiple v-attr="size:size"  v-on="keydown:delete, dragover:onDragOver, drop:onDrop">
+    <option class="option" v-repeat="track:tracks" value="{{$index}}" v-attr="selected:$index==0" v-on="click:click(e, $index)">
     </option>
   </select>
-  <div class="LoliPlaylist overlay">
-    <div class="option" v-repeat="s:isSelected" v-class="selected: s"></div>
+  <div class="LoliPlaylist fake" v-class="dragging:isDragging">
+    <div class="option fake-option" v-repeat="track:tracks" v-class="selected: isSelected[$index]">
+      <div class="rate">x {{track.rate | rate}}</div>
+      <div class="duration">{{track.song.duration | time}}</div>
+      <div class="title">{{track.song.name}}</div>
+      <div class="index">{{$index}}.</div>
+    </div>
   </div>
-  <div class="LoliPlaylist fake">
-    <div class="option fake-option" v-repeat="track:tracks">
-      <div v-class="selected: isSelected[$index]">
-        <div class="rate">x {{track.rate | rate}}</div>
-        <div class="duration">{{track.song.duration | time}}</div>
-        <div class="title">{{track.song.name}}</div>
-        <div class="index">{{$index}}.</div>
-      </div>
+  <div class="LoliPlaylist drag" draggable="true" v-class="dragging:isDragging" v-on="dragstart:onDragStart, dragend:onDragEnd">
+    <div class="option fake-option" v-repeat="track:tracks" v-class="selected: isSelected[$index], placeholder:isPlaceholder[$index]" v-on="click:click(e, $index, true)">
+      <div class="rate">x {{track.rate | rate}}</div>
+      <div class="duration">{{track.song.duration | time}}</div>
+      <div class="title">{{track.song.name}}</div>
+      <div class="index">{{$index}}.</div>
     </div>
   </div>
 </div>
