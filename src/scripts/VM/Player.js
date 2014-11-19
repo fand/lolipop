@@ -28,16 +28,7 @@ Vue.filter('time', function (value) {
 var Player = Vue.extend({
   template: require('./templates/Player.html'),
   data: function () {
-
-    // Load last playlist.
-    var self = this;
-    Playlist.load('playlist')
-      .then(function (p) {
-        return self.playlist = p;
-      });
-
     return {
-      playlist: null,
       track: null,
       currentTrack: 0,
       isPlaying: false,
@@ -155,16 +146,6 @@ var Player = Vue.extend({
           });
         }
       }
-    },
-    close: function () {
-      var self = this;
-      return this.playlist.save()
-        .then(function () {
-          return Promise.all(self.playlist.tracks.map(function (track) {
-            console.log(track);
-            return track.song.save();
-          }));
-        });
     }
   }
 });

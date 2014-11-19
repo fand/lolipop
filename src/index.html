@@ -8,10 +8,11 @@
 <body id="app">
   <div id="header" v-component="header"></div>
 
-  <div id="sidebar"></div>
-
-  <div id="content">
-    <div id="player" v-component="player" v-ref="player"></div>
+  <div id="playlist-loader" v-component="PlaylistLoader" v-ref="loader">
+    <div id="sidebar" v-component="sidebar" v-with="playlists:playlists, currentPlaylist:currentPlaylist"></div>
+    <div id="content">
+      <div id="player" v-component="player" v-ref="player" v-with="playlist:playlists[currentPlaylist]"></div>
+    </div>
   </div>
 
   <script src="http://twemoji.maxcdn.com/twemoji.min.js"></script>

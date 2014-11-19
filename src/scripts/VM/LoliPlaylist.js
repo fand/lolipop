@@ -27,6 +27,9 @@ var LoliPlaylist = Vue.extend({
         self.isSelected.$set(i, (self.selected.indexOf(i + "") !== -1));
       }
     });
+    this.$watch('playlist', function () {
+      this.selected = [];
+    });
   },
   methods: {
     play: function (index) {
