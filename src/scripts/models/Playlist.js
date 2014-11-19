@@ -86,38 +86,18 @@ Playlist.load = function (id) {
       return new Playlist();
     })
     .then(function (doc) {
-      // return Promise.all(doc.tracks.map(function (track) {
-      //   return Song.load(track.songID)
-      //     .then(function (song) {
-      //       return {
-      //         song: song,
-      //         rate: track.rate
-      //       };
-      //     });
-      // }))
-      // .then(function (tracks) {
-      //   doc.tracks =  (tracks.length > 0) ? tracks : [];
-      //   return new Playlist(doc);
-      // });
-
       // Load all tracks
-      var d;
-      if (doc.tracks.length > 0) {
-        d = Promise.all(doc.tracks.map(function (track) {
-          return Song.load(track.songID)
-            .then(function (song) {
-              return {
-                song: song,
-                rate: track.rate
-              };
-            });
-        }));
-      }
-      else {
-        d = Promise.resolve([]);
-      }
-      return d.then(function (tracks) {
-        doc.tracks = tracks;
+      return Promise.all(doc.tracks.map(function (track) {
+        return Song.load(track.songID)
+          .then(function (song) {
+            return {
+              song: song,
+              rate: track.rate
+            };
+          });
+      }))
+      .then(function (tracks) {
+        doc.tracks =  (tracks.length > 0) ? tracks : [];
         return new Playlist(doc);
       });
     });
