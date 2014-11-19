@@ -4,3 +4,82 @@
     border: 1px solid #FFF;
   }
 }
+
+.SidebarPlaylist-wrapper {
+  position: absolute;
+  top: 80px; left: 0;
+  margin: 7px 5px 14px;
+  border: 1px solid #FFAABB;
+  width: calc(100% - 12px);
+  height: calc(100% - 127px);
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.SidebarPlaylist {
+  -webkit-appearance: none;
+  outline: none;
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  background: none;
+  min-height: 100%;
+
+  // Show title/duration/rate
+  &.fake {
+    z-index: 1;
+  }
+
+  // Select this
+  &.real {
+    z-index: 2; opacity: 0;
+  }
+
+  // Drag this
+  &.drag {
+    z-index: 3;
+    pointer-events: none;
+    .option {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .option.selected {
+      opacity: 0.8;
+      background: #FFF;
+      pointer-events: auto;
+    }
+  }
+  &.dragging {
+    .option.selected {
+      height: 0px;
+    }
+  }
+
+  .option {
+    width: 100%;
+    height: $option-height;
+    font-size: $option-font-size;
+    overflow: hidden;
+
+    transition-property: height, margin-top;
+    transition-duration: 0.1s, 0.1s;
+  }
+
+  // visible option fake
+  .fake-option {
+    position: relative;
+    @extend .clearfix;
+    height: $option-height;
+    * {
+      white-space: nowrap;
+      height: $option-height - 2px;
+      font-size: $option-font-size;
+      opacity: 0.8;
+      padding: 1px 2px;
+    }
+    .title {
+      position: relative;
+      text-overflow: ellipsis;
+      overflow-y: hidden;
+    }
+  }
+}

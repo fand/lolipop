@@ -40,6 +40,7 @@ var PlaylistLoader = {
     },
     playPlaylist: function (index) {
       var self = this;
+      console.log(this.playlists);
       this.playlists[this.currentPlaylist].save().then(function (saved) {
         self.currentPlaylist = index;
       });
@@ -48,7 +49,9 @@ var PlaylistLoader = {
       var self = this;
       return Promise.all(this.playlists.map(function (p) {
         return p.saveAll();
-      }));
+      })).catch(function (err) {
+        console.error(err);
+      });
     }
   }
 };

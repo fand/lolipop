@@ -22,23 +22,34 @@ var Song = function (opts) {
   if (opts._rev) { this._rev = opts._rev; }
 };
 Song.prototype.save = function () {
-  var obj = {
+  var opts = {
     _id: this._id,
     name: this.name,
     path: this.path,
     rate: this.rate,
     duration: this.duration
   };
-  var p = (this._rev) ?
-        Promise.resolve({_rev: this._rev}) :
-        songDB.get(obj._id);
-  return p.then(function (doc) {
-    obj._rev = doc._rev;
-    return songDB.put(obj);
-  }).catch(function (err) {
-    console.error('song save error');
-    console.error(err);
-  });
+
+  return songDB.get(opts._id)
+    .then(function (doc) {
+      return opts._rev = doc._rev;
+    })
+    .catch(function (err) {
+      if (err.status !== 404) { throw err; }
+      return opts._rev = self._rev;
+    })
+    .then(function (doc) {
+      return songDB.put(opts);
+    })
+    .catch(function (err) {
+      if (err.status !== 404) {
+        console.error('song save error');
+        console.error(err);
+      }
+    })
+    .then(function () {
+      return self;
+    });
 };
 
 // Factory

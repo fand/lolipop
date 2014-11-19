@@ -121,7 +121,9 @@ Playlist.getRecent = function () {
       }));
     })
     .catch(function (err) {
-      console.log(err);
+      console.error('playlists load error');
+      console.error(err);
+      return [new Playlist()];
     });
 };
 module.exports = Playlist;
