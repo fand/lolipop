@@ -1,17 +1,22 @@
 #sidebar {
-  .sidebar-playlist {
-    height: 24px;
-    border: 1px solid #FFF;
+  .sidebar-top {
+    @extend .clearfix;
+    margin: 4px 5px 0 10px;
+    opacity: 0.8;
+
+    .label  { float: left;  font-size: 13px; }
+    .button { float: right; font-size: 13px; opacity: 0.6; }
+    .button:hover         { font-size: 13px; opacity: 1.0; }
   }
 }
 
 .SidebarPlaylist-wrapper {
   position: absolute;
-  top: 80px; left: 0;
-  margin: 7px 5px 14px;
+  top: 20px; left: 0;
+  margin: 6px 7px 14px 8px;
   border: 1px solid #FFAABB;
-  width: calc(100% - 12px);
-  height: calc(100% - 127px);
+  width: calc(100% - 17px);
+  height: calc(100% - 66px);
   overflow-x: hidden;
   overflow-y: auto;
 }
