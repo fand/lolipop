@@ -27,9 +27,9 @@ Audio.prototype.setRate = function (val) {
     this.source.playbackRate.value = val;
   }
 };
-Audio.prototype.play = function (song, time, callback) {
+Audio.prototype.play = function (song, time, rate, callback) {
   if (this.sourcePath === song.path) {
-    this.playBuffer(this.buffer, song.rate, time, callback);
+    this.playBuffer(this.buffer, time, rate, callback);
     return;
   }
   var abuf = toArrayBuffer(fs.readFileSync(song.path));
@@ -37,11 +37,11 @@ Audio.prototype.play = function (song, time, callback) {
     this.buffer = buf;
     this.sourcePath = song.path;
     song.duration = buf.length / buf.sampleRate;
-    this.playBuffer(this.buffer, song.rate, time, callback);
+    this.playBuffer(this.buffer, time, rate, callback);
   }.bind(this));
 
 };
-Audio.prototype.playBuffer = function (buffer, rate, at, callback) {
+Audio.prototype.playBuffer = function (buffer, at, rate, callback) {
   this.source = this.ctx.createBufferSource();
   this.source.buffer = buffer;
   this.source.playbackRate.value = rate;

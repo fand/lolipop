@@ -84,7 +84,7 @@ var Player = Vue.extend({
 
       // Load if unloaded
       var self = this;
-      Audio.play(this.track.song, at, function () {
+      Audio.play(this.track.song, at, this.track.rate, function () {
         self.time = at;
         self.timer = setInterval(function () {
           if (self.time > self.track.song.duration) { return; }
