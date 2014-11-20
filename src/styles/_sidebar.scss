@@ -49,6 +49,7 @@
     }
   }
   &.dragging {
+    z-index: 1;
     .option.selected {
       height: 0px;
     }

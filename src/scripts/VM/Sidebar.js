@@ -20,14 +20,6 @@ var Sidebar = Vue.extend({
       }
     };
   },
-  computed: {
-    size: function () {
-      return this.playlist.size();
-    },
-    tracks: function () {
-      return this.playlist.tracks;
-    }
-  },
   created: function () {
     var self = this;
     this.$watch('selectedPlaylists', function () {
@@ -51,7 +43,7 @@ var Sidebar = Vue.extend({
     play: function (index) {
       this.$dispatch('playPlaylist', index);
     },
-    delete: function (e) {
+    delete: function (e) {console.log('im delete');
       if (e.keyCode !== 8 && e.keyCode !== 46) { return; }
       this.playlists.removeAll(this.selectedPlaylists);
       this.selectedPlaylists = [];
@@ -59,8 +51,7 @@ var Sidebar = Vue.extend({
     deselectOthers: function (index) {
       this.selectedPlaylists = [index + ""];
     },
-    click: function (e, index, isDraggableElement) {
-      console.log(this.isSelected);
+    click: function (e, index, isDraggableElement) {console.log(e);
       var now = new Date().getTime();
       if (now - this.lastClick.time < 1000 && this.lastClick.index === index) {
         this.play(index);
@@ -91,11 +82,16 @@ var Sidebar = Vue.extend({
       var items = e.dataTransfer.getData('draggingPlaylistsNumber');
       this.dragOpts.e = e;
       this.dragOpts.items = items;
+
+      // this is needed for onDrop fires
+      e.preventDefault();
+      e.stopPropagation();
     },
     onDrop: function (e) {
+      console.log('yo');
       var rect = this.$$.real.getBoundingClientRect();
       var newPos = ((e.clientY - rect.top) / this.dragOpts.optionHeight) | 0;
-      this.playlists.movePlaylists(this.selectedPlaylists, newPos);
+      //this.$dispatch('movePlaylists', this.selectedPlaylists, newPos);
       this.selectedPlaylists = [];
     },
     movePlaylists: function () {
