@@ -1,4 +1,4 @@
-<div>
+<div class="full">
   CURRENT:<br>
   <div class="sidebar-playlist">{{playlists[currentPlaylist]._id}}</div>
   <div class="sidebar-buttons">
@@ -6,7 +6,20 @@
   </div>
   <hr>
   SAVED::<br>
-  <div v-repeat="playlist:playlists" v-on="click:playPlaylist($index)">
-    <div class="sidebar-playlist" draggable="true">{{playlist._id}}</div>
+  <div class="SidebarPlaylist-wrapper">
+    <select class="SidebarPlaylist real" v-el="real" v-model="selectedPlaylists" multiple v-attr="size:playlists.length"  v-on="keydown:delete, dragover:onDragOver, drop:onDrop">
+      <option class="option" v-repeat="playlist:playlists" value="{{$index}}" v-class="selected: isSelected[$index]" v-on="click:click($event, $index)">
+      </option>
+    </select>
+    <div class="SidebarPlaylist fake" v-class="dragging:isDragging">
+      <div class="option fake-option" v-repeat="playlist:playlists" v-class="selected: isSelected[$index]">
+        <div class="title">{{playlist._id}}</div>
+      </div>
+    </div>
+    <div class="SidebarPlaylist drag" draggable="true" v-class="dragging:isDragging" v-on="dragstart:onDragStart, dragend:onDragEnd">
+      <div class="option fake-option" v-repeat="playlist:playlists" v-class="selected: isSelected[$index], placeholder:isPlaceholder[$index]" v-on="click:click($event, $index, true)">
+        <div class="title">{{playlist._id}}</div>
+      </div>
+    </div>
   </div>
 </div>

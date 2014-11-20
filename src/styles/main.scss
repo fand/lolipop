@@ -32,6 +32,7 @@ $header-height: 24px;
 }
 
 #sidebar {
+  position: relative;
   float: left;
   margin-top: $header-height;
   width: 120px;

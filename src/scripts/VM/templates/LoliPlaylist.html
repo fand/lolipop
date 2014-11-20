@@ -1,6 +1,6 @@
 <div class="LoliPlaylist-wrapper">
   <select class="LoliPlaylist real" v-el="real" v-model="selected" multiple v-attr="size:size"  v-on="keydown:delete, dragover:onDragOver, drop:onDrop">
-    <option class="option" v-repeat="track:tracks" value="{{$index}}" v-attr="selected:$index==0" v-on="click:click(e, $index)">
+    <option class="option" v-repeat="track:tracks" value="{{$index}}" v-on="click:click($event, $index)">
     </option>
   </select>
   <div class="LoliPlaylist fake" v-class="dragging:isDragging">

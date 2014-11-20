@@ -93,7 +93,7 @@ Playlist.prototype.moveTracks = function (operands, pos) {
 Playlist.load = function (id) {
   return playlistDB.get(id)
     .catch(function (err) {
-      if (err.status === 404) { throw err;}
+      if (err.status !== 404) { throw err; }
       return new Playlist();
     })
     .then(function (doc) {
@@ -121,7 +121,9 @@ Playlist.getRecent = function () {
       }));
     })
     .catch(function (err) {
-      console.log(err);
+      console.error('playlists load error');
+      console.error(err);
+      return [new Playlist()];
     });
 };
 module.exports = Playlist;
