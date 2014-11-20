@@ -3,29 +3,38 @@
 var Vue = require('vue');
 
 var Playlist = require('../models/Playlist');
-var Playlists = require('../models/Playlist');
+var PlaylistCollection = require('../models/PlaylistCollection');
 
-var PlaylistLoader = {
+var PlaylistLoader = Vue.extend({
   data: function () {
     return {
       currentPlaylist: null,
-      playlists: []
+      collection: null
     };
+  },
+  conputed: {
+    playlists: function () {
+      return this.collection.playlists;
+    },
+    length: function () {
+      return this.collection.playlists.length;
+    }
   },
   created: function () {
     var self = this;
-    Playlist.getRecent().then(function (docs) {
-      if (docs && docs.length > 0) {
-        self.playlists = docs;
-        return self.playlists;
-      }
-      else {
-        return self.addPlaylist();
-      }
-    })
-    .then(function () {
-      self.currentPlaylist = 0;
-    });
+    PlaylistCollection.load('lolipop')
+      .then(function (c) {
+        self.collection = c;
+      })
+      .then(function () {
+        if (self.collection.size() === 0) {
+          return self.addPlaylist();
+        }
+        return true;
+      })
+      .then(function () {
+        self.currentPlaylist = 0;
+      });
 
     this.$on('addPlaylist', this.addPlaylist.bind(this));
     this.$on('removePlaylists', this.removePlaylists.bind(this));
@@ -37,41 +46,30 @@ var PlaylistLoader = {
       var self = this;
       var newlist = new Playlist();
       return newlist.save().then(function (doc) {
-        self.playlists.push(newlist);
+        self.collection.push(newlist);
         return newlist;
       });
     },
     playPlaylist: function (index) {
       var self = this;
-      console.log(this.playlists);
-      this.playlists[this.currentPlaylist].save().then(function (saved) {
+      this.collection.at(this.currentPlaylist).save().then(function (saved) {
         self.currentPlaylist = index;
       });
     },
-    movePlaylists: function (operands, pos) {console.log('called');console.log(arguments);
-      var self = this;
-      var tmp = [];
-      operands.forEach(function (i) {
-        tmp.push(self.playlists[i]);
-      });
-      this.removeAll(operands);
-      var head = this.playlists.slice(0, pos);
-      var tail = this.playlists.slice(pos);
-      this.playlists = head.concat(tmp, tail);
+    movePlaylists: function (operands, pos) {
+      this.collection.movePlaylists(operands, pos);
     },
-    removePlaylists: function () {
-
+    removePlaylists: function (index) {
+      this.collection.remove(index);
     },
     close: function () {
-      var self = this;
-      return Promise.all(this.playlists.map(function (p) {
-        return p.saveAll();
-      })).catch(function (err) {
-        console.error(err);
-      });
+      return this.collection.saveAll()
+        .catch(function (err) {
+          console.error(err);
+        });
     }
   }
-};
+});
 
 
 Vue.component('PlaylistLoader', PlaylistLoader);

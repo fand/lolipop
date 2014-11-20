@@ -20,16 +20,21 @@ var Sidebar = Vue.extend({
       }
     };
   },
+  computed: {
+    playlists: function () {
+      return this.collection.playlists;
+    }
+  },
   created: function () {
     var self = this;
     this.$watch('selectedPlaylists', function () {
-      if (! self.playlists) { return; }
-      self.isSelected = new Array(self.playlists.length);
-      for (var i = 0; i < self.playlists.length; i++) {
+      if (! self.collection) { return; }
+      self.isSelected = new Array(self.collection.length);
+      for (var i = 0; i < self.collection.size(); i++) {
         self.isSelected.$set(i, (self.selectedPlaylists.indexOf(i + "") !== -1));
       }
     });
-    this.$watch('playlists', function () {
+    this.$watch('collection', function () {
       this.selectedPlaylists = [];
     });
   },
@@ -43,15 +48,15 @@ var Sidebar = Vue.extend({
     play: function (index) {
       this.$dispatch('playPlaylist', index);
     },
-    delete: function (e) {console.log('im delete');
+    delete: function (e) {
       if (e.keyCode !== 8 && e.keyCode !== 46) { return; }
-      this.playlists.removeAll(this.selectedPlaylists);
+      this.$dispatch('removePlaylists', this.selectedPlaylists);
       this.selectedPlaylists = [];
     },
     deselectOthers: function (index) {
       this.selectedPlaylists = [index + ""];
     },
-    click: function (e, index, isDraggableElement) {console.log(e);
+    click: function (e, index, isDraggableElement) {
       var now = new Date().getTime();
       if (now - this.lastClick.time < 1000 && this.lastClick.index === index) {
         this.play(index);
@@ -88,10 +93,9 @@ var Sidebar = Vue.extend({
       e.stopPropagation();
     },
     onDrop: function (e) {
-      console.log('yo');
       var rect = this.$$.real.getBoundingClientRect();
       var newPos = ((e.clientY - rect.top) / this.dragOpts.optionHeight) | 0;
-      //this.$dispatch('movePlaylists', this.selectedPlaylists, newPos);
+      this.$dispatch('movePlaylists', this.selectedPlaylists, newPos);
       this.selectedPlaylists = [];
     },
     movePlaylists: function () {
@@ -105,7 +109,7 @@ var Sidebar = Vue.extend({
         e.style.marginTop = '0px';
       });
 
-      if (newPos < this.playlists.length) {
+      if (newPos < this.collection.size()) {
         var newElements = [];
         var playlistElements = this.$el.querySelectorAll('.SidebarPlaylist');
         [].forEach.call(playlistElements, function (e) {
