@@ -65,11 +65,13 @@ var Sidebar = Vue.extend({
     },
     click: function (e, index, isDraggableElement) {
       var now = new Date().getTime();
-      if (now - this.lastClick.time < 1000 && this.lastClick.index === index) {
-        this.play(index);
-      }
-      if (now - this.lastClick.time > 1000 && this.lastClick.index === index) {
-        this.editName(index);
+      if (this.lastClick.index === index) {
+        if (now - this.lastClick.time < 500) {
+          this.play(index);
+        }
+        else if (now - this.lastClick.time < 2000) {
+          this.editName(index);
+        }
       }
       this.lastClick.time = now;
       this.lastClick.index = index;

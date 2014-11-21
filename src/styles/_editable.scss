@@ -2,11 +2,12 @@
 
 .editable {
   @extend .full;
+  width: calc(100% - 8px);
   overflow: hidden;
   cursor: text;
   color: #FFF;
   .hide {
-    display: none;
+    z-index: -1;
   }
   .editable-label {
     @extend .full;
@@ -18,7 +19,7 @@
     @extend .full;
     outline: none;
     border: none;
-    margin-top: -2px;
+    margin-top: -3px;
     &:focus {
       opacity: 1.0;
       background: #FFFFFF;
