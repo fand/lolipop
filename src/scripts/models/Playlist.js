@@ -8,6 +8,7 @@ var Playlist = function (opts) {
   var now = new Date().getTime().toString();
   opts = opts || {};
   this._id = opts._id || now;
+  this.name = opts.name || now;
   this.tracks = opts.tracks || [];
   this.created_at = opts.created_at || now;
   this.updated_at = opts.updated_at || now;
@@ -29,6 +30,7 @@ Playlist.prototype.save = function () {
   });
   var opts = {
     _id: this._id,
+    name: this.name,
     tracks: tracks,
     created_at: this.created_at,
     updated_at: this.updated_at

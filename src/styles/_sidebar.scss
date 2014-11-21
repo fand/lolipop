@@ -48,8 +48,8 @@
       pointer-events: none;
     }
     .option.selected {
-      opacity: 0.8;
-      background: #FFF;
+      opacity: 1.0;
+      background: #FF9AB7;
       pointer-events: auto;
     }
   }
@@ -81,9 +81,20 @@
       font-size: $option-font-size;
       opacity: 0.8;
       padding: 1px 2px;
+      background: none;
+    }
+    .index {
+      float: left;
+      width: 12px;
+      text-align: right;
+      span {
+        opacity: 1.0;
+        margin-left: -2px;
+      }
     }
     .title {
       position: relative;
+      margin-left: 16px;
       text-overflow: ellipsis;
       overflow-y: hidden;
     }

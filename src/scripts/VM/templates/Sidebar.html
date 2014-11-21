@@ -1,6 +1,6 @@
 <div class="full">
   <div class="sidebar-top">
-    <span class="label">playlists</span>
+    <span class="label">playlists{{currentPlaylist}}</span>
     <span class="button icon-t-plus" v-on="click: addPlaylist"></span>
   </div>
 
@@ -11,12 +11,18 @@
     </select>
     <div class="SidebarPlaylist fake" v-class="dragging:isDragging">
       <div class="option fake-option" v-repeat="playlist:playlists" v-class="selected: isSelected[$index]">
-        <div class="title">{{playlist._id}}</div>
+        <div class="index" v-show="$index == currentPlaylist">
+          <span class="icon-e-play"></span>
+        </div>
+        <div class="title">{{playlist.name}}</div>
       </div>
     </div>
     <div class="SidebarPlaylist drag" draggable="true" v-class="dragging:isDragging" v-on="dragstart:onDragStart, dragend:onDragEnd">
       <div class="option fake-option" v-repeat="playlist:playlists" v-class="selected: isSelected[$index], placeholder:isPlaceholder[$index]" v-on="click:click($event, $index, true)">
-        <div class="title">{{playlist._id}}</div>
+        <div class="index" v-show="$index == currentPlaylist">
+          <span class="icon-e-play"></span>
+        </div>
+        <div class="title">{{playlist.name}}</div>
       </div>
     </div>
   </div>
