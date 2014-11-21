@@ -39,8 +39,8 @@ $option-font-size: 10.5px;
       pointer-events: none;
     }
     .option.selected {
-      opacity: 0.8;
-      background: #FFF;
+      opacity: 1.0;
+      background: #FF9AB7;
       pointer-events: auto;
     }
   }
@@ -71,17 +71,24 @@ $option-font-size: 10.5px;
       font-size: $option-font-size;
       opacity: 0.8;
       padding: 1px 2px;
+      background: none;
     }
     .index {
       position: absolute;
       top: 0; left: 0;
-      width: 10px;
+      width: 14px;
       text-align: right;
+      span {
+        opacity: 1.0;
+        margin-left: -2px;
+      }
     }
     .title {
       position: relative;
-      margin-left: 16px;
-      margin-right: 84px;
+      /* margin-left: 20px; */
+      /* margin-right: 84px; */
+      padding-left: 20px;
+      padding-right: 84px;
       text-overflow: ellipsis;
       overflow-y: hidden;
     }
