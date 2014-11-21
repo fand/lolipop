@@ -1,3 +1,5 @@
+@import "editable";
+
 #sidebar {
   .sidebar-top {
     @extend .clearfix;
@@ -79,7 +81,6 @@
       white-space: nowrap;
       height: $option-height - 2px;
       font-size: $option-font-size;
-      opacity: 0.8;
       padding: 1px 2px;
       background: none;
     }
@@ -87,6 +88,7 @@
       float: left;
       width: 12px;
       text-align: right;
+      opacity: 0.8;
       span {
         opacity: 1.0;
         margin-left: -2px;
@@ -97,6 +99,10 @@
       margin-left: 16px;
       text-overflow: ellipsis;
       overflow-y: hidden;
+      opacity: 0.8;
+      &.title-editable {
+        opacity: 1.0;
+      }
     }
   }
 }

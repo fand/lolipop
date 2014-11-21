@@ -1,6 +1,6 @@
 <div class="full">
   <div class="sidebar-top">
-    <span class="label">playlists{{currentPlaylist}}</span>
+    <span class="label">playlists</span>
     <span class="button icon-t-plus" v-on="click: addPlaylist"></span>
   </div>
 
@@ -22,7 +22,7 @@
         <div class="index" v-show="$index == currentPlaylist">
           <span class="icon-e-play"></span>
         </div>
-        <div class="title">{{playlist.name}}</div>
+        <div class="title title-editable" v-component="editable" v-with="model:playlist.name, index:$index"></div>
       </div>
     </div>
   </div>

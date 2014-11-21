@@ -1,0 +1,28 @@
+@import "common";
+
+.editable {
+  @extend .full;
+  overflow: hidden;
+  cursor: text;
+  color: #FFF;
+  .hide {
+    display: none;
+  }
+  .editable-label {
+    @extend .full;
+    &:hover {
+      background: #FF9AB7;
+    }
+  }
+  .editable-input {
+    @extend .full;
+    outline: none;
+    border: none;
+    margin-top: -2px;
+    &:focus {
+      opacity: 1.0;
+      background: #FFFFFF;
+      color: #FF9AB7;
+    }
+  }
+}

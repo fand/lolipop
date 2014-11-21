@@ -2,6 +2,8 @@
 
 var Vue = require('vue');
 
+var Editable = require('./Editable');
+
 var Sidebar = Vue.extend({
   template: require('./templates/Sidebar.html'),
   data: function () {
@@ -17,7 +19,8 @@ var Sidebar = Vue.extend({
       dragOpts: {
         insertPos: null,
         elementsAfterInsert: []
-      }
+      },
+      isEditingName: false
     };
   },
   computed: {
@@ -36,6 +39,10 @@ var Sidebar = Vue.extend({
     });
     this.$watch('collection', function () {
       this.selectedPlaylists = [];
+    });
+
+    this.$on('editedPlaylistName', function (index, value) {
+      this.collection.at(index).name = value;
     });
   },
   methods: {
@@ -61,12 +68,18 @@ var Sidebar = Vue.extend({
       if (now - this.lastClick.time < 1000 && this.lastClick.index === index) {
         this.play(index);
       }
+      if (now - this.lastClick.time > 1000 && this.lastClick.index === index) {
+        this.editName(index);
+      }
       this.lastClick.time = now;
       this.lastClick.index = index;
 
       if (isDraggableElement) {
         this.deselectOthers(index);
       }
+    },
+    editName: function (index) {
+      this.$broadcast('editName', index);
     },
     onDragStart:function (e) {
       e.dataTransfer.setData('draggingPlaylistsNumber', this.selectedPlaylists.length);

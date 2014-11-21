@@ -1,0 +1,12 @@
+<div class="editable full">
+  <div class="editable-label"
+       v-class="hide:isEditing">
+    {{model}}
+  </div>
+  <input class="editable-input" type="text"
+         v-class="hide:!isEditing"
+         v-el="input"
+         v-model="model"
+         v-on="keydown:onKeyDown,
+               blur:onBlur"/>
+</div>
