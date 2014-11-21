@@ -42,29 +42,35 @@ var Player = Vue.extend({
     };
   },
   created: function () {
+    var self = this;
+
     this.$watch('rateRaw', function () {
-      if (! this.track) { return; }
-      var rate = this.rateRaw / 100.0;
-      this.track.rate = rate;
+      if (! self.track) { return; }
+      var rate = self.rateRaw / 100.0;
+      self.track.rate = rate;
       Audio.setRate(rate);
     });
 
     this.$watch('timeRaw', function () {
-      var newTime = (this.timeRaw / 10000.0) * this.track.song.duration;
-      if (Math.abs(this.time - newTime) < (this.rateRaw / 100.0) * 2) { return; }
-      this.time = newTime;
-      this.playAt(this.time);
+      var newTime = (self.timeRaw / 10000.0) * self.track.song.duration;
+      if (Math.abs(self.time - newTime) < (self.rateRaw / 100.0) * 2) { return; }
+      self.time = newTime;
+      self.playAt(self.time);
     });
 
     this.$watch('gainRaw', function () {
-      Audio.setGain(this.gainRaw / 100.0);
+      Audio.setGain(self.gainRaw / 100.0);
     });
 
     this.$on('doubleClick', function (index) {
-      this.setTrack(index);
-      this.playAt(0);
-    }.bind(this));
+      self.setTrack(index);
+      self.playAt(0);
+    });
 
+    this.$on('delete', function (nextTrack) {
+      self.setTrack(nextTrack);
+      self.playAt(0);
+    });
 
     Audio.onEnded(this.playNext.bind(this));
   },
@@ -111,6 +117,7 @@ var Player = Vue.extend({
       this.setTrack(0);
     },
     setTrack: function (index) {
+      if (index < 0 || this.playlist.size() <= index) { return; }
       this.pause();
       this.currentTrack = index;
       this.track = this.playlist.at(index);

@@ -49,6 +49,24 @@ var LoliPlaylist = Vue.extend({
     delete: function (e) {
       if (e.keyCode !== 8 && e.keyCode !== 46) { return; }
       this.playlist.removeAll(this.selected);
+
+      // Play next track
+      if (this.isSelected[this.currentTrack]) {
+        var nextTrack = this.currentTrack;
+        while (this.isSelected[nextTrack]) {
+          nextTrack++;
+        }
+        var removed = 0;
+        for (var i = 0; i < nextTrack; i++) {
+          if (this.isSelected[i]) { removed++; }
+        }
+        nextTrack -= removed;
+        if (nextTrack < 0 || this.playlist.size() <= nextTrack) {
+          nextTrack = 0;
+        }
+        this.$dispatch('delete', nextTrack);
+      }
+
       this.selected = [];
     },
     deselectOthers: function (index) {
@@ -64,6 +82,7 @@ var LoliPlaylist = Vue.extend({
 
       if (isDraggableElement) {
         this.deselectOthers(index);
+        this.$$.real.focus();
       }
     },
     onDragStart:function (e) {
