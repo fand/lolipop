@@ -44,7 +44,8 @@ var PlaylistLoader = Vue.extend({
   methods: {
     addPlaylist: function () {
       var self = this;
-      var newlist = new Playlist();
+      var count = self.collection.size();
+      var newlist = new Playlist({name: 'playlist ' + count});
       return newlist.save().then(function (doc) {
         self.collection.push(newlist);
         return newlist;
