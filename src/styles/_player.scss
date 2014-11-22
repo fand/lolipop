@@ -4,9 +4,8 @@
 
 #player {
   @extend .full;
-
   &.over {
-    background: #FFDDFF;
+    background: #FF9AB7;
   }
 }
 .player-control {
@@ -20,6 +19,8 @@
     width: 100%;
     height: 30px;
     -webkit-appearance: none;
+    background: #FF88AA;
+
     &:focus {
       outline: none;
     }
@@ -34,7 +35,7 @@
       -webkit-appearance: none;
       background: none;
       height: 16px;
-      border-bottom: 12px solid #F080A0;
+      border-bottom: 12px solid #F880A0;
     }
   }
 

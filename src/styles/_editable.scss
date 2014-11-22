@@ -6,6 +6,10 @@
   overflow: hidden;
   cursor: text;
   color: #FFF;
+
+  * {
+    margin: 0; padding: 0;
+  }
   .hide {
     z-index: -1;
   }
@@ -19,7 +23,7 @@
     @extend .full;
     outline: none;
     border: none;
-    margin-top: -3px;
+    margin-top: 0px;
     &:focus {
       opacity: 1.0;
       background: #FFFFFF;

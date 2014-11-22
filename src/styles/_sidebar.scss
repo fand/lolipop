@@ -78,20 +78,23 @@
     @extend .clearfix;
     height: $option-height;
     * {
+      font-size: $option-font-size;
+    }
+    .input, .title {
       white-space: nowrap;
       height: $option-height - 2px;
       font-size: $option-font-size;
-      padding: 1px 2px;
       background: none;
+      margin: 1px 2px;
     }
     .index {
       float: left;
       width: 12px;
       text-align: right;
       opacity: 0.8;
-      span {
+      & > span {
         opacity: 1.0;
-        margin-left: -2px;
+        background: none;
       }
     }
     .title {
