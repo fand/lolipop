@@ -59,8 +59,8 @@ var PlaylistLoader = Vue.extend({
     movePlaylists: function (operands, pos) {
       this.collection.movePlaylists(operands, pos);
     },
-    removePlaylists: function (index) {
-      this.collection.remove(index);
+    removePlaylists: function (indexes) {
+      this.collection.removeAll(indexes);
     },
     close: function () {
       return this.collection.saveAll()
