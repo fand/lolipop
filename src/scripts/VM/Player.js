@@ -52,10 +52,13 @@ var Player = Vue.extend({
     });
 
     this.$watch('timeRaw', function () {
+      if (! self.track) { return; }
       var newTime = (self.timeRaw / 10000.0) * self.track.song.duration;
       if (Math.abs(self.time - newTime) < (self.rateRaw / 100.0) * 2) { return; }
       self.time = newTime;
-      self.playAt(self.time);
+      if (self.isPlaying) {
+        self.playAt(self.time);
+      }
     });
 
     this.$watch('gainRaw', function () {
@@ -63,13 +66,12 @@ var Player = Vue.extend({
     });
 
     this.$on('doubleClick', function (index) {
+      self.isPlaying = true;
       self.setTrack(index);
-      self.playAt(0);
     });
 
     this.$on('delete', function (nextTrack) {
       self.setTrack(nextTrack);
-      self.playAt(0);
     });
 
     Audio.onEnded(this.playNext.bind(this));
@@ -79,12 +81,15 @@ var Player = Vue.extend({
       if (this.track == null) {
         this.setTrack(this.currentTrack);
       }
-      this.playAt(this.time);
+      if (!this.isPlaying) {
+        this.playAt(this.time);
+      }
     },
     playAt: function (at) {
       if (!this.track) { return; }
 
       at = at || 0;
+      at = Math.min(this.track.song.duration, at);
       this.pause();
       this.isPlaying = true;
 
@@ -118,28 +123,26 @@ var Player = Vue.extend({
     },
     setTrack: function (index) {
       if (index < 0 || this.playlist.size() <= index) { return; }
+      var gonnaPlay = this.isPlaying;
       this.pause();
       this.currentTrack = index;
       this.track = this.playlist.at(index);
       this.rateRaw = this.track.rate * 100;
       this.time = this.timeRaw = 0;
       Audio.setRate(this.track.rate);
+      if (gonnaPlay) {
+        this.playAt(0);
+      }
     },
     forward: function () {
       if (this.currentTrack >= this.playlist.size() - 1 && !this.isLoop) { return; }
       this.setTrack((this.currentTrack + 1) % this.playlist.size());
-      if (this.isPlaying) {
-        this.playAt(this.time);
-      }
     },
     backward: function () {
       if (this.time < 3 && this.currentTrack !== 0) {
         this.setTrack(this.currentTrack - 1);
       }
       this.time = this.timeRaw = 0;
-      if (this.isPlaying) {
-        this.playAt(this.time);
-      }
     },
     toggleLoop: function () {
       this.isLoop = !this.isLoop;
