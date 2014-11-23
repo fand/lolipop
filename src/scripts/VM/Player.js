@@ -72,6 +72,10 @@ var Player = Vue.extend({
 
     this.$on('delete', function (nextTrack) {
       self.setTrack(nextTrack);
+      if (self.playlist.size() == 0) {
+        self.pause();
+        self.track = null;
+      }
     });
 
     Audio.onEnded(this.playNext.bind(this));
