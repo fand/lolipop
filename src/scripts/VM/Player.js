@@ -146,7 +146,9 @@ var Player = Vue.extend({
       if (this.time < 3 && this.currentTrack !== 0) {
         this.setTrack(this.currentTrack - 1);
       }
-      this.time = this.timeRaw = 0;
+      else {
+        this.setTrack(this.currentTrack);
+      }
     },
     toggleLoop: function () {
       this.isLoop = !this.isLoop;
