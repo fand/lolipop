@@ -72,7 +72,7 @@
 }
 .player-playlist {
   position: absolute;
-  top: 168px; left: 0;
+  top: 168px; left: 0;   // 192 - 24 = 168
   width: 100%;
-  height: calc(100% - 192px);
+  height: calc(100% - 168px);
 }

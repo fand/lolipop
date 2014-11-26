@@ -2,6 +2,7 @@
 @import "colors";
 @import "header", "player", "sidebar";
 @import "common";
+@import "clearfix";
 
 * {
   font-family: sans-serif;
@@ -9,41 +10,41 @@
   color: $color-text;
   user-select: none;
   margin: 0; padding: 0;
+  background: none;
 }
 
 $header-height: 24px;
 
 #app {
-  position: fixed;
+  position: absolute;
   top: 0; left: 0;
   width: 100%; height: 100%;
   background: $color-base;
 }
 
 #header {
-  position: fixed;
+  position: absolute;
   top: 0px; left: 0px;
   width: 100%; height: $header-height;
 }
 
 #playlist-loader {
-  position: fixed;
-  top: 0px; left: 0px;
-  width: 100%; height: 100%;
+  @extend .clearfix;
+  position: absolute;
+  top: $header-height; left: 0px;
+  width: 100%; height: calc(100% - #{$header-height});
 }
 
 #sidebar {
   position: relative;
   float: left;
-  margin-top: $header-height;
   width: 120px;
   height: 100%;
-  backgrond: none;
 }
 
 #content {
   position: relative;
-  margin-top: $header-height;
+  right: 0;
   margin-left: 120px;
   height: 100%;
 }

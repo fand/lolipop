@@ -6,10 +6,10 @@ $option-font-size: 10.5px;
 .LoliPlaylist-wrapper {
   position: absolute;
   top: 0; left: 0;
-  margin: 10px 10px 14px;
+  margin: 10px 10px 12px;
   border: 1px solid $color-border;
-  width: calc(100% - 22px);
-  height: calc(100% - 26px);
+  width: calc(100% - 22px);     // 10 + 10 + 2
+  height: calc(100% - 24px);    // 10 + 12 + 2
   overflow-x: hidden;
   overflow-y: auto;
 
