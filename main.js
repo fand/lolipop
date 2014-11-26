@@ -13,7 +13,7 @@ app.on('ready', function () {
   var frameOffset = 22;    // for atom-shell bug
   mainWindow = new BrowserWindow({
     width: 480, height: 360 - frameOffset,
-    "min-width": 480, "min-height": 240 - frameOffset,
+    "min-width": 480, "min-height": 280 - frameOffset,
     frame: false
   });
   mainWindow.loadUrl('file://' + __dirname + '/public/index.html');
