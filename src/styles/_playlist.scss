@@ -1,3 +1,5 @@
+@import "colors";
+
 $option-height: 16px;
 $option-font-size: 10.5px;
 
@@ -5,14 +7,14 @@ $option-font-size: 10.5px;
   position: absolute;
   top: 0; left: 0;
   margin: 10px 10px 14px;
-  border: 1px solid #FFAABB;
+  border: 1px solid $color-border;
   width: calc(100% - 22px);
   height: calc(100% - 26px);
   overflow-x: hidden;
   overflow-y: auto;
 
   .over & {
-    background: #F880A0;
+    background: $color-dark;
   }
 }
 
@@ -45,7 +47,7 @@ $option-font-size: 10.5px;
     }
     .option.selected {
       opacity: 1.0;
-      background: #FF9AB7;
+      background: $color-highlight;
       pointer-events: auto;
     }
   }

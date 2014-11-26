@@ -16,7 +16,7 @@
   position: absolute;
   top: 20px; left: 0;
   margin: 6px 7px 14px 8px;
-  border: 1px solid #FFAABB;
+  border: 1px solid $color-border;
   width: calc(100% - 17px);
   height: calc(100% - 64px);
   overflow-x: hidden;
@@ -51,7 +51,7 @@
     }
     .option.selected {
       opacity: 1.0;
-      background: #FF9AB7;
+      background: $color-highlight;
       pointer-events: auto;
     }
   }

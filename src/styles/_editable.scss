@@ -1,3 +1,4 @@
+@import "colors";
 @import "common";
 
 .editable {
@@ -5,7 +6,7 @@
   width: calc(100% - 8px);
   overflow: hidden;
   cursor: text;
-  color: #FFF;
+  color: $color-text;
 
   * {
     margin: 0; padding: 0;
@@ -16,7 +17,7 @@
   .editable-label {
     @extend .full;
     &:hover {
-      background: #FF9AB7;
+      background: $color-highlight;
     }
   }
   .editable-input {
@@ -26,8 +27,8 @@
     margin-top: 0px;
     &:focus {
       opacity: 1.0;
-      background: #FFFFFF;
-      color: #FF9AB7;
+      background: $color-white;
+      color: $color-highlight;
     }
   }
 }
