@@ -10,7 +10,12 @@ $option-font-size: 10.5px;
   height: calc(100% - 26px);
   overflow-x: hidden;
   overflow-y: auto;
+
+  .over & {
+    background: #F880A0;
+  }
 }
+
 .LoliPlaylist {
   -webkit-appearance: none;
   outline: none;
