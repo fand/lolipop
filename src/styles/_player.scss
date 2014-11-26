@@ -1,3 +1,4 @@
+@import "colors";
 @import "common";
 @import "clearfix";
 @import "playlist";
@@ -5,7 +6,7 @@
 #player {
   @extend .full;
   &.over {
-    background: #FF9AB7;
+    background: $color-highlight;
   }
 }
 .player-control {
@@ -19,7 +20,7 @@
     width: 100%;
     height: 30px;
     -webkit-appearance: none;
-    background: #FF88AA;
+    background: $color-base;
 
     &:focus {
       outline: none;
@@ -28,14 +29,14 @@
       -webkit-appearance: none;
       width: 8px;
       height: 16px;
-      background: rgb(255, 221, 231);
+      background: $color-slider-thumb;
       cursor: col-resize;
     }
     &::-webkit-slider-runnable-track {
       -webkit-appearance: none;
       background: none;
       height: 16px;
-      border-bottom: 12px solid #F880A0;
+      border-bottom: 12px solid $color-dark;
     }
   }
 
@@ -71,11 +72,7 @@
 }
 .player-playlist {
   position: absolute;
-  top: 168px; left: 0;
+  top: 168px; left: 0;   // 192 - 24 = 168
   width: 100%;
-  height: calc(100% - 192px);
-  &.over {
-    background: #FFAADD;
-    border: 1ps solid red;
-  }
+  height: calc(100% - 168px);
 }

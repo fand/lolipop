@@ -1,3 +1,5 @@
+@import "colors";
+
 .full {
   position: absolute;
   top: 0; left: 0;
@@ -14,7 +16,7 @@
   }
   &:hover {
     opacity: 1.0;
-    text-shadow: 0 0 2px #FFFFFF;
+    text-shadow: 0 0 2px $color-white;
   }
   &:active {
     opacity: 0.7;
