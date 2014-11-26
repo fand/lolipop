@@ -22,6 +22,17 @@ var main = new Vue({
     this.$on('close', this.close);
     this.$on('hide', this.hide);
   },
+  ready: function () {
+    // Prevent breaking app on miss drop
+    this.$el.addEventListener('drop', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    });
+    this.$el.addEventListener('dragover', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    });
+  },
   methods: {
     close: function () {
       this.$.loader.close()
