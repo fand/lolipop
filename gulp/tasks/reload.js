@@ -22,13 +22,13 @@ var kill = function (victim) {
 }
 
 gulp.task('reload', function (cb) {
-  kill(atom);
-  kill(inspector);
-
-  var dbg = '--debug=' + config.port;
-  atom = spawn(config.electron, [dbg, config.module]);
-  inspector = spawn(config.inspector);
-
+  // kill(atom);
+  // kill(inspector);
+  //
+  // var dbg = '--debug=' + config.port;
+  // atom = spawn(config.electron, [dbg, config.module]);
+  // inspector = spawn(config.inspector);
+  //
   cb();
 });
 
