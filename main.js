@@ -10,10 +10,9 @@ app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') app.quit();
 });
 app.on('ready', function () {
-  var frameOffset = 22;    // for atom-shell bug
   mainWindow = new BrowserWindow({
-    width: 480, height: 360 - frameOffset,
-    "min-width": 480, "min-height": 280 - frameOffset,
+    width: 480, height: 360,
+    "min-width": 480, "min-height": 280,
     frame: false
   });
   mainWindow.loadUrl('file://' + __dirname + '/public/index.html');

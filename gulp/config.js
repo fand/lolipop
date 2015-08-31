@@ -40,7 +40,8 @@ module.exports = {
     dst: DST_DIR
   },
   reload: {
-    command: BASE('../atom-shell/Atom.app/Contents/MacOS/Atom'),
+    electron: BASE('/node_modules/.bin/electron'),
+    inspector: BASE('/node_modules/.bin/node-inspector'),
     module: BASE('.').toString(),
     port: 5858
   }
