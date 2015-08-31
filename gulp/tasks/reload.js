@@ -26,8 +26,8 @@ gulp.task('reload', function (cb) {
   kill(inspector);
 
   var dbg = '--debug=' + config.port;
-  atom = spawn(config.command, [dbg, config.module]);
-  inspector = spawn('node-inspector');
+  atom = spawn(config.electron, [dbg, config.module]);
+  inspector = spawn(config.inspector);
 
   cb();
 });
