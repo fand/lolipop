@@ -12,7 +12,7 @@ function toArrayBuffer(buffer) {
 }
 
 var Audio = function () {
-  this.ctx = new webkitAudioContext();
+  this.ctx = new AudioContext();
   this.gainNode = this.ctx.createGain();
   this.gainNode.gain.value = 1.0;
   this.gainNode.connect(this.ctx.destination);
