@@ -73,6 +73,6 @@ var PlaylistLoader = Vue.extend({
 });
 
 
-Vue.component('PlaylistLoader', PlaylistLoader);
+Vue.component('playlist-loader', PlaylistLoader);
 
 module.exports = PlaylistLoader;
