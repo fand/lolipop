@@ -10,9 +10,10 @@
   <div id="header" v-component="header"></div>
 
   <div id="playlist-loader" v-component="PlaylistLoader" v-ref="loader">
-    <div id="sidebar" v-component="sidebar" v-with="collection:collection, currentPlaylist:currentPlaylist"></div>
+    <div id="sidebar" v-component="sidebar"
+      collection="{{collection}}" current-playlist="{{currentPlaylist}}"></div>
     <div id="content">
-      <div id="player" v-component="player" v-ref="player" v-with="playlist:collection.at(currentPlaylist)"></div>
+      <div id="player" v-component="player" v-ref="player" playlist="{{collection.at(currentPlaylist)}}"></div>
     </div>
   </div>
 

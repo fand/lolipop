@@ -4,6 +4,7 @@ var Vue = require('vue');
 
 var Editable = Vue.extend({
   template: require('./templates/Editable.html'),
+  props: ['model', 'index'],
   data: function () {
     return {
       isEditing: false

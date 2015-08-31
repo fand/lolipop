@@ -27,6 +27,7 @@ Vue.filter('time', function (value) {
 
 var Player = Vue.extend({
   template: require('./templates/Player.html'),
+  props: ['playlist'],
   data: function () {
     return {
       track: null,
