@@ -28,6 +28,7 @@ var LoliPlaylist = Vue.extend({
       return this.playlist.size();
     },
     tracks: function () {
+      if (!this.playlist) { return []; }
       return this.playlist.tracks;
     }
   },
