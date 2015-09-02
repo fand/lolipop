@@ -5,7 +5,11 @@ var _ = require('lodash');
 
 var LoliPlaylist = Vue.extend({
   template: require('./templates/LoliPlaylist.html'),
-  props: ['playlist', 'currentTrack', 'isPlaying'],
+  props: {
+    playlist     : null,
+    curretnTrack : Number,
+    isPlaying    : Boolean,
+  },
   data: function () {
     return {
       selected: [],
