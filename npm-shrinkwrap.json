@@ -858,8 +858,8 @@
       "resolved": "https://registry.npmjs.org/require-directory/-/require-directory-2.1.1.tgz"
     },
     "vue": {
-      "version": "0.12.1",
-      "resolved": "https://registry.npmjs.org/vue/-/vue-0.12.1.tgz"
+      "version": "0.12.6",
+      "resolved": "https://registry.npmjs.org/vue/-/vue-0.12.6.tgz"
     }
   }
 }
