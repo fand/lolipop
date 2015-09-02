@@ -1,5 +1,8 @@
 {
   "name": "lolipop",
+  "version": "0.1.2",
+  "author": "fand",
+  "license": "MIT",
   "main": "main.js",
   "window": {
     "frame": false,
