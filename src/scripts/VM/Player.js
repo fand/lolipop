@@ -42,6 +42,12 @@ var Player = Vue.extend({
       overList: false
     };
   },
+  computed: {
+    duration : function () {
+      if (!this.track) { return; }
+      return this.track.song.duration;
+    },
+  },
   created: function () {
     var self = this;
 
