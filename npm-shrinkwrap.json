@@ -858,8 +858,44 @@
       "resolved": "https://registry.npmjs.org/require-directory/-/require-directory-2.1.1.tgz"
     },
     "vue": {
-      "version": "0.12.6",
-      "resolved": "https://registry.npmjs.org/vue/-/vue-0.12.6.tgz"
+      "version": "0.12.12",
+      "resolved": "https://registry.npmjs.org/vue/-/vue-0.12.12.tgz",
+      "dependencies": {
+        "envify": {
+          "version": "3.4.0",
+          "resolved": "https://registry.npmjs.org/envify/-/envify-3.4.0.tgz",
+          "dependencies": {
+            "jstransform": {
+              "version": "10.1.0",
+              "resolved": "https://registry.npmjs.org/jstransform/-/jstransform-10.1.0.tgz",
+              "dependencies": {
+                "base62": {
+                  "version": "0.1.1",
+                  "resolved": "https://registry.npmjs.org/base62/-/base62-0.1.1.tgz"
+                },
+                "esprima-fb": {
+                  "version": "13001.1001.0-dev-harmony-fb",
+                  "resolved": "https://registry.npmjs.org/esprima-fb/-/esprima-fb-13001.1001.0-dev-harmony-fb.tgz"
+                },
+                "source-map": {
+                  "version": "0.1.31",
+                  "resolved": "https://registry.npmjs.org/source-map/-/source-map-0.1.31.tgz",
+                  "dependencies": {
+                    "amdefine": {
+                      "version": "1.0.0",
+                      "resolved": "https://registry.npmjs.org/amdefine/-/amdefine-1.0.0.tgz"
+                    }
+                  }
+                }
+              }
+            },
+            "through": {
+              "version": "2.3.8",
+              "resolved": "https://registry.npmjs.org/through/-/through-2.3.8.tgz"
+            }
+          }
+        }
+      }
     }
   }
 }
