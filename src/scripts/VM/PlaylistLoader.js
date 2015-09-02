@@ -10,9 +10,9 @@ var PlaylistLoader = Vue.extend({
   data: function () {
     return {
       currentPlaylist : 0,
+      collection      : new PlaylistCollection(),
     };
   },
-  props : ['collection'],
   conputed: {
     playlists: function () {
       return this.collection.playlists;
