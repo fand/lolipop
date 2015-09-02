@@ -6,10 +6,11 @@ var Playlist = require('../models/Playlist');
 var PlaylistCollection = require('../models/PlaylistCollection');
 
 var PlaylistLoader = Vue.extend({
+  template: require('./templates/PlaylistLoader.html'),
   data: function () {
     return {
-      currentPlaylist: null,
-      collection: null
+      currentPlaylist : 0,
+      collection      : new PlaylistCollection(),
     };
   },
   conputed: {
@@ -73,6 +74,6 @@ var PlaylistLoader = Vue.extend({
 });
 
 
-Vue.component('PlaylistLoader', PlaylistLoader);
+Vue.component('playlist-loader', PlaylistLoader);
 
 module.exports = PlaylistLoader;

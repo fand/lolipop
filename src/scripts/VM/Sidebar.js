@@ -6,6 +6,10 @@ var Editable = require('./Editable');
 
 var Sidebar = Vue.extend({
   template: require('./templates/Sidebar.html'),
+  props: {
+    collection      : Object,
+    currentPlaylist : Number,
+  },
   data: function () {
     return {
       selectedPlaylists: [],

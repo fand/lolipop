@@ -27,6 +27,7 @@ Vue.filter('time', function (value) {
 
 var Player = Vue.extend({
   template: require('./templates/Player.html'),
+  props: ['playlist'],
   data: function () {
     return {
       track: null,
@@ -40,6 +41,12 @@ var Player = Vue.extend({
       overControl: false,
       overList: false
     };
+  },
+  computed: {
+    duration : function () {
+      if (!this.track) { return; }
+      return this.track.song.duration;
+    },
   },
   created: function () {
     var self = this;

@@ -5,6 +5,11 @@ var _ = require('lodash');
 
 var LoliPlaylist = Vue.extend({
   template: require('./templates/LoliPlaylist.html'),
+  props: {
+    playlist     : null,
+    curretnTrack : Number,
+    isPlaying    : Boolean,
+  },
   data: function () {
     return {
       selected: [],
@@ -23,9 +28,11 @@ var LoliPlaylist = Vue.extend({
   },
   computed: {
     size: function () {
+      if (!this.playlist) { return 0; }
       return this.playlist.size();
     },
     tracks: function () {
+      if (!this.playlist) { return []; }
       return this.playlist.tracks;
     }
   },
@@ -35,7 +42,7 @@ var LoliPlaylist = Vue.extend({
       if (! self.playlist) { return; }
       self.isSelected = new Array(self.playlist.size());
       for (var i = 0; i < this.playlist.size(); i++) {
-        self.isSelected.$set(i, (self.selected.indexOf(i + "") !== -1));
+        self.isSelected.$set(i, (self.selected.indexOf(i + '') !== -1));
       }
     });
     this.$watch('playlist', function () {

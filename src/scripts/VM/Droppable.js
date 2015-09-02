@@ -9,10 +9,10 @@ var cancelEvent = function (e) {
 
 var Droppable = Vue.directive('droppable', {
   data: {
-    first: true,
-    vm: null,
-    callback: null,
-    over: 'over'
+    first    : true,
+    vm       : null,
+    callback : null,
+    over     : 'over'
   },
   bind: function (value) {
     this.data[this.arg] = value;

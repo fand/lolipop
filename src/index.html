@@ -7,14 +7,9 @@
 
 <body id="app">
 
-  <div id="header" v-component="header"></div>
+  <loli-header id="header"></loli-header>
 
-  <div id="playlist-loader" v-component="PlaylistLoader" v-ref="loader">
-    <div id="sidebar" v-component="sidebar" v-with="collection:collection, currentPlaylist:currentPlaylist"></div>
-    <div id="content">
-      <div id="player" v-component="player" v-ref="player" v-with="playlist:collection.at(currentPlaylist)"></div>
-    </div>
-  </div>
+  <playlist-loader v-ref="loader"></playlist-loader>
 
   <script src="http://twemoji.maxcdn.com/twemoji.min.js"></script>
   <script src="../node_modules/pouchdb/dist/pouchdb.min.js"></script>

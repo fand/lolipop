@@ -22,7 +22,8 @@
         <div class="index" v-show="$index == currentPlaylist">
           <span class="icon-e-play"></span>
         </div>
-        <div class="title title-editable" v-component="editable" v-with="model:playlist.name, index:$index"></div>
+        <editable class="title title-editable"
+          model="{{playlist.name}}" index="{{$index}}"></editable>
       </div>
     </div>
   </div>
