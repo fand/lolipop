@@ -9,13 +9,7 @@
 
   <loli-header id="header"></loli-header>
 
-  <playlist-loader id="playlist-loader" v-ref="loader">
-    <sidebar id="sidebar"
-      collection="{{collection}}" current-playlist="{{currentPlaylist}}"></sidebar>
-    <div id="content">
-      <player id="player" v-ref="player" playlist="{{collection.at(currentPlaylist)}}"></player>
-    </div>
-  </playlist-loader>
+  <playlist-loader collection="{{collection}}" v-ref="loader"></playlist-loader>
 
   <script src="http://twemoji.maxcdn.com/twemoji.min.js"></script>
   <script src="../node_modules/pouchdb/dist/pouchdb.min.js"></script>

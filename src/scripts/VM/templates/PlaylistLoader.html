@@ -1,0 +1,8 @@
+<div id="playlist-loader">
+  <sidebar id="sidebar"
+  collection="{{collection}}" current-playlist="{{currentPlaylist}}"></sidebar>
+  <div id="content">
+    <player id="player" v-ref="player"
+    playlist="{{collection.at(currentPlaylist)}}"></player>
+  </div>
+</div>

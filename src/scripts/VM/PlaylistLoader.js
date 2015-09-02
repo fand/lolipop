@@ -6,12 +6,13 @@ var Playlist = require('../models/Playlist');
 var PlaylistCollection = require('../models/PlaylistCollection');
 
 var PlaylistLoader = Vue.extend({
+  template: require('./templates/PlaylistLoader.html'),
   data: function () {
     return {
-      currentPlaylist: null,
-      collection: null
+      currentPlaylist : 0,
     };
   },
+  props : ['collection'],
   conputed: {
     playlists: function () {
       return this.collection.playlists;
