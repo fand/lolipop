@@ -11,8 +11,8 @@
     "height": 480
   },
   "scripts": {
-    "start": "$(npm bin)/electron .",
-    "build": "$(npm bin)/electron-packager ./ Lolipop --out=packages --platform=darwin,linux,win32 --arch=x64 --version=0.31.1 --ignore=packages/*",
+    "start": "electron .",
+    "build": "electron-packager ./ Lolipop --out=packages --platform=darwin,linux,win32 --arch=x64 --version=0.31.1 --ignore=packages/*",
     "zip": "for f in packages/*;do zip -r $f $f ;done"
   },
   "dependencies": {
