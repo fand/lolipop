@@ -1,54 +1,57 @@
-'use strict';
-
-var Vue = require('vue');
-
-// models
-var Song = require('./models/Song');
+import Vue from 'vue';
 
 // Directives
-var Droppable = require('./VM/Droppable');
+import Droppable from './VM/Droppable';
 
 // Components
-var Header         = require('./VM/Header')
-var PlaylistLoader = require('./VM/PlaylistLoader');
+import Header         from './VM/Header';
+import PlaylistLoader from './VM/PlaylistLoader';
 
-var remote = require('remote');
-var app = remote.require('app');
+import remote from 'remote';
+const app = remote.require('app');
 
-var main = new Vue({
-  el: '#app',
+const main = new Vue({
+
+  el : '#app',
+
   components : {
     loliHeader     : Header,
     playlistLoader : PlaylistLoader,
   },
-  data: {
-    currentView: 'player'
+
+  data : {
+    currentView : 'player',
   },
-  created: function () {
+
+  created () {
     this.$on('close', this.close);
     this.$on('hide', this.hide);
   },
-  ready: function () {
+
+  ready () {
     // Prevent breaking app on miss drop
-    this.$el.addEventListener('drop', function (e) {
+    this.$el.addEventListener('drop', (e) => {
       e.preventDefault();
       e.stopPropagation();
     });
-    this.$el.addEventListener('dragover', function (e) {
+    this.$el.addEventListener('dragover', (e) => {
       e.preventDefault();
       e.stopPropagation();
     });
   },
-  methods: {
-    close: function () {
+
+  methods : {
+    close () {
       this.$.loader.close()
-        .then(function () {
+        .then(() => {
           console.log('QUIT!');
           app.quit();
         });
     },
-    hide: function () {
+
+    hide () {
       remote.getCurrentWindow().minimize();
-    }
-  }
+    },
+  },
+
 });
