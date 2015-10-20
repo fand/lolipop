@@ -38,6 +38,7 @@
     "gulp-useref": "^1.0.2",
     "gulp-util": "^3.0.1",
     "node-inspector": "^0.12.2",
+    "node-sass": "^3.3.3",
     "partialify": "^3.1.1",
     "vinyl-source-stream": "^1.0.0"
   }
