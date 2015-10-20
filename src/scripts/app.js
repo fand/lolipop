@@ -1,5 +1,7 @@
 import Vue from 'vue';
 
+Vue.config.debug = true; // turn on debugging mode
+
 // Directives
 import Droppable from './VM/Droppable';
 
