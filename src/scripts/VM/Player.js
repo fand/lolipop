@@ -1,10 +1,8 @@
 'use strict';
 
 var Vue = require('vue');
-var Droppable = require('./Droppable');
 var LoliPlaylist = require('./LoliPlaylist');
-var Song = require('../models/Song');
-var Playlist = require('../models/Playlist');
+var Song  = require('../models/Song');
 var Audio = require('../utils/Audio');
 
 Vue.filter('rate', function (value) {
@@ -28,6 +26,10 @@ Vue.filter('time', function (value) {
 var Player = Vue.extend({
   template: require('./templates/Player.html'),
   props: ['playlist'],
+  components : {
+    loliPlaylist: LoliPlaylist,
+
+  },
   data: function () {
     return {
       track: null,
@@ -173,7 +175,5 @@ var Player = Vue.extend({
     }
   }
 });
-
-Vue.component('player', Player);
 
 module.exports = Player;

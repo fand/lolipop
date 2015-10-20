@@ -10,6 +10,9 @@ var Sidebar = Vue.extend({
     collection      : Object,
     currentPlaylist : Number,
   },
+  components : {
+    editable : Editable,
+  },
   data: function () {
     return {
       selectedPlaylists: [],
@@ -141,7 +144,5 @@ var Sidebar = Vue.extend({
     }
   }
 });
-
-Vue.component('sidebar', Sidebar);
 
 module.exports = Sidebar;

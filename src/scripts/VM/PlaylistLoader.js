@@ -2,11 +2,17 @@
 
 var Vue = require('vue');
 
-var Playlist = require('../models/Playlist');
+var Playlist           = require('../models/Playlist');
 var PlaylistCollection = require('../models/PlaylistCollection');
+var Sidebar            = require('./Sidebar');
+var Player             = require('./Player');
 
 var PlaylistLoader = Vue.extend({
   template: require('./templates/PlaylistLoader.html'),
+  components : {
+    sidebar : Sidebar,
+    player  : Player,
+  },
   data: function () {
     return {
       currentPlaylist : 0,
@@ -72,8 +78,5 @@ var PlaylistLoader = Vue.extend({
     }
   }
 });
-
-
-Vue.component('playlist-loader', PlaylistLoader);
 
 module.exports = PlaylistLoader;

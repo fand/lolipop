@@ -20,6 +20,4 @@ var Header = Vue.extend({
   }
 });
 
-Vue.component('loli-header', Header);
-
 module.exports = Header;

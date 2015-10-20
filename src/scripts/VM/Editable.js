@@ -40,6 +40,4 @@ var Editable = Vue.extend({
   }
 });
 
-Vue.component('editable', Editable);
-
 module.exports = Editable;

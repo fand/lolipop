@@ -1,7 +1,6 @@
 'use strict';
 
 var Vue = require('vue');
-var _ = require('lodash');
 
 var LoliPlaylist = Vue.extend({
   template: require('./templates/LoliPlaylist.html'),
@@ -142,7 +141,5 @@ var LoliPlaylist = Vue.extend({
     }
   }
 });
-
-Vue.component('loli-playlist', LoliPlaylist);
 
 module.exports = LoliPlaylist;

@@ -2,19 +2,25 @@
 
 var Vue = require('vue');
 
-var Droppable = require('./VM/Droppable');
-var Header = require('./VM/Header');
-var Sidebar = require('./VM/Sidebar');
-var Player = require('./VM/Player');
+// models
 var Song = require('./models/Song');
+
+// Directives
+var Droppable = require('./VM/Droppable');
+
+// Components
+var Header         = require('./VM/Header')
 var PlaylistLoader = require('./VM/PlaylistLoader');
 
 var remote = require('remote');
 var app = remote.require('app');
 
-
 var main = new Vue({
   el: '#app',
+  components : {
+    loliHeader     : Header,
+    playlistLoader : PlaylistLoader,
+  },
   data: {
     currentView: 'player'
   },
