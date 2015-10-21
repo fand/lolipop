@@ -1,46 +1,50 @@
-'use strict';
+import Vue from 'vue';
 
-var Vue = require('vue');
-
-var cancelEvent = function (e) {
+const cancelEvent = (e) => {
   e.preventDefault();
   e.stopPropagation();
 };
 
-var Droppable = Vue.directive('droppable', {
-  data: {
+const Droppable = Vue.directive('droppable', {
+
+  data : {
     first    : true,
     vm       : null,
     callback : null,
-    over     : 'over'
+    over     : 'over',
   },
-  bind: function (value) {
+
+  bind (value) {
     this.data[this.arg] = value;
     this.data.vm = this.vm;
+
     if (this.data.first) {
       this.data.first = false;
-      var self = this;
-      this.el.addEventListener('dragover', function (e) {
+
+      this.el.addEventListener('dragover', (e) => {
         cancelEvent(e);
-        self.data.vm.$data[self.data.over] = true;
+        this.data.vm.$data[this.data.over] = true;
       });
-      this.el.addEventListener('dragleave', function (e) {
+
+      this.el.addEventListener('dragleave', (e) => {
         cancelEvent(e);
-        self.data.vm.$data[self.data.over] = false;
+        this.data.vm.$data[this.data.over] = false;
       });
-      this.el.addEventListener('drop', function (e) {
+
+      this.el.addEventListener('drop', (e) => {
         cancelEvent(e);
-        self.data.vm.$data[self.data.over] = false;
-        if (self.data.callback) {
-          self.data.callback(e.dataTransfer.files);
+        this.data.vm.$data[this.data.over] = false;
+        if (this.data.callback) {
+          this.data.callback(e.dataTransfer.files);
         }
       });
     }
   },
-  update: function (value) {
+
+  update (value) {
     this.data[this.arg] = value;
-  }
+  },
+
 });
 
-
-module.exports = Droppable;
+export default Droppable;
