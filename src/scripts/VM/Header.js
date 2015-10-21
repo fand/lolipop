@@ -1,23 +1,31 @@
-'use strict';
+/* global twemoji */
 
-var Vue = require('vue');
+import Vue from 'vue';
 
-var Header = Vue.extend({
-  template: require('./templates/Header.html'),
-  attached: function () {
+import template from './templates/Header.html';
+
+const Header = Vue.extend({
+
+  template,
+
+  attached () {
     // Set window title
-    var logo = twemoji.parse('\uD83D\uDC96\uD83D\uDC95\uD83D\uDC97');
-    logo = logo + '<div>L  O  L  I  P  O  P</div>' + logo;
-    this.$$.logo.innerHTML = logo;
+    const emoji = twemoji.parse('\uD83D\uDC96\uD83D\uDC95\uD83D\uDC97');
+    this.$$.logo.innerHTML = `${emoji}<div>L  O  L  I  P  O  P</div>${emoji}`;
   },
-  methods: {
-    close: function () {
+
+  methods : {
+
+    close () {
       this.$dispatch('close');
     },
-    hide: function () {
+
+    hide () {
       this.$dispatch('hide');
-    }
-  }
+    },
+
+  },
+
 });
 
-module.exports = Header;
+export default Header;
