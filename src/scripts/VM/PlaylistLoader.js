@@ -1,82 +1,94 @@
-'use strict';
+import Vue from 'vue';
 
-var Vue = require('vue');
+import Playlist           from '../models/Playlist';
+import PlaylistCollection from '../models/PlaylistCollection';
+import Sidebar            from './Sidebar';
+import Player             from './Player';
 
-var Playlist           = require('../models/Playlist');
-var PlaylistCollection = require('../models/PlaylistCollection');
-var Sidebar            = require('./Sidebar');
-var Player             = require('./Player');
+import template from './templates/PlaylistLoader.html';
 
-var PlaylistLoader = Vue.extend({
-  template: require('./templates/PlaylistLoader.html'),
+const PlaylistLoader = Vue.extend({
+
+  template,
+
   components : {
     sidebar : Sidebar,
     player  : Player,
   },
-  data: function () {
-    return {
-      currentPlaylist : 0,
-      collection      : new PlaylistCollection(),
-    };
-  },
-  conputed: {
-    playlists: function () {
+
+  data : () => ({
+    currentPlaylist : 0,
+    collection      : new PlaylistCollection(),
+  }),
+
+  computed : {
+
+    playlists () {
       return this.collection.playlists;
     },
-    length: function () {
+
+    length () {
       return this.collection.playlists.length;
-    }
+    },
+
   },
-  created: function () {
-    var self = this;
+
+  created () {
     PlaylistCollection.load('lolipop')
-      .then(function (c) {
-        self.collection = c;
+      .then((c) => {
+        this.collection = c;
       })
-      .then(function () {
-        if (self.collection.size() === 0) {
-          return self.addPlaylist();
+      .then(() => {
+        if (this.collection.size() === 0) {
+          return this.addPlaylist();
         }
         return true;
       })
-      .then(function () {
-        self.currentPlaylist = 0;
+      .then(() => {
+        this.currentPlaylist = 0;
       });
 
-    this.$on('addPlaylist', this.addPlaylist.bind(this));
+    this.$on('addPlaylist',     this.addPlaylist.bind(this));
     this.$on('removePlaylists', this.removePlaylists.bind(this));
-    this.$on('playPlaylist', this.playPlaylist.bind(this));
-    this.$on('movePlaylists', this.movePlaylists.bind(this));
+    this.$on('playPlaylist',    this.playPlaylist.bind(this));
+    this.$on('movePlaylists',   this.movePlaylists.bind(this));
   },
-  methods: {
-    addPlaylist: function () {
-      var self = this;
-      var count = self.collection.size();
-      var newlist = new Playlist({name: 'playlist ' + count});
-      return newlist.save().then(function (doc) {
-        self.collection.push(newlist);
+
+  methods : {
+
+    addPlaylist () {
+      var count   = this.collection.size();
+      var newlist = new Playlist({ name : `playlist ${count}` });
+
+      return newlist.save().then(() => {
+        this.collection.push(newlist);
         return newlist;
       });
     },
-    playPlaylist: function (index) {
-      var self = this;
-      this.collection.at(this.currentPlaylist).save().then(function (saved) {
-        self.currentPlaylist = index;
-      });
+
+    playPlaylist (index) {
+      this.collection.at(this.currentPlaylist)
+        .save()
+        .then(() => {
+          this.currentPlaylist = index;
+        });
     },
-    movePlaylists: function (operands, pos) {
+
+    movePlaylists (operands, pos) {
       this.collection.movePlaylists(operands, pos);
     },
-    removePlaylists: function (indexes) {
+
+    removePlaylists (indexes) {
       this.collection.removeAll(indexes);
     },
-    close: function () {
+
+    close () {
       return this.collection.saveAll()
-        .catch(function (err) {
-          console.error(err);
-        });
-    }
-  }
+        .catch((err) => console.error(err));
+    },
+
+  },
+
 });
 
-module.exports = PlaylistLoader;
+export default PlaylistLoader;

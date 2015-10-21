@@ -21,7 +21,7 @@ Vue.filter('time', (value) => {
   return ' - ';
 });
 
-var Player = Vue.extend({
+const Player = Vue.extend({
 
   template,
 
