@@ -1,128 +1,140 @@
 const playlistDB = PouchDB('playlist');
 import Song from './Song';
 
-var Playlist = function (opts) {
-  var now = new Date().getTime().toString();
-  opts = opts || {};
-  this._id = opts._id || now;
-  this.name = opts.name || now;
-  this.tracks = opts.tracks || [];
-  this.created_at = opts.created_at || now;
-  this.updated_at = opts.updated_at || now;
-  this._rev = opts._rev || null;
-};
-Playlist.prototype.saveIfChanged = function () {
-  if (this.changed) {
-    this.changed = false;
-    return this.save();
-  }
-  return Promise.resolve(this);
-};
-Playlist.prototype.save = function () {
-  var tracks = this.tracks.map(function (track) {
-    return {
-      songID: track.song._id,
-      rate: track.rate
-    };
-  });
-  var opts = {
-    _id: this._id,
-    name: this.name,
-    tracks: tracks,
-    created_at: this.created_at,
-    updated_at: this.updated_at
-  };
-  if (this._rev != null)  {
-    opts._rev = this._rev;
+class Playlist {
+
+  constructor (_opts) {
+    const opts = _opts || {};
+    const now  = new Date().getTime().toString();
+
+    this._id        = opts._id || now;
+    this.name       = opts.name || now;
+    this.tracks     = opts.tracks || [];
+    this.created_at = opts.created_at || now;
+    this.updated_at = opts.updated_at || now;
+    this._rev       = opts._rev || null;
   }
 
-  var self = this;
-  return playlistDB.put(opts)
-    .then(function (doc) {
-      self._rev = doc.rev;
-    })
-    .catch(function (err) {
-      console.error('playlist save error');
-      console.error(err);
-    }).then(function () {
-      return self;
+  saveIfChanged () {
+    if (this.changed) {
+      this.changed = false;
+      return this.save();
+    }
+    return Promise.resolve(this);
+  }
+
+  save () {
+    const tracks = this.tracks.map((track) => ({
+      songID : track.song._id,
+      rate   : track.rate,
+    }));
+
+    const opts = {
+      _id        : this._id,
+      name       : this.name,
+      tracks     : tracks,
+      created_at : this.created_at,
+      updated_at : this.updated_at,
+    };
+    if (this._rev != null)  {
+      opts._rev = this._rev;
+    }
+
+    return playlistDB
+      .put(opts)
+      .then((doc) => {
+        this._rev = doc.rev;
+      })
+      .catch((err) => {
+        console.error('playlist save error');
+        console.error(err);
+      })
+      .then(() => this);
+  }
+
+  saveAll () {
+    return Promise
+      .all(this.tracks.map((track) => {
+        track.song.save();
+      }))
+      .then(() => {
+        this.save();
+      });
+  }
+
+  at (i) {
+    return this.tracks[i];
+  }
+
+  remove (i) {
+    this.tracks = this.tracks.splice(i, 1);
+  }
+
+  push (track) {
+    this.tracks.push(track);
+  }
+
+  size () {
+    return this.tracks.length;
+  }
+
+  removeAll (_indexes) {
+    const indexes = _indexes.map((s) => +s);
+    this.tracks = this.tracks.filter((x, i) => {
+      return indexes.indexOf(+i) === -1;
     });
-};
-Playlist.prototype.saveAll = function () {
-  var self = this;
-  return Promise.all(self.tracks.map(function (track) {
-    return track.song.save();
-  })).then(function () {
-    return self.save();
-  });
-};
-Playlist.prototype.at = function (i) {
-  return this.tracks[i];
-};
-Playlist.prototype.remove = function (i) {
-  this.tracks = this.tracks.splice(i, 1);
-};
-Playlist.prototype.push = function (track) {
-  this.tracks.push(track);
-};
-Playlist.prototype.size = function () {
-  return this.tracks.length;
-};
-Playlist.prototype.removeAll = function (indexes) {
-  indexes = indexes.map(function (s) {
-    return +s;
-  });
-  this.tracks = this.tracks.filter(function (x, i) {
-    return indexes.indexOf(+i) === -1;
-  });
-};
-Playlist.prototype.moveTracks = function (operands, pos) {
-  var self = this;
-  var tmp = [];
-  operands.forEach(function (i) {
-    tmp.push(self.tracks[i]);
-  });
-  this.removeAll(operands);
-  var head = this.tracks.slice(0, pos);
-  var tail = this.tracks.slice(pos);
-  this.tracks = head.concat(tmp, tail);
-};
+  }
+
+  moveTracks (operands, pos) {
+    var tmp = [];
+
+    operands.forEach((i) => {
+      tmp.push(this.tracks[i]);
+    });
+
+    this.removeAll(operands);
+    const head = this.tracks.slice(0, pos);
+    const tail = this.tracks.slice(pos);
+    this.tracks = head.concat(tmp, tail);
+  }
+
+}
 
 // factory
-Playlist.load = function (id) {
-  return playlistDB.get(id)
-    .catch(function (err) {
+Playlist.load = (id) => {
+  return playlistDB
+    .get(id)
+    .catch((err) => {
       if (err.status !== 404) { throw err; }
       return new Playlist();
     })
-    .then(function (doc) {
+    .then((doc) => {
       // Load all tracks
-      return Promise.all(doc.tracks.map(function (track) {
-        return Song.load(track.songID)
-          .then(function (song) {
-            return {
-              song: song,
-              rate: track.rate
-            };
-          });
-      }))
-      .then(function (tracks) {
-        doc.tracks =  (tracks.length > 0) ? tracks : [];
-        return new Playlist(doc);
-      });
+      return Promise
+        .all(doc.tracks.map((track) => {
+          return Song.load(track.songID)
+            .then((song) => ({
+              song,
+              rate : track.rate,
+            }));
+        }))
+        .then((tracks) => {
+          doc.tracks = (tracks.length > 0) ? tracks : [];
+          return new Playlist(doc);
+        });
     });
 };
-Playlist.getRecent = function () {
+
+Playlist.getRecent = () => {
   return playlistDB.allDocs()
-    .then(function (docs) {
-      return Promise.all(docs.rows.map(function (row) {
-        return Playlist.load(row.id);
-      }));
-    })
-    .catch(function (err) {
+    .then((docs) =>
+      Promise.all(docs.rows.map((row) => Playlist.load(row.id)))
+    )
+    .catch((err) => {
       console.error('playlists load error');
       console.error(err);
       return [new Playlist()];
     });
 };
-module.exports = Playlist;
+
+export default Playlist;
