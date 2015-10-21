@@ -1,19 +1,10 @@
 {
   "name": "lolipop",
+  "description": "A loli song player",
   "version": "0.1.2",
   "author": "fand",
-  "license": "MIT",
-  "main": "main.js",
-  "window": {
-    "frame": false,
-    "toolbar": false,
-    "width": 640,
-    "height": 480
-  },
-  "scripts": {
-    "start": "electron .",
-    "build": "electron-packager ./ Lolipop --out=packages --platform=darwin,linux,win32 --arch=x64 --version=0.31.1 --ignore=packages/*",
-    "zip": "for f in packages/*;do zip -r $f $f ;done"
+  "bugs": {
+    "url": "https://github.com/fand/lolipop/issues"
   },
   "dependencies": {
     "lodash": "^2.4.1",
@@ -44,5 +35,35 @@
     "node-sass": "^3.3.3",
     "partialify": "^3.1.1",
     "vinyl-source-stream": "^1.0.0"
+  },
+  "homepage": "https://github.com/fand/lolipop",
+  "keywords": [
+    "audio",
+    "electron",
+    "mp3",
+    "vue"
+  ],
+  "license": "MIT",
+  "main": "main.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fand/lolipop.git"
+  },
+  "scripts": {
+    "build": "gulp build",
+    "clean": "rm -rf node_modules && rm -rf packages",
+    "package": "electron-packager ./ Lolipop --out=packages --platform=darwin,linux,win32 --arch=x64 --version=0.31.1 --ignore=packages/*",
+    "postpackage": "for f in packages/*;do zip -r $f $f ;done",
+    "postversion": "git push && git push --tags && npm run clean",
+    "prepackage": "npm install --production",
+    "preversion": "npm run clean && npm install",
+    "start": "electron .",
+    "version": "npm run build"
+  },
+  "window": {
+    "frame": false,
+    "toolbar": false,
+    "width": 640,
+    "height": 480
   }
 }
