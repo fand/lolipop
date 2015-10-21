@@ -3,32 +3,40 @@
 
 .editable {
   @extend .full;
-  width: calc(100% - 8px);
-  overflow: hidden;
-  cursor: text;
-  color: $color-text;
+
+  width    : calc(100% - 8px);
+  overflow : hidden;
+  cursor   : text;
+  color    : $color-text;
 
   * {
-    margin: 0; padding: 0;
+    margin: 0;
+    padding: 0;
   }
+
   .hide {
     z-index: -1;
   }
+
   .editable-label {
     @extend .full;
+
     &:hover {
       background: $color-highlight;
     }
   }
+
   .editable-input {
     @extend .full;
-    outline: none;
-    border: none;
-    margin-top: 0px;
+
+    outline    : none;
+    border     : none;
+    margin-top : 0px;
+
     &:focus {
-      opacity: 1.0;
-      background: $color-white;
-      color: $color-highlight;
+      opacity    : 1.0;
+      background : $color-white;
+      color      : $color-highlight;
     }
   }
 }

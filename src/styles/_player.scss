@@ -5,74 +5,90 @@
 
 #player {
   @extend .full;
+
   &.over {
     background: $color-highlight;
   }
 }
+
 .player-control {
-  position: absolute;
-  top: 0; left: 0;
-  width: calc(100% - 20px);
-  height: 160px;
-  padding: 0px 10px;
+  position : absolute;
+  top      : 0;
+  left     : 0;
+  width    : calc(100% - 20px);
+  height   : 160px;
+  padding  : 0px 10px;
 
   input {
-    width: 100%;
-    height: 30px;
     -webkit-appearance: none;
-    background: $color-base;
+
+    width      : 100%;
+    height     : 30px;
+    background : $color-base;
 
     &:focus {
-      outline: none;
+      outline : none;
     }
+
     &::-webkit-slider-thumb {
       -webkit-appearance: none;
-      width: 8px;
-      height: 16px;
-      background: $color-slider-thumb;
-      cursor: col-resize;
+
+      width      : 8px;
+      height     : 16px;
+      background : $color-slider-thumb;
+      cursor     : col-resize;
     }
+
     &::-webkit-slider-runnable-track {
       -webkit-appearance: none;
-      background: none;
-      height: 16px;
-      border-bottom: 12px solid $color-dark;
+
+      background    : none;
+      height        : 16px;
+      border-bottom : 12px solid $color-dark;
     }
   }
 
   .button, .button i {
-    display: inline-block;
-    width: 48px; height: 42px;
-    font-size: 32px;
-    margin-top: 4px;
+    display    : inline-block;
+    width      : 48px;
+    height     : 42px;
+    font-size  : 32px;
+    margin-top : 4px;
   }
 
   .control-main {
     @extend .clearfix;
-    width: 100%;
-    height: 56px;
-    margin: 4px 0;
+
+    width  : 100%;
+    height : 56px;
+    margin : 4px 0;
+
     .buttons {
-      float: left;
-      width: 224px;
+      float : left;
+      width : 224px;
     }
+
     .gain {
-      margin-top: 4px;
-      margin-left: 224px;
+      margin-top  : 4px;
+      margin-left : 224px;
     }
   }
+
   legend {
-    font-size: 13px;
-    opacity: 0.8;
+    font-size : 13px;
+    opacity   : 0.8;
   }
+
   .time, .rate {
-    width: 100%;
-    height: 48px;
+    width  : 100%;
+    height : 48px;
   }
 }
+
 .player-playlist {
-  position: absolute;
-  top: 168px; left: 0;   // 192 - 24 = 168
-  width: 100%;
-  height: calc(100% - 168px);
+  position : absolute;
+  top      : 168px; // 192 - 24 = 168
+  left     : 0;
+  width    : 100%;
+  height   : calc(100% - 168px);
 }

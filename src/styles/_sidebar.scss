@@ -10,24 +10,26 @@
   .button { float: right; font-size: 13px; opacity: 0.6; }
   .button:hover         { font-size: 13px; opacity: 1.0; }
 }
+
 .SidebarPlaylist-wrapper {
-  position: absolute;
-  top: 20px; left: 0;
-  margin: 6px 7px 12px 8px;
-  border: 1px solid $color-border;
-  width: calc(100% - 17px);     // 7 + 8 + 2
-  height: calc(100% - 40px);    // 20 + 6 + 12 + 2
-  overflow-x: hidden;
-  overflow-y: auto;
+  position   : absolute;
+  top        : 20px; left: 0;
+  margin     : 6px 7px 12px 8px;
+  border     : 1px solid $color-border;
+  width      : calc(100% - 17px); // 7 + 8 + 2
+  height     : calc(100% - 40px); // 20 + 6 + 12 + 2
+  overflow-x : hidden;
+  overflow-y : auto;
 }
+
 .SidebarPlaylist {
-  -webkit-appearance: none;
-  outline: none;
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%;
-  background: none;
-  min-height: 100%;
+  -webkit-appearance : none;
+  outline            : none;
+  position           : absolute;
+  top                : 0; left: 0;
+  width              : 100%;
+  background         : none;
+  min-height         : 100%;
 
   // Show title/duration/rate
   &.fake {
@@ -41,68 +43,78 @@
 
   // Drag this
   &.drag {
-    z-index: 3;
-    pointer-events: none;
+    z-index        : 3;
+    pointer-events : none;
+
     .option {
-      opacity: 0;
-      pointer-events: none;
+      opacity        : 0;
+      pointer-events : none;
     }
+
     .option.selected {
-      opacity: 1.0;
-      background: $color-highlight;
-      pointer-events: auto;
+      opacity        : 1.0;
+      background     : $color-highlight;
+      pointer-events : auto;
     }
   }
+
   &.dragging {
     z-index: 1;
+
     .option.selected {
       height: 0px;
     }
   }
 
   .option {
-    width: 100%;
-    height: $option-height;
-    font-size: $option-font-size;
-    overflow: hidden;
+    width     : 100%;
+    height    : $option-height;
+    font-size : $option-font-size;
+    overflow  : hidden;
 
-    transition-property: height, margin-top;
-    transition-duration: 0.1s, 0.1s;
+    transition-property : height, margin-top;
+    transition-duration : 0.1s, 0.1s;
   }
 
   // visible option fake
   .fake-option {
-    position: relative;
     @extend .clearfix;
-    height: $option-height;
+    position : relative;
+    height   : $option-height;
+
     * {
-      font-size: $option-font-size;
+      font-size : $option-font-size;
     }
+
     .input, .title {
-      white-space: nowrap;
-      height: $option-height - 2px;
-      font-size: $option-font-size;
-      background: none;
-      margin: 1px 2px;
+      white-space : nowrap;
+      height      : $option-height - 2px;
+      font-size   : $option-font-size;
+      background  : none;
+      margin      : 1px 2px;
     }
+
     .index {
-      float: left;
-      width: 12px;
-      text-align: right;
-      opacity: 0.8;
+      float      : left;
+      width      : 12px;
+      text-align : right;
+      opacity    : 0.8;
+
       & > span {
-        opacity: 1.0;
-        background: none;
+        opacity    : 1.0;
+        background : none;
       }
     }
+
     .title {
-      position: absolute;
-      margin-left: 16px;
-      text-overflow: ellipsis;
-      overflow-y: hidden;
-      opacity: 0.8;
+      position      : absolute;
+      margin-left   : 16px;
+      text-overflow : ellipsis;
+      overflow-y    : hidden;
+      opacity       : 0.8;
+
       &.title-editable {
-        opacity: 1.0;
+        opacity : 1.0;
       }
     }
   }

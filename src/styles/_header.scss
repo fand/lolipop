@@ -1,41 +1,49 @@
 #header {
-  vertical-align: center;
-  -webkit-app-region: drag;
-  cursor: move;
-  opacity: 0.8;
+  -webkit-app-region : drag;
+  vertical-align     : center;
+  cursor             : move;
+  opacity            : 0.8;
 
   #logo {
-    text-align: center;
-    position: absolute;
-    top: 0; left:50%;
-    width: 300px; height: 20px;
-    //margin-left: -150px;
-    margin-left: -148px;
+    text-align  : center;
+    position    : absolute;
+    top         : 0;
+    left        : 50%;
+    width       : 300px;
+    height      : 20px;
+    margin-left : -148px;
+
     img {
-      margin: 4px;
-      width: 16px; height: 16px;
+      margin : 4px;
+      width  : 16px;
+      height : 16px;
     }
+
     div {
-      display: inline-block;
-      transform: translateY(-6px);
-      font-size: 13px;
-      margin: 0 8px 0 9px;
+      display   : inline-block;
+      transform : translateY(-6px);
+      font-size : 13px;
+      margin    : 0 8px 0 9px;
     }
   }
 
   .buttons {
-    position: absolute;
-    top: 5px; right: 5px;
+    position : absolute;
+    top      : 5px;
+    right    : 5px;
+
     .button, .button i {
-      -webkit-app-region: no-drag;
-      cursor: pointer;
-      font-size: 16px;
-      width: 16px;
+      -webkit-app-region : no-drag;
+
+      cursor    : pointer;
+      font-size : 16px;
+      width     : 16px;
+
       * {
-        margin: 0;
+        margin : 0;
       }
     }
   }
 
-  z-index: 10;
+  z-index : 10;
 }
