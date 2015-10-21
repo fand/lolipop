@@ -41,6 +41,7 @@ const LoliPlaylist = Vue.extend({
   created () {
 
     this.$watch('selected', () => {
+      console.log(this.selected);
       if (!this.playlist) { return; }
       this.isSelected = new Array(this.playlist.size());
       for (let i = 0; i < this.playlist.size(); i++) {
@@ -86,14 +87,7 @@ const LoliPlaylist = Vue.extend({
       this.selected = [index + ""];
     },
 
-    click (e, index, isDraggableElement) {
-      const now = new Date().getTime();
-      if (now - this.lastClick.time < 1000 && this.lastClick.index === index) {
-        this.play(index);
-      }
-      this.lastClick.time = now;
-      this.lastClick.index = index;
-
+    click (index, isDraggableElement) {
       if (isDraggableElement) {
         this.deselectOthers(index);
         this.$$.real.focus();
