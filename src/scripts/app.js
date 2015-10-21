@@ -1,48 +1,62 @@
-'use strict';
+import Vue from 'vue';
+Vue.config.debug = true; // turn on debugging mode
 
-var Vue = require('vue');
+// If you wanna reset DB, uncomment below
+// PlaylistCollectionDB.destroy();
+// playlistDB.destroy();
 
-var Droppable = require('./VM/Droppable');
-var Header = require('./VM/Header');
-var Sidebar = require('./VM/Sidebar');
-var Player = require('./VM/Player');
-var Song = require('./models/Song');
-var PlaylistLoader = require('./VM/PlaylistLoader');
+// Directives
+import Droppable from './VM/Droppable';
 
-var remote = require('remote');
-var app = remote.require('app');
+// Components
+import Header         from './VM/Header';
+import PlaylistLoader from './VM/PlaylistLoader';
 
+import remote from 'remote';
+const app = remote.require('app');
 
-var main = new Vue({
-  el: '#app',
-  data: {
-    currentView: 'player'
+const main = new Vue({
+
+  el : '#app',
+
+  components : {
+    loliHeader     : Header,
+    playlistLoader : PlaylistLoader,
   },
-  created: function () {
+
+  data : {
+    currentView : 'player',
+  },
+
+  created () {
     this.$on('close', this.close);
     this.$on('hide', this.hide);
   },
-  ready: function () {
+
+  ready () {
     // Prevent breaking app on miss drop
-    this.$el.addEventListener('drop', function (e) {
+    this.$el.addEventListener('drop', (e) => {
       e.preventDefault();
       e.stopPropagation();
     });
-    this.$el.addEventListener('dragover', function (e) {
+    this.$el.addEventListener('dragover', (e) => {
       e.preventDefault();
       e.stopPropagation();
     });
   },
-  methods: {
-    close: function () {
+
+  methods : {
+    close () {
       this.$.loader.close()
-        .then(function () {
+        .then(() => {
           console.log('QUIT!');
           app.quit();
         });
     },
-    hide: function () {
+
+    hide () {
       remote.getCurrentWindow().minimize();
-    }
-  }
+    },
+  },
+
 });

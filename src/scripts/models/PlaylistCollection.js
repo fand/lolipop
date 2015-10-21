@@ -1,105 +1,105 @@
-'use strict';
+const playlistDB           = PouchDB('playlist');
+const PlaylistCollectionDB = PouchDB('playlistCollection');
+import Playlist from './Playlist';
 
-var playlistDB = PouchDB('playlist');
-var PlaylistCollectionDB = PouchDB('playlistCollection');
-var Playlist = require('./Playlist');
+class PlaylistCollection {
 
-//PlaylistCollectionDB.destroy();
-var PlaylistCollection = function (opts) {
-  var now = new Date().getTime().toString();
-  opts = opts || {};
-  this._id = opts._id || now;
-  this.playlists = opts.playlists || [];
-  this.created_at = opts.created_at || now;
-  this.updated_at = opts.updated_at || now;
-  this._rev = opts._rev || null;
-};
-PlaylistCollection.prototype.save = function () {
-  var playlistIDs = this.playlists.map(function (playlist) {
-    return playlist._id;
-  });
-  var opts = {
-    _id: this._id,
-    playlistIDs: playlistIDs,
-    created_at: this.created_at,
-    updated_at: this.updated_at
-  };
-  if (this._rev != null)  {
-    opts._rev = this._rev;
+  constructor (_opts) {
+    const opts = _opts || {};
+    const now = new Date().getTime().toString();
+
+    this._id        = opts._id || now;
+    this.playlists  = opts.playlists || [];
+    this.created_at = opts.created_at || now;
+    this.updated_at = opts.updated_at || now;
+    this._rev       = opts._rev || null;
   }
 
-  var self = this;
-  return PlaylistCollectionDB.put(opts)
-    .then(function (doc) {
-      self._rev = doc.rev;
-    })
-    .catch(function (err) {
-      console.error('playlistCollection save error');
-      console.error(err);
-    }).then(function () {
-      return self;
+  save () {
+    const playlistIDs = this.playlists.map((playlist) => playlist._id);
+
+    const opts = {
+      _id         : this._id,
+      playlistIDs : playlistIDs,
+      created_at  : this.created_at,
+      updated_at  : this.updated_at,
+    };
+
+    if (this._rev != null)  {
+      opts._rev = this._rev;
+    }
+
+    return PlaylistCollectionDB.put(opts)
+      .then((doc) => this._rev = doc.rev)
+      .catch((err) => {
+        console.error('playlistCollection save error');
+        console.error(err);
+      })
+      .then(() => this);
+  }
+
+  saveAll () {
+    return Promise.all(this.playlists.map((playlist) => playlist.saveAll()))
+      .then(() => this.save());
+  }
+
+  at (i) {
+    return this.playlists[i];
+  }
+
+  remove (i) {
+    this.playlists = this.playlists.splice(i, 1);
+  }
+
+  push (playlist) {
+    this.playlists.push(playlist);
+  }
+
+  size () {
+    return this.playlists.length;
+  }
+
+  removeAll (_indexes) {
+    const indexes = _indexes.map((s) => +s);
+    this.playlists = this.playlists.filter((x, i) =>
+      indexes.indexOf(+i) === -1
+    );
+  }
+
+  movePlaylists (operands, pos) {
+    var tmp = [];
+
+    operands.forEach((i) => {
+      tmp.push(this.playlists[i]);
     });
-};
-PlaylistCollection.prototype.saveAll = function () {
-  var self = this;
-  return Promise.all(self.playlists.map(function (playlist) {
-    return playlist.saveAll();
-  })).then(function () {
-    return self.save();
-  });
-};
-PlaylistCollection.prototype.at = function (i) {
-  return this.playlists[i];
-};
-PlaylistCollection.prototype.remove = function (i) {
-  this.playlists = this.playlists.splice(i, 1);
-};
-PlaylistCollection.prototype.push = function (playlist) {
-  this.playlists.push(playlist);
-};
-PlaylistCollection.prototype.size = function () {
-  return this.playlists.length;
-};
-PlaylistCollection.prototype.removeAll = function (indexes) {
-  indexes = indexes.map(function (s) {
-    return +s;
-  });
-  this.playlists = this.playlists.filter(function (x, i) {
-    return indexes.indexOf(+i) === -1;
-  });
-};
-PlaylistCollection.prototype.movePlaylists = function (operands, pos) {
-  var self = this;
-  var tmp = [];
-  operands.forEach(function (i) {
-    tmp.push(self.playlists[i]);
-  });
-  this.removeAll(operands);
-  var head = this.playlists.slice(0, pos);
-  var tail = this.playlists.slice(pos);
-  this.playlists = head.concat(tmp, tail);
-};
+
+    this.removeAll(operands);
+    const head = this.playlists.slice(0, pos);
+    const tail = this.playlists.slice(pos);
+    this.playlists = head.concat(tmp, tail);
+  }
+}
 
 // factory
-PlaylistCollection.load = function (id) {
-  var self = this;
-  return PlaylistCollectionDB.get(id)
-    .catch(function (err) {
+PlaylistCollection.load = (id) => {
+  return PlaylistCollectionDB
+    .get(id)
+    .catch((err) => {
       if (err.status !== 404) { throw err; }
       return {
-        _id: id,
-        playlistIDs: []
+        _id         : id,
+        playlistIDs : [],
       };
     })
-    .then(function (doc) {
+    .then((doc) => {
       // Load all playlists
-      return Promise.all(doc.playlistIDs.map(function (playlistID) {
-        return Playlist.load(playlistID);
-      }))
-      .then(function (playlists) {
-        doc.playlists = playlists;
-        return new PlaylistCollection(doc);
-      });
+      return Promise
+        .all(doc.playlistIDs.map((playlistID) => Playlist.load(playlistID)))
+        .then((playlists) => {
+          doc.playlists = playlists;
+          return new PlaylistCollection(doc);
+        });
     });
 };
-module.exports = PlaylistCollection;
+
+export default PlaylistCollection;
