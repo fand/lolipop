@@ -2,7 +2,6 @@ const playlistDB           = PouchDB('playlist');
 const PlaylistCollectionDB = PouchDB('playlistCollection');
 import Playlist from './Playlist';
 
-//PlaylistCollectionDB.destroy();
 class PlaylistCollection {
 
   constructor (_opts) {

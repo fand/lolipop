@@ -1,6 +1,9 @@
 import Vue from 'vue';
-
 Vue.config.debug = true; // turn on debugging mode
+
+// If you wanna reset DB, uncomment below
+// PlaylistCollectionDB.destroy();
+// playlistDB.destroy();
 
 // Directives
 import Droppable from './VM/Droppable';

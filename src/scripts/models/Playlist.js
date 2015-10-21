@@ -1,9 +1,6 @@
-'use strict';
+const playlistDB = PouchDB('playlist');
+import Song from './Song';
 
-var playlistDB = PouchDB('playlist');
-var Song = require('./Song');
-
-//playlistDB.destroy();
 var Playlist = function (opts) {
   var now = new Date().getTime().toString();
   opts = opts || {};
