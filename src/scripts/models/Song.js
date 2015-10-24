@@ -1,14 +1,16 @@
 /* global PouchDB */
 
-import fs   from 'fs';
 import mime from 'mime';
 const songDB = PouchDB('song');
 
 const checker = document.createElement('audio');
 const isLoadable = (path) => {
-  if (fs.existsSync(path)) {
+  try {
     var type = mime.lookup(path);
     return !!(checker.canPlayType(type).replace('no', ''));
+  }
+  catch (e) {
+    throw e;
   }
   return false;
 };
