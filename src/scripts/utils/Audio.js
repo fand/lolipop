@@ -33,31 +33,58 @@ class Audio {
     }
   }
 
-  play (song, time, rate, callback) {
-    if (this.sourcePath === song.path) {
-      this.playBuffer(this.buffer, time, rate, callback);
-      return;
-    }
+  /**
+   * @param {Song} song
+   * @param {number} time - 再生を開始する時点
+   * @param {number} rate - 再生速度
+   * @returns {Promise}
+   */
+  play (song, time, rate) {
+    return new Promise((resolve, reject) => {
+      if (this.sourcePath === song.path) {
+        this.playBuffer(this.buffer, time, rate);
+        return resolve();
+      }
 
-    const abuf = toArrayBuffer(fs.readFileSync(song.path));
+      let file;
+      try {
+        file = fs.readFileSync(song.path);
+      }
+      catch (e) {
+        reject(e);
+      }
 
-    this.ctx.decodeAudioData(abuf, (buf) => {
-      this.buffer = buf;
-      this.sourcePath = song.path;
-      song.duration = buf.length / buf.sampleRate;
-      this.playBuffer(this.buffer, time, rate, callback);
+      let abuf;
+      try {
+        abuf = toArrayBuffer(file);
+      }
+      catch (e) {
+        reject(e);
+      }
+
+      this.ctx.decodeAudioData(abuf, (buf) => {
+        this.buffer = buf;
+        this.sourcePath = song.path;
+        song.duration = buf.length / buf.sampleRate;
+        this.playBuffer(this.buffer, time, rate);
+        resolve();
+      });
     });
   }
 
-
-  playBuffer (buffer, at, rate, callback) {
+  /**
+   * 新しいBufferSourceNodeを作成してthis.sourceに格納する
+   * @param {Buffer} buffer - 音声データ
+   * @param {number} at     - 再生を開始する時点
+   * @param {number} rate   - 再生速度
+   */
+  playBuffer (buffer, at, rate) {
     this.source = this.ctx.createBufferSource();
     this.source.buffer = buffer;
     this.source.playbackRate.value = rate;
     this.source.connect(this.gainNode);
     this.source.start(0, at);
     this.source.onended = this.callbackOnEnded;
-    callback();
   }
 
   pause () {
