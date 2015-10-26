@@ -36,12 +36,42 @@ const LoliPlaylist = Vue.extend({
       if (!this.playlist) { return []; }
       return this.playlist.tracks;
     },
+
+    isTrackPlaying () {
+      const result = [];
+      for (let i = 0; i < this.playlist.size(); i++) {
+        result.push(this.currentTrack === i && this.isPlaying);
+      }
+      console.log('>>>> isTrackPlaying');
+      console.log(result);
+      return result;
+    },
+
+    isTrackPaused () {
+      const result = [];
+      for (let i = 0; i < this.playlist.size(); i++) {
+        result.push(this.currentTrack === i && !this.isPlaying);
+      }
+      console.log('>>>> isTrackPaused');
+      console.log(result);
+      return result;
+    },
+
+    isTrackKilled () {
+      const result = [];
+      for (let i = 0; i < this.playlist.size(); i++) {
+        result.push(this.playlist.at(i).isUnavailable);
+      }
+      console.log('>>>> isTrackUn');
+      console.log(result);
+      return result;
+    },
+
   },
 
   created () {
 
     this.$watch('selected', () => {
-      console.log(this.selected);
       if (!this.playlist) { return; }
       this.isSelected = new Array(this.playlist.size());
       for (let i = 0; i < this.playlist.size(); i++) {

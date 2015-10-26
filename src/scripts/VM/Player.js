@@ -128,6 +128,7 @@ const Player = Vue.extend({
         })
         .catch((e) => {
           // TODO: エラーメッセージを表示する
+          this.track.isUnavailable = true;
           this.playNext();
         });
     },
