@@ -8,7 +8,7 @@ const LoliPlaylist = Vue.extend({
 
   props : {
     playlist     : null,
-    curretnTrack : Number,
+    currentTrack : Number,
     isPlaying    : Boolean,
   },
 
