@@ -89,10 +89,33 @@ $option-font-size: 10.5px;
       background  : none;
     }
 
-    .index {
+    .indicator {
       position   : absolute;
       top        : 0;
       left       : 0;
+      width      : 14px;
+      padding    : 1px 0;
+
+      span {
+        color : transparent;
+        &:before{
+          color: $color-text;
+        }
+      }
+      .is-unavailable {
+          display       : block;
+          content       : "!";
+          width         : 14px;
+          border-radius : 6px;
+          color         : $color-text;
+          text-align    : center;
+      }
+    }
+
+    .index {
+      position   : absolute;
+      top        : 0;
+      left       : 14px;
       width      : 14px;
       text-align : right;
 
@@ -104,12 +127,11 @@ $option-font-size: 10.5px;
 
     .title {
       position      : relative;
-      margin-left   : 20px;
+      margin-left   : 36px;
       margin-right  : 84px;
       text-overflow : ellipsis;
       overflow      : hidden;
     }
-
 
     .duration {
       float      : right;
@@ -122,6 +144,5 @@ $option-font-size: 10.5px;
       width      : 40px;
       text-align : right;
     }
-
   }
 }

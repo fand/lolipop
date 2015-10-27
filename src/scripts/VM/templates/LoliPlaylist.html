@@ -4,14 +4,16 @@
     </option>
   </select>
   <div class="LoliPlaylist fake" v-class="dragging:isDragging">
-    <div class="option fake-option" v-repeat="track:tracks" v-class="selected: isSelected[$index]">
+    <div class="option fake-option" v-repeat="track:tracks"
+      v-class="selected: isSelected[$index]">
       <div class="rate">x {{track.rate | rate}}</div>
       <div class="duration">{{track.song.duration | time}}</div>
       <div class="title">{{track.song.name}}</div>
-      <div class="index" v-show="$index !== currentTrack">{{$index}}.</div>
-      <div class="index" v-show="$index === currentTrack">
-        <span v-class="icon-e-play:isPlaying,
-                       icon-e-pause:!isPlaying"></span>
+      <div class="index">{{$index}}.</div>
+      <div class="indicator">
+        <span v-class="icon-e-play    : isTrackPlaying[$index],
+                       icon-e-pause   : isTrackPaused[$index],
+                       is-unavailable : isTrackUnavailable[$index]" />
       </div>
     </div>
   </div>
@@ -21,10 +23,13 @@
       <div class="rate">x {{track.rate | rate}}</div>
       <div class="duration">{{track.song.duration | time}}</div>
       <div class="title">{{track.song.name}}</div>
-      <div class="index" v-show="$index !== currentTrack">{{$index}}.</div>
-      <div class="index" v-show="$index === currentTrack">
-        <span v-class="icon-e-play:isPlaying,
-                       icon-e-pause:!isPlaying"></span>
+      <div class="index">{{$index}}.</div>
+      <div class="indicator">
+        <span v-class="icon-e-play    : isTrackPlaying[$index],
+                       icon-e-pause   : isTrackPaused[$index],
+                       is-unavailable : isTrackUnavailable[$index]">
+          X
+        </span>
       </div>
     </div>
   </div>

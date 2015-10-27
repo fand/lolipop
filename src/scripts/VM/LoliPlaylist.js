@@ -8,13 +8,15 @@ const LoliPlaylist = Vue.extend({
 
   props : {
     playlist     : null,
-    curretnTrack : Number,
+    currentTrack : Number,
     isPlaying    : Boolean,
+    killedTracks : Object,
   },
 
   data : () => ({
     selected   : [],
     isSelected : [],
+    isUnavailable : [],
     lastClick : {
       time  : new Date().getTime(),
       index : 0,
@@ -36,12 +38,36 @@ const LoliPlaylist = Vue.extend({
       if (!this.playlist) { return []; }
       return this.playlist.tracks;
     },
+
+    isTrackPlaying () {
+      const result = [];
+      for (let i = 0; i < this.playlist.size(); i++) {
+        result.push(this.currentTrack === i && this.isPlaying);
+      }
+      return result;
+    },
+
+    isTrackPaused () {
+      const result = [];
+      for (let i = 0; i < this.playlist.size(); i++) {
+        result.push(this.currentTrack === i && !this.isPlaying);
+      }
+      return result;
+    },
+
+    isTrackUnavailable () {
+      const result = [];
+      for (let i = 0; i < this.playlist.size(); i++) {
+        const path = this.playlist.at(i).song.path;
+        result.push(!!this.killedTracks[path]);
+      }
+      return result;
+    },
+
   },
 
   created () {
-
     this.$watch('selected', () => {
-      console.log(this.selected);
       if (!this.playlist) { return; }
       this.isSelected = new Array(this.playlist.size());
       for (let i = 0; i < this.playlist.size(); i++) {
@@ -50,6 +76,10 @@ const LoliPlaylist = Vue.extend({
     });
     this.$watch('playlist', () => {
       this.selected = [];
+    });
+
+    this.$on('updateUnavailable', () => {
+      this.playlist = this.playlist;
     });
   },
 

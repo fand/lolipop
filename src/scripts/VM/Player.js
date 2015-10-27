@@ -43,6 +43,7 @@ const Player = Vue.extend({
     time         : 0,
     overControl  : false,
     overList     : false,
+    killedTracks : {},
   }),
 
   computed : {
@@ -115,16 +116,24 @@ const Player = Vue.extend({
       this.isPlaying = true;
 
       // Load if unloaded
-      Audio.play(this.track.song, at, this.track.rate, () => {
-        this.time = at;
+      Audio.play(this.track.song, at, this.track.rate)
+        .then(() => {
+          this.time = at;
 
-        this.timer = setInterval(() => {
-          if (this.time > this.track.song.duration) { return; }
+          this.timer = setInterval(() => {
+            if (this.time > this.track.song.duration) { return; }
 
-          this.time = this.time + this.rateRaw / 100.0;
-          this.timeRaw = (this.time / this.track.song.duration) * 10000.0;
-        }, 999);
-      });
+            this.time = this.time + this.rateRaw / 100.0;
+            this.timeRaw = (this.time / this.track.song.duration) * 10000.0;
+          }, 999);
+        })
+        .catch((e) => {
+          this.killedTracks = {
+            ...this.killedTracks,
+            [this.track.song.path] : true,
+          };
+          this.playNext();
+        });
     },
 
     playNext () {
