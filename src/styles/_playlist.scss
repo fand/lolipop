@@ -95,6 +95,21 @@ $option-font-size: 10.5px;
       left       : 0;
       width      : 14px;
       padding    : 1px 0;
+
+      span {
+        color : transparent;
+        &:before{
+          color: $color-text;
+        }
+      }
+      .is-unavailable {
+          display       : block;
+          content       : "!";
+          width         : 14px;
+          border-radius : 6px;
+          color         : $color-text;
+          text-align    : center;
+      }
     }
 
     .index {

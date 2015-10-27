@@ -13,7 +13,7 @@
       <div class="indicator">
         <span v-class="icon-e-play    : isTrackPlaying[$index],
                        icon-e-pause   : isTrackPaused[$index],
-                       is-unavailable : isTrackKilled[$index]" />
+                       is-unavailable : isTrackUnavailable[$index]" />
       </div>
     </div>
   </div>
@@ -27,7 +27,9 @@
       <div class="indicator">
         <span v-class="icon-e-play    : isTrackPlaying[$index],
                        icon-e-pause   : isTrackPaused[$index],
-                       is-unavailable : isTrackKilled[$index]" />
+                       is-unavailable : isTrackUnavailable[$index]">
+          X
+        </span>
       </div>
     </div>
   </div>

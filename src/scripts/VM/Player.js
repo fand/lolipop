@@ -43,6 +43,7 @@ const Player = Vue.extend({
     time         : 0,
     overControl  : false,
     overList     : false,
+    killedTracks : {},
   }),
 
   computed : {
@@ -127,8 +128,10 @@ const Player = Vue.extend({
           }, 999);
         })
         .catch((e) => {
-          // TODO: エラーメッセージを表示する
-          this.track.isUnavailable = true;
+          this.killedTracks = {
+            ...this.killedTracks,
+            [this.track.song.path] : true,
+          };
           this.playNext();
         });
     },
